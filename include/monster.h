@@ -1,4 +1,6 @@
-struct monstre{
+#ifndef MONSTER_H 
+#define MONSTER_H
+typedef struct monstre {
     int vie;
     int vieMax;
     int pMax;
@@ -6,8 +8,9 @@ struct monstre{
     int def;
     char **image;
     int imgY;
-};
+}monstre;
 
 void initMonsterImage(struct monstre *m);
 
-void printMonsterImage(struct monstre *m);
+
+#endif

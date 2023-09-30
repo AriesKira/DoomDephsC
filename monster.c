@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 
+typedef struct monstre {
+    int vie;
+    int vieMax;
+    int pMax;
+    int pMin;
+    int def;
+    char **image;
+    int imgHeight;
+}monstre;
 
 /*
 
@@ -26,7 +35,7 @@ INITIALISATION De l'image du monstre
 */
 //x =  23  y = 14
 
-void initMonsterImage(struct monstre *m){
+void initMonsterImage(monstre *m){
     int x = 1;//(rand() % 10 )+ 1;
     
     switch (x) {
@@ -47,7 +56,7 @@ void initMonsterImage(struct monstre *m){
         m->image[12] = "        |     |            ";
         m->image[13] = "        |_____|            ";
         m->image[14] = "        |_____|            ";
-        m->imgY = 14;
+        m->imgHeight = 14;
         break;
     case 2:
         
@@ -86,18 +95,6 @@ void initMonsterImage(struct monstre *m){
 
 }
 
-/*
-
-FONCTION AFFICHER MONSTRE
-
-*/
-
-void printMonsterImage(struct monstre *m) {
-
-    for(int i = 0; i <= m->imgY; i++){
-        printf("%s\n",m->image[i]);
-    }
-}
 
 /*
 
@@ -115,7 +112,6 @@ for(int i = 0; i < nbMonstre; i++){
         monstres[i] = a; // Stock les monstres dans le tableau monstres
     }
 
-/*
 
 
 */
