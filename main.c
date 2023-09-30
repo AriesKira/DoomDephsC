@@ -1,20 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct joueur{
-    char* nom;
-    int vieMax;
-    int vie;
-    int puissance;
-};
-
-struct monstre{
-    int vie;
-    int vieMax;
-    int pMax;
-    int pMin;
-    int def;
-};
 
 int main() {
     // Génère un nombre de monstre aléatoire
@@ -22,15 +8,7 @@ int main() {
     nbMonstre = rand() % 10;
     struct monstre monstres[nbMonstre];
     // Initialise les monstres avec des statistiques aléatoires
-    for(int i = 0; i < nbMonstre; i++){
-        struct monstre a;
-        a.vieMax = rand() % 100;
-        a.vie = a.vieMax;
-        a.pMax = rand() % 5;
-        a.pMin = rand() % a.pMax;
-        a.def = rand() % 100;
-        monstres[i] = a; // Stock les monstres dans le tableau monstres
-    }
+    
     // Programme pour afficher les monstres
     /*for(int i = 0; i < nbMonstre; i++){
         printf("Monstre %d\n",i);
@@ -41,13 +19,9 @@ int main() {
         printf("Defense : %d\n",monstres[i].def);
     }*/
     printf("Choississez votre nom : \n");
-    char* nom = malloc(sizeof(char) * 10);
-    scanf("%s",&nom);
+    
     struct joueur a;
-    a.nom = nom;
-    a.vieMax = 1000;
-    a.vie = a.vieMax;
-    a.puissance = 5;
+    
     int estMort = 0;
     int stop = 0;
     int nbAttaque = 0;
