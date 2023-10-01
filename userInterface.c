@@ -61,6 +61,7 @@ FUNCTION PRINT HEALTH
 
 void printHealth(joueur *j) {
     printf("Vie :");
+    printf("\033[0;31m");
     for(int i = 0; i <= j->vieMax; i++) {
         if (i <= j->vie) {
             printf("#");
@@ -68,6 +69,7 @@ void printHealth(joueur *j) {
             printf("-");
         }
     }
+    printf("\033[0m");
     printf(" %d/%d\n",j->vie,j->vieMax);
 }
 
@@ -82,7 +84,9 @@ FUNCTION PRINT MAIN SCREEN
 void printMain(joueur *j, monstre *m) {
     clearTerminal();
     printHealth(j);
+    printf("\n\n\n");
     printMonsterImage(m);
+    printf("\n\n\n");
     printPlayerImage(j);
     printf("\n\n\n");
 }

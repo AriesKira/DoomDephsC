@@ -9,6 +9,8 @@ int main() {
     // Génère un nombre de monstre aléatoire
     // Initialiser joueur
     joueur a;
+    a.vieMax = 100;
+    a.vie = 75;
     clearTerminal();
     initPlayerImage(&a);
     // Initialise les monstres avec des statistiques aléatoires
