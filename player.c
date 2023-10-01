@@ -21,12 +21,12 @@ FUNCTION INITIALISER PERSONNAGE DU JOUEUR
 void initPlayerImage(joueur *j) {
 
     int choice = 0;
-    
+
     printf("Choississez votre personnage : \n");
     printf("1 - Batman\n");
     printf("2 - Superman\n");
     printf("3 - Darth Vader\n");
-
+    
     scanf("%d",&choice);
 
     switch (choice) {
@@ -108,7 +108,9 @@ void initPlayerImage(joueur *j) {
         j->imgHeight = 22;
         break;
     default:
-        initPlayerImage(j);
+        printf("Choix invalide\n");
+        printf("Fin du programme\n");
+        exit(0);
         break;
     }
 }

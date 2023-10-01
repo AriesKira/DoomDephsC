@@ -50,7 +50,7 @@ FONCTION PRINT MONSTER IMAGE
 
 void printMonsterImage(monstre *m) {
     printf("\033[0;31m");
-    for(int i = 0; i <= m->imgHeight; i++){
+    for(int i = 0; i < m->imgHeight; i++){
         printf("                                                                                                    %s\n",m->image[i]);
     }
     printf("\033[0m");
