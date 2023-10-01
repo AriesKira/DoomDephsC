@@ -35,9 +35,11 @@ FUNCTION PRINT PLAYER IMAGE
 */
 
 void printPlayerImage(joueur *j) {
+    printf(" \033[0;36m");
     for(int i = 0; i < j->imgHeight; i++) {
         printf("%s\n",j->image[i]);
     }
+    printf("\033[0m");
 }
 
 /*
@@ -47,10 +49,11 @@ FONCTION PRINT MONSTER IMAGE
 */
 
 void printMonsterImage(monstre *m) {
-
+    printf("\033[0;31m");
     for(int i = 0; i <= m->imgHeight; i++){
         printf("                                                                                                    %s\n",m->image[i]);
     }
+    printf("\033[0m");
 }
 
 /*
@@ -60,8 +63,8 @@ FUNCTION PRINT HEALTH
 */
 
 void printHealth(joueur *j) {
+    printf("\033[0;32m");
     printf("Vie :");
-    printf("\033[0;31m");
     for(int i = 0; i <= j->vieMax; i++) {
         if (i <= j->vie) {
             printf("#");
@@ -69,8 +72,9 @@ void printHealth(joueur *j) {
             printf("-");
         }
     }
-    printf("\033[0m");
+    printf("\033[0;33m");
     printf(" %d/%d\n",j->vie,j->vieMax);
+    printf("\033[0m");
 }
 
 /*
