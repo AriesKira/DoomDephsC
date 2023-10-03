@@ -87,6 +87,7 @@ FUNCTION PRINT MAIN SCREEN
 
 void printMain(joueur *j, monstre *m) {
     clearTerminal();
+    printf("\n\n");
     printHealth(j);
     printf("\n\n\n");
     printMonsterImage(m);
