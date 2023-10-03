@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "monstre.h"
-#include "joueur.h"
+#include "include/monster.h"
+#include "include/player.h"
+#include "include/userInterface.h"
+
 
 int main() {
     // Génère un nombre de monstre aléatoire
-    int nbMonstre;
-    nbMonstre = rand() % 10;
-
-    struct monstre monstres[nbMonstre];
-    struct monstre b;
+    // Initialiser joueur
+    joueur a;
+    a.vieMax = 100;
+    a.vie = 75;
+    clearTerminal();
+    initPlayerImage(&a);
     // Initialise les monstres avec des statistiques aléatoires
-    createMonstres(&b,nbMonstre, monstres);
-
+    monstre m;
+    initMonsterImage(&m);
+    // Programme pour afficher les monstres
+    printMain(&a,&m);
+    
     printf("Choississez votre nom : \n");
     char* nom = malloc(sizeof(char) * 10);
     scanf("%s",&nom);
@@ -77,6 +83,7 @@ int main() {
         }
     }
     free(nom);
+    */
     return 0;
 }
 
