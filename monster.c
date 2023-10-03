@@ -12,34 +12,9 @@ typedef struct monstre {
     int imgHeight;
 }monstre;
 
-/*
-
-INITIALISATION De l'image du monstre
-
-              ,,))))))));,
-           __)))))))))))))),
-\|/       -\(((((''''((((((((.
--*-==//////((''  .     `)))))),
-/|\      ))| o    ;-.    '(((((                                  ,(,
-         ( `|    /  )    ;))))'                               ,_))^;(~
-            |   |   |   ,))((((_     _____------~~~-.        %,;(;(>';'~
-            o_);   ;    )))(((` ~---~  `::           \      %%~~)(v;(`('~
-                  ;    ''''````         `:       `:::|\,__,%%    );`'; ~
-                 |   _                )     /      `:|`----'     `-'
-           ______/\/~    |                 /        /
-         /~;;.____/;;'  /          ___--,-(   `;;;/
-        / //  _;______;'------~~~~~    /;;/\    /
-       //  | |                        / ;   \;;,\
-      (<_  | ;                      /',/-----'  _>
-       \_| ||_                     //~;~~~~~~~~~
-           `\_|                   (,~~
-                                   \~\
-                                    ~~            
-*/
-//x =  23  y = 14
 
 void initMonsterImage(monstre *m){
-    srand(time(NULL));
+
     int x = (rand() % 10 )+ 1;
     
     switch (x) {
@@ -273,9 +248,10 @@ void initMonsterImage(monstre *m){
 
 }
 
-void createMonstres(struct monstre *a, int nbMonstre, struct monstre* monstres){
+void createMonstres( monstre *a, int nbMonstre, monstre* monstres){
     // Initialise les monstres avec des statistiques aléatoires
     for(int i = 0; i < nbMonstre; i++){
+        initMonsterImage(a);
         a->vieMax = rand() % 100;
         a->vie = a->vieMax;
         a->pMax = rand() % 5;

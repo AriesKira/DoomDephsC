@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 typedef struct monstre {
     int vie;
     int vieMax;
@@ -28,8 +29,20 @@ void clearTerminal() {
     printf("\033[H\033[J");
 }
 
+
 /*
 
+Delay function
+
+*/
+void delay(int second){
+
+    unsigned int retTime = time(0) + second;   // Get finishing time.
+    while (time(0) < retTime); 
+}
+
+
+/*
 FUNCTION PRINT PLAYER IMAGE
 
 */
@@ -96,3 +109,16 @@ void printMain(joueur *j, monstre *m) {
     printf("\n\n\n");
 }
 
+/*
+
+PRINT ENNEMY TARGET LIST
+
+*/
+
+void printTargetList(int nbMonstre) {
+
+    for (int i = 0; i < nbMonstre; i++) {
+        printf("%d - Monstre %d\n",i+1,i+1);
+    }
+
+}
