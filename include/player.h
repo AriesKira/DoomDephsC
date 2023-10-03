@@ -12,6 +12,6 @@ typedef struct joueur{
 
 void clearTerminal();
 void initPlayerImage(struct joueur *j);
-
+void createJoueur(struct joueur *a, char* nom, int vie, int puissance);
 
 #endif

@@ -273,23 +273,14 @@ void initMonsterImage(monstre *m){
 
 }
 
-
-/*
-
-FUNCTION INITIALISER MONSTRE
-
-*/
-/*
-for(int i = 0; i < nbMonstre; i++){
-        struct monstre a;
-        a.vieMax = rand() % 100;
-        a.vie = a.vieMax;
-        a.pMax = rand() % 5;
-        a.pMin = rand() % a.pMax;
-        a.def = rand() % 100;
-        monstres[i] = a; // Stock les monstres dans le tableau monstres
+void createMonstres(struct monstre *a, int nbMonstre, struct monstre* monstres){
+    // Initialise les monstres avec des statistiques aléatoires
+    for(int i = 0; i < nbMonstre; i++){
+        a->vieMax = rand() % 100;
+        a->vie = a->vieMax;
+        a->pMax = rand() % 5;
+        a->pMin = rand() % a->pMax;
+        a->def = rand() % 100;
+        monstres[i] = *a; // Stock les monstres dans le tableau monstres
     }
-
-
-
-*/
+}
