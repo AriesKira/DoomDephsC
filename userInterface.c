@@ -122,3 +122,20 @@ void printTargetList(int nbMonstre) {
     }
 
 }
+
+/*
+
+FUNCTION Delay Player
+
+*/
+
+void delayPlayer() {
+    char c;
+    printf("\nAppuyez sur entrer pour continuer\n");
+    do{
+        
+        c = getchar();
+
+    } while ((c = getchar()) != '\n');
+    
+}

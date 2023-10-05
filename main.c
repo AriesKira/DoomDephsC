@@ -45,14 +45,14 @@ int main() {
             printf("Choissisez un monstre a combatttre\n");
             printTargetList(nbMonstre);
             scanf("%d",&index);
-            
+            index -= 1;
             if(monstres[index].vie < a.puissance){
                 printf("Ce monstre est mort,\n");
             }
             else{
                 printMain(&a, &monstres[index]);
-                printf("Vous combatez le monstre %d sa vie est de %d\n",index,monstres[index].vie);
-                while(stop == 0){
+                printf("Vous combatez le monstre %d sa vie est de %d\n",index+1,monstres[index].vie);
+                while(1){
                     printf("1 pour attaquer / 2 pour fuir\n");
                     int choice;
                     scanf("%d",&choice);
@@ -74,25 +74,26 @@ int main() {
                     else if(choice == 2){
                         printMain(&a, &monstres[index]);
                         printf("Vous arretez d'attaquer\n");
-                        tour = 1;
+                       
                         stop = 1;
+                        tour = 1;
+                        break;
                     }
                 }
             }
         }
         else if(tour == 1){
-           printMain(&a,&monstres[index]);
+           
             for(int i = 0; i < nbMonstre ;i++){
-                printf("le monstre %d vous attaque et vous inflige %d degats\n",i,monstres[i].pMax);
+                printMain(&a,&monstres[index]);
                 a.vie -= monstres[i].pMax;
+                printf("le monstre %d vous attaque et vous inflige %d degats\n",i,monstres[i].pMax);
+                
                 printf("Votre vie est dorenavant de %d\n",a.vie);
             }
-            printf("Appuyer sur n'importe quel touche pour continuer\n");
-            scanf("%d",&tour);
+            delayPlayer();
             
             tour = 0;
-            stop = 0;
-            
         }
         if(a.vie < 0) {
             printMain(&a,&monstres[index]);
@@ -105,8 +106,4 @@ int main() {
     return 0;
 }
 
-//aazfhazoifazhfazof
-//exaple gil
-
-//gil
 
