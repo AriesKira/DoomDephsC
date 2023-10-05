@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdarg.h>
 typedef struct monstre {
     int vie;
     int vieMax;
@@ -50,7 +51,7 @@ FUNCTION PRINT PLAYER IMAGE
 void printPlayerImage(joueur *j) {
     printf(" \033[0;36m");
     for(int i = 0; i < j->imgHeight; i++) {
-        printf("%s\n",j->image[i]);
+        printf("            %s\n",j->image[i]);
     }
     printf("\033[0m");
 }
@@ -64,7 +65,7 @@ FONCTION PRINT MONSTER IMAGE
 void printMonsterImage(monstre *m) {
     printf("\033[0;31m");
     for(int i = 0; i < m->imgHeight; i++){
-        printf("                                                                                                    %s\n",m->image[i]);
+        printf("                                                                                                                            %s\n",m->image[i]);
     }
     printf("\033[0m");
 }
@@ -136,6 +137,76 @@ void delayPlayer() {
         
         c = getchar();
 
-    } while ((c = getchar()) != '\n');
+    } while (c != '\n');
     
 }
+
+/*
+
+FUNCTION FIGHT PROMPTS
+
+*/
+void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
+    va_list valist;
+    va_start(valist,monstres);
+
+    switch (promptNb) {
+        case 1: {
+            int val = 0;
+            int* index = va_arg(valist,int*);
+            printf("Choissisez un monstre a combatttre\n");
+            printTargetList(nbMonstre);
+            do {
+                scanf("%d",&val);
+            } while (val < 1 || val > nbMonstre);
+            
+            if (monstres[val-1].vie < 1) {
+                printf("Ce monstre est mort\n");
+                fightPrompts(1,nbMonstre,monstres,index);
+            }
+            
+            *index = val-1;
+
+            break;
+        }
+        case 2: {
+            int index = va_arg(valist,int);
+            int *choice = va_arg(valist,int*);
+            int val = 0;
+            printf("Vous combatez le monstre %d sa vie est de %d\n",index+1,monstres[index].vie);
+            printf("1 pour attaquer / 2 pour fuir\n");
+
+            do {
+                scanf("%d",&val);
+            } while (val < 1 || val > 2);
+            
+            *choice = val;
+            break;
+        }
+        case 3: {
+            int index = va_arg(valist,int);
+            printf("La vie du monstre %d est de %d\n",index+1,monstres[index].vie);
+            break;
+        }
+        case 4: {
+            int index = va_arg(valist,int);
+            printf("Vous aves vaincu le monstre %d\n",index+1);
+            break;
+        }
+        case 5: {
+            int i = va_arg(valist,int);
+            joueur a = va_arg(valist,joueur);
+            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,monstres[i].pMax);
+            printf("Votre vie est dorenavant de %d\n",a.vie);
+            break;
+        }
+        case 6: {
+            int* estMort = va_arg(valist,int*);
+            printf("Vous etes mort\n");
+            *estMort = 1;
+            break;
+        }
+    }
+
+}
+
