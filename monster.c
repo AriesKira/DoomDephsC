@@ -248,15 +248,17 @@ void initMonsterImage(monstre *m){
 
 }
 
-void createMonstres( monstre *a, int nbMonstre, monstre* monstres){
+void createMonstres(int nbMonstre, monstre* monstres){
     // Initialise les monstres avec des statistiques aléatoires
     for(int i = 0; i < nbMonstre; i++){
+        monstre* a = malloc(sizeof(monstre)); // Crée un monstre temporaire
         initMonsterImage(a);
-        a->vieMax = rand() % 100;
+        a->vieMax = rand() % 100+1;
         a->vie = a->vieMax;
-        a->pMax = rand() % 5;
-        a->pMin = rand() % a->pMax;
-        a->def = rand() % 100;
+        a->pMax = rand() % 5+1;
+        a->pMin = rand() % a->pMax+1;
+        a->def = rand() % 100+1;
         monstres[i] = *a; // Stock les monstres dans le tableau monstres
+        free(a); // Libère la mémoire du monstre temporaire
     }
 }

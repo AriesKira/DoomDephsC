@@ -11,6 +11,6 @@ typedef struct monstre {
 }monstre;
 
 void initMonsterImage(struct monstre *m);
-void createMonstres(struct monstre *a, int nbMonstre, struct monstre* monstres);
+void createMonstres(int nbMonstre, struct monstre* monstres);
 
 #endif

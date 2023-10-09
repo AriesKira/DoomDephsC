@@ -11,21 +11,21 @@ int main() {
     srand(time(NULL));
     int nbMonstre;
     nbMonstre = rand() % 10 + 1;
+    printf("Nombre de monstre : %d\n",nbMonstre);
     // Création d'un tableau de monstre
     monstre monstres[nbMonstre];
     // Création d'un joueur et monstre
     joueur a;
-    monstre b;
     //vide le terminal
     clearTerminal();
     //initialisation des monstre
-    createMonstres(&b,nbMonstre,monstres);
+    createMonstres(nbMonstre,monstres);
     //initialisation du joueur
     printf("Choississez votre nom : \n");
     char* nom = malloc(sizeof(char) * 10);
     scanf("%s",nom);
     clearTerminal();
-    createJoueur(&a,nom,1,5);
+    createJoueur(&a,nom,100,5);
     free(nom);
     clearTerminal();
 
@@ -37,6 +37,8 @@ int main() {
     int choice;
     printf("Affrontez %d monstres\n",nbMonstre);
     
+    //fction ecoute
+
     while(estMort == 0){
 
         printMain(&a,&monstres[index]);
@@ -86,11 +88,9 @@ int main() {
     }
 
     free(a.image);
-    free(b.image);
     for(int i = 0; i < nbMonstre; i++) {
         free(monstres[i].image);
     }
-    
     return 0;
 }
 
