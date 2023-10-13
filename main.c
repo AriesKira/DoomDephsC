@@ -11,7 +11,6 @@ int main() {
     srand(time(NULL));
     int nbMonstre;
     nbMonstre = rand() % 10 + 1;
-    printf("Nombre de monstre : %d\n",nbMonstre);
     // Création d'un tableau de monstre
     monstre monstres[nbMonstre];
     // Création d'un joueur et monstre
