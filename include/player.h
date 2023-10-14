@@ -8,6 +8,7 @@ typedef struct joueur{
     int puissance;
     char **image;
     int imgHeight;
+    inventory* inventory;
 }joueur;
 
 void clearTerminal();

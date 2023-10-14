@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "include/inventory.h"
 #include "include/monster.h"
 #include "include/player.h"
 #include "include/userInterface.h"
@@ -25,8 +26,7 @@ int main() {
     scanf("%s",nom);
     clearTerminal();
     createJoueur(&a,nom,100,5);
-    free(nom);
-    clearTerminal();
+    free(nom);    
 
     int estMort = 0;
     int stop = 0;
@@ -85,11 +85,18 @@ int main() {
             tour = 0;
         }
     }
-
+    
     free(a.image);
+    printf("All good -1\n");
     for(int i = 0; i < nbMonstre; i++) {
         free(monstres[i].image);
     }
+
+    free(a.inventory->armors);
+    free(a.inventory->weapons);
+    free(a.inventory->bags);
+    free(a.inventory->utilities);
+
     return 0;
 }
 
