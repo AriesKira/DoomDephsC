@@ -28,6 +28,6 @@ typedef struct inventory {
 
 void initInventory(inventory* i);
 int emptyEquipementSpace(char *name);
-int emptyUtilitySpace(int utility);
+int emptyUtility(int utility);
 
 #endif

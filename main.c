@@ -6,6 +6,9 @@
 #include "include/player.h"
 #include "include/userInterface.h"
 
+#define INVENTORY_SPACE a.inventory->armors[0].inventorySpace
+
+
 
 int main() {
     // Génère un nombre de monstre aléatoire
