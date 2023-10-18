@@ -1,15 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdarg.h>
-typedef struct monstre {
-    int vie;
-    int vieMax;
-    int pMax;
-    int pMin;
-    int def;
-    char **image;
-    int imgHeight;
-}monstre;
+#include "include/inventory.h"
 
 
 typedef struct joueur{
@@ -19,7 +11,20 @@ typedef struct joueur{
     int puissance;
     char **image;
     int imgHeight;
+    inventory* inventory;
 }joueur;
+
+typedef struct monstre {
+    int vie;
+    int vieMax;
+    int pMax;
+    int pMin;
+    int def;
+    char **image;
+    int imgHeight;
+    inventory* inventory;
+}monstre;
+
 /*
 
 FUNCTION CLEAR TERMINAL
@@ -109,6 +114,46 @@ void printMain(joueur *j, monstre *m) {
     printPlayerImage(j);
     printf("\n\n\n");
 }
+
+/*
+
+FUNCTION printPlayerInventory
+
+*/
+void printPlayerInentory(joueur *j) {
+    int inventorySpace = j->inventory->armors->inventorySpace;
+    //armors
+    printf("------ARMURES------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+            break;
+        }
+        printf("%d - %s\n",i+1,j->inventory->armors[i].name);
+    }
+    //weapons
+    printf("\n------ARMES------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+            break;
+        }
+        printf("%d - %s\n",i+1,j->inventory->weapons[i].name);
+    }
+    //bags
+    printf("\n------SACS------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+            break;
+        }
+        printf("%d - %s\n",i+1,j->inventory->bags[i].name);
+    }
+    //utilities
+    printf("\n------OBJETS------\n");
+    for (int i = 0; i < 7; i++) {
+        printf("%d - %d\n",i+1,j->inventory->utilities[i]);
+    }
+    
+}
+
 
 /*
 

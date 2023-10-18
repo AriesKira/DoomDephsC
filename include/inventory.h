@@ -10,7 +10,9 @@ typedef struct armor {
 typedef struct weapon {
     char* name;
     int type;
-    int dmg;
+    int dmgMin;
+    int dmgMax;
+    int property;
     int actions;
 }weapon;
 
@@ -26,8 +28,12 @@ typedef struct inventory {
     int* utilities;
 }inventory;
 
-void initInventory(inventory* i);
+void initPlayerInventory(inventory* i);
+void initMonsterInventory(inventory* i);
 int emptyEquipementSpace(char *name);
-int emptyUtility(int utility);
+void generateRandomArmor(armor* a);
+void generateRandomWeapon(weapon* w);
+void generateRandomBag(bag* b);
+void generateRandomLoot(inventory* i);
 
 #endif

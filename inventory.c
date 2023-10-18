@@ -37,7 +37,7 @@ FUNCTION INIT INVENTORY
 
 */
 
-void initInventory(inventory *i) {
+void initPlayerInventory(inventory *i) {
     
     /*This function creates the players inventory when he starts the game (for the first time)*/
     i->armors = malloc(sizeof(armor)*2);
@@ -63,16 +63,17 @@ void initInventory(inventory *i) {
     i->bags = malloc(sizeof(bag)* i->armors[0].inventorySpace);
     i->bags[0].name = "Sac en laine";
     i->bags[0].utilitySpace = 2;
+    i->bags[1].name = "null";
+    i->bags[1].utilitySpace = 0;
     i->utilities = malloc(sizeof(int)* 7);
     for (int j = 0; j < 7; j++) {
         if (j == 0 || j == 3) {
-            i->utilities[j] = 1;
+            i->utilities[j] = 2;
         }else if(j == 6) {
             i->utilities[j] = 50;
         }else {
             i->utilities[j] = 0;
         }
-        printf("%d - %d\n",j,i->utilities[j]);
     }
     /*utilities array slots : 0 = small hp potion, 1 = medium hp potion, 2 = high hp potion, 3 = small mp potion, 4 = medium mp potion, 5 = high mp potion,
     6 = gold ; gold is uncapped, potions are capped at bag[0]->utilitySpace ; player starts with 50 gold and 1 low hp potion and mp potion;
@@ -82,6 +83,33 @@ void initInventory(inventory *i) {
     if equipement item name is null then it's an empty inventory space where he can store the item type he found in the dungeon;
     */
 }
+
+/*
+
+FUNCTION initMonsterInventory
+
+*/
+void initMonsterInventory(inventory* i) {
+    i->armors = malloc(sizeof(armor)*1);
+    i->armors[0].name = "null";
+    i->armors[0].def = 0;
+    i->armors[0].inventorySpace = 1;
+    i->weapons = malloc(sizeof(weapon)* i->armors[0].inventorySpace);
+    i->weapons[0].name = "null";
+    i->weapons[0].type = 0;
+    i->weapons[0].dmgMax = 0;
+    i->weapons[0].dmgMin = 0;
+    i->weapons[0].actions = 0;
+    i->weapons[0].property = 0;
+    i->bags = malloc(sizeof(bag)* i->armors[0].inventorySpace);
+    i->bags[0].name = "null";
+    i->bags[0].utilitySpace = 0;
+    i->utilities = malloc(sizeof(int)* 7);
+    for (int j = 0; j < 7; j++) {
+        i->utilities[j] = 0;
+    }
+}
+
 
 /*
 
@@ -99,30 +127,10 @@ int emptyEquipementSpace(char *name) {
 
 /*
 
-FUNCTION EmptyUtility
-
-returns 1 if it is an empty utility space, 0 if not
-*/
-
-int emptyUtility(int utility) {
-    if(utility == 0) {
-        return 1;
-    }
-    return 0;
-}
-
-/*
-
 FUNCTION GenerateRandomArmor
 
 */
 
-// Arme en bois : 35
-// Arme en fer : 25
-// Arme en acier : 20
-// Arme en diamant : 15
-// Arme en cheveux de Sananes : 10
-// Arme magiQUE
 
 void generateRandomArmor(armor* a) {
     int armorRarityRand = rand() % 100 + 1;
@@ -175,7 +183,7 @@ FUNCTION GenerateRandomWeapon
 
 */
 
-void GenerateRandomWeapon(weapon* w) {
+void generateRandomWeapon(weapon* w) {
     int propertyRand = rand() % 100 + 1;
     int weaponType = rand() % 2 + 1;
     int weaponRarityRand = rand() % 100 + 1;
@@ -329,7 +337,49 @@ void GenerateRandomWeapon(weapon* w) {
 
 }
 
+/*
 
+FUNCTION GenerateRandomBag
+
+*/
+void generateRandomBag(bag* bag) {
+    int bagRarityRand = rand() % 100 + 1;
+    int bagRarity = 0;
+    if (bagRarityRand <= 40) {
+        bagRarity = 1;
+    }else if (bagRarityRand <= 70 && bagRarityRand > 40) {
+        bagRarity = 2;
+    }else if (bagRarityRand <= 90 && bagRarityRand > 70) {
+        bagRarity = 3;
+    }else if (bagRarityRand <= 97 && bagRarityRand > 90) {
+        bagRarity = 4;
+    }else {
+        bagRarity = 5;
+    }
+
+    switch (bagRarity) {
+        case 1 :
+            bag->name = "Sac en laine";
+            bag->utilitySpace = 2;
+            break;
+        case 2 :
+            bag->name = "Sac en cuir";
+            bag->utilitySpace = 5;
+            break;
+        case 3 :
+            bag->name = "Sac en fer";
+            bag->utilitySpace = 7;
+            break;
+        case 4 :
+            bag->name = "Sac en diamant";
+            bag->utilitySpace = 10;
+            break;
+        case 5 :
+            bag->name = "Sac du dieu Sananes";
+            bag->utilitySpace = 100;
+            break;
+    }
+}
 
 
 
@@ -343,22 +393,25 @@ void generateRandomLoot(inventory* i) {
     int type = rand() % 4 + 1;
 
     switch (type) {
-        case 1 :
+        case 1 :{
             armor a;
             generateRandomArmor(&a);
             i->armors[0] = a;
             break;
-        case 2 :
+        }
+        case 2 :{
             weapon w;
             generateRandomWeapon(&w);
             i->weapons[0] = w;
             break;
-        case 3 :
+        }
+        case 3 :{
             bag b;
             generateRandomBag(&b);
             i->bags[0] = b;
             break;
-        case 4 :
+        }
+        case 4 :{
             int utility = rand() % 6 + 1;
             if (utility != 6) {
                 i->utilities[utility]++;
@@ -366,6 +419,7 @@ void generateRandomLoot(inventory* i) {
                 i->utilities[utility] += rand() % 100 + 1;
             }
             break;
+        }
     }
 
 }

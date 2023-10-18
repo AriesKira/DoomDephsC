@@ -30,7 +30,10 @@ int main() {
     clearTerminal();
     createJoueur(&a,nom,100,5);
     free(nom);    
-
+    
+    printPlayerInentory(&a);
+    
+    
     int estMort = 0;
     int stop = 0;
     int nbAttaque = 0;
@@ -90,7 +93,6 @@ int main() {
     }
     
     free(a.image);
-    printf("All good -1\n");
     for(int i = 0; i < nbMonstre; i++) {
         free(monstres[i].image);
     }
@@ -98,7 +100,7 @@ int main() {
     free(a.inventory->armors);
     free(a.inventory->weapons);
     free(a.inventory->bags);
-    free(a.inventory->utilities);
+
 
     return 0;
 }

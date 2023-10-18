@@ -6,7 +6,6 @@ typedef struct joueur{
     char* nom;
     int vieMax;
     int vie;
-    int puissance;
     char **image;
     int imgHeight;
     inventory* inventory;
@@ -122,8 +121,7 @@ void createJoueur(joueur *a, char* nom, int vie, int puissance){
     a->nom = nom;
     a->vieMax = vie;
     a->vie = a->vieMax;
-    a->puissance = puissance;
-    initInventory(a->inventory);
+    initPlayerInventory(a->inventory);
 }
 
 

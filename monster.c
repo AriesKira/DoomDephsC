@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "include/inventory.h"
+
 
 typedef struct monstre {
     int vie;
     int vieMax;
-    int pMax;
-    int pMin;
-    int def;
     char **image;
     int imgHeight;
+    inventory* inventory;
 }monstre;
 
 
@@ -255,9 +255,9 @@ void createMonstres(int nbMonstre, monstre* monstres){
         initMonsterImage(a);
         a->vieMax = rand() % 100+1;
         a->vie = a->vieMax;
-        a->pMax = rand() % 5+1;
-        a->pMin = rand() % a->pMax+1;
-        a->def = rand() % 100+1;
+        a->inventory = malloc(sizeof(inventory));
+        initMonsterInventory(a->inventory);
+        generateRandomLoot(a->inventory);
         monstres[i] = *a; // Stock les monstres dans le tableau monstres
         free(a); // Libère la mémoire du monstre temporaire
     }
