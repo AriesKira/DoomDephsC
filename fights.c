@@ -4,6 +4,7 @@
 #include "include/monster.h"
 #include "include/player.h"
 
+
 #define INVENTORY_SPACE j->inventory->armors[0].inventorySpace
 #define PLAYER_MAX_DMG j->inventory->weapons[0].dmgMax
 #define PLAYER_MIN_DMG j->inventory->weapons[0].dmgMin

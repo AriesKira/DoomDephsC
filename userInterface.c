@@ -109,7 +109,12 @@ void printPlayerInentory(joueur *j) {
         if (emptyEquipementSpace(j->inventory->armors[i].name)) {
             break;
         }
-        printf("%d - %s\n",i+1,j->inventory->armors[i].name);
+        if (i == 0) {
+            printf("%d - %s [*]\n",i+1,j->inventory->armors[i].name);
+        }else {
+            printf("%d - %s [ ]\n",i+1,j->inventory->armors[i].name);
+        }
+        
     }
     //weapons
     printf("\n------ARMES------\n");
@@ -117,7 +122,24 @@ void printPlayerInentory(joueur *j) {
         if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
             break;
         }
-        printf("%d - %s\n",i+1,j->inventory->weapons[i].name);
+        if (i ==0) {
+            if (IS_MAGIC) {
+                printf("\033[0;35m");
+                printf("%d - %s [*]\n",i+1,j->inventory->weapons[i].name);
+                printf("\033[0m");    
+            }else {
+                printf("%d - %s [*]\n",i+1,j->inventory->weapons[i].name);
+            }
+        }else {
+            if (IS_MAGIC) {
+                printf("\033[0;35m");
+                printf("%d - %s [ ]\n",i+1,j->inventory->weapons[i].name);
+                printf("\033[0m");    
+            }else {
+                printf("%d - %s [ ]\n",i+1,j->inventory->weapons[i].name);
+            }
+        }
+        
     }
     //bags
     printf("\n------SACS------\n");
@@ -125,7 +147,11 @@ void printPlayerInentory(joueur *j) {
         if (emptyEquipementSpace(j->inventory->bags[i].name)) {
             break;
         }
-        printf("%d - %s\n",i+1,j->inventory->bags[i].name);
+        if (i ==0) {
+            printf("%d - %s [*]\n",i+1,j->inventory->bags[i].name);
+        }else {
+            printf("%d - %s [ ]\n",i+1,j->inventory->bags[i].name);
+        }
     }
     //utilities
     printf("\n------OBJETS------\n");

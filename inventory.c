@@ -5,6 +5,8 @@
 #include <string.h>
 #include "include/player.h"
 #include "include/monster.h"
+#include "include/fights.h"
+
 
 typedef struct armor {
     char* name;
@@ -188,9 +190,9 @@ void generateRandomWeapon(weapon* w) {
     int property = 0;
 
     if (propertyRand <= 70) {
-        property = 1;
+        property = 0;
     }else {
-        property = 2;
+        property = 1;
     }
 
     if (weaponRarityRand <= 40) {
@@ -204,7 +206,7 @@ void generateRandomWeapon(weapon* w) {
     }else {
         weaponRarity = 5;
     }
-    if (property == 1) {
+    if (property == 0) {
         switch (weaponRarity) {
             case 1:
                 w->name = "Epée en bois";
@@ -372,8 +374,25 @@ void generateRandomLoot(inventory* i) {
 }
 
 
-void lootMoster(joueur* j, monstre* monstre) {
+void getMonsterReward(monstre m) {
 
+}
+
+void lootMoster(joueur* j, monstre* m) {
+
+//print players Current Inventory
+
+//print reward
+
+//ask player if he wants to keep the reward
+
+//if yes check if he has space in his inventory
+
+//if yes add reward to inventory
+
+//if no ask him if he wants to replace an item
+
+//if yes ask him which item he wants to replace (from same category)
 
 
 }

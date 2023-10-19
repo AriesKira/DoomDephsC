@@ -1,6 +1,8 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#define IS_MAGIC j->inventory->weapons[i].property
+
 typedef struct armor {
     char* name;
     int def;
