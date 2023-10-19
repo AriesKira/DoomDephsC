@@ -257,6 +257,8 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
         }
         case 4: {
             int index = va_arg(valist,int);
+            int damage = va_arg(valist,int);
+            printf("Vous infliger %d points de degats\n",damage); 
             printf("Vous aves vaincu le monstre %d\n",index+1);
             break;
         }

@@ -1,5 +1,4 @@
 .vscode
 .idea
-CMakeLists.txt
 Doom.dSYM
 cmake-build-debug
