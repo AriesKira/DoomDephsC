@@ -32,14 +32,14 @@ int main() {
     
     printf("Affrontez %d monstres\n",nbMonstre);
 
-    free(a.image);
+    free(j.image);
     for(int i = 0; i < nbMonstre; i++) {
         free(monstres[i].image);
     }
 
-    free(a.inventory->armors);
-    free(a.inventory->weapons);
-    free(a.inventory->bags);
+    free(j.inventory->armors);
+    free(j.inventory->weapons);
+    free(j.inventory->bags);
 
 
     return 0;
