@@ -2,15 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "include/inventory.h"
-
-
-typedef struct monstre {
-    int vie;
-    int vieMax;
-    char **image;
-    int imgHeight;
-    inventory* inventory;
-}monstre;
+#include "include/monster.h"
 
 
 void initMonsterImage(monstre *m){
@@ -36,6 +28,7 @@ void initMonsterImage(monstre *m){
         m->image[13] = "        |_____|            ";
         m->image[14] = "        |_____|            ";
         m->imgHeight = 15;
+        m->name = "Reaper";
         break;
     case 2:
         m->image = malloc(sizeof(char*) * 17);
@@ -57,6 +50,7 @@ void initMonsterImage(monstre *m){
         m->image[15] = "           ,__) /  ";
         m->image[16] = "            `..'   ";
         m->imgHeight = 17;
+        m->name = "Ghost";
         break;
     case 3:
         m->image = malloc(sizeof(char*) * 21);
@@ -82,6 +76,7 @@ void initMonsterImage(monstre *m){
         m->image[19] = "      |= /\\ =|                 ";
         m->image[20] = "      /_/  \\_\\                ";
         m->imgHeight = 21;
+        m->name = "Minotaur";
         break;
 
     case 4:
@@ -96,6 +91,7 @@ void initMonsterImage(monstre *m){
         m->image[7] = "     ()   /\\   )=(   /\\      ";
         m->image[8] = "     {}  /  \\_/\\=/\\_/  \\   ";
         m->imgHeight = 9;
+        m->name = "Devil";
         break;
     case 5:
         m->image = malloc(sizeof(char*) * 10);
@@ -110,6 +106,7 @@ void initMonsterImage(monstre *m){
         m->image[8] = "                '.    .'                 ";
         m->image[9] = "                  `\\/`                  ";
         m->imgHeight = 10;
+        m->name = "Bat";
         break;    
     case 6:
         m->image = malloc(sizeof(char*) * 21);
@@ -135,6 +132,7 @@ void initMonsterImage(monstre *m){
         m->image[19] = "             /~  |       /~  |      ";
         m->image[20] = "             ~~~~        ~~~~       ";
         m->imgHeight = 21;
+        m->name = "Cow Guy";
         break;
     case 7:
         m->image = malloc(sizeof(char*) * 29);
@@ -168,6 +166,7 @@ void initMonsterImage(monstre *m){
         m->image[27] = "        |   ;             :   |       ";
         m->image[28] = "        ;   |             |   |       ";
         m->imgHeight = 29;
+        m->name = "Lucky Luke";
         break;
     case 8:
         m->image = malloc(sizeof(char*) * 17);
@@ -189,6 +188,7 @@ void initMonsterImage(monstre *m){
         m->image[15] = "     .'       `.         .'       `.      ";
         m->image[16] = "   .'           `-.   .-'           `.    ";
         m->imgHeight = 17;
+        m->name = "Vampire";
         break;
     case 9:
         m->image = malloc(sizeof(char*) * 25);
@@ -218,6 +218,7 @@ void initMonsterImage(monstre *m){
         m->image[23] = "                              ;'..)";
         m->image[24] = "                               ;";
         m->imgHeight = 25;
+        m->name = "Drake";
         break;
     case 10:
         m->image = malloc(sizeof(char*) * 19);
@@ -241,7 +242,7 @@ void initMonsterImage(monstre *m){
         m->image[17] = "                                   \\~\\";
         m->image[18] = "                                    ~~";
         m->imgHeight = 19;
-
+        m->name = "Unicorn";
         break;
     }
 
@@ -267,5 +268,5 @@ void deleteMonster(int index, int *nbMonstre, monstre* monstres){
     for (int i = index; i <= *nbMonstre - 1; i++) {
         monstres[i] = monstres[i + 1];
     }
-    *nbMonstre--;
+    *nbMonstre -= 1;
 }

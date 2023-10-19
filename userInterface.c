@@ -168,10 +168,10 @@ PRINT ENNEMY TARGET LIST
 
 */
 
-void printTargetList(int nbMonstre) {
+void printTargetList(int nbMonstre,monstre* monstres) {
 
     for (int i = 0; i < nbMonstre; i++) {
-        printf("%d - Monstre %d\n",i+1,i+1);
+        printf("%d - %s \n",i+1,monstres[i].name);
     }
 
 }
@@ -208,7 +208,7 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int val = 0;
             int* index = va_arg(valist,int*);
             printf("Choissisez un monstre a combatttre\n");
-            printTargetList(nbMonstre);
+            printTargetList(nbMonstre,monstres);
             do {
                 scanf("%d",&val);
             } while (val < 1 || val > nbMonstre);

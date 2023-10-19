@@ -28,7 +28,7 @@ int main() {
     createJoueur(&j,nom,100,5);
     free(nom);    
     
-    printPlayerInentory(&j);
+    fight(monstres,nbMonstre,&j);
     
     printf("Affrontez %d monstres\n",nbMonstre);
 

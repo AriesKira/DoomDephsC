@@ -29,6 +29,9 @@ typedef struct inventory {
     int* utilities;
 }inventory;
 
+#include "player.h"
+#include "monster.h"
+
 void initPlayerInventory(inventory* i);
 void initMonsterInventory(inventory* i);
 int emptyEquipementSpace(char *name);

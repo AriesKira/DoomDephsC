@@ -3,36 +3,8 @@
 #include <time.h>
 #include <math.h>
 #include <string.h>
-#include "include/player.h"
-#include "include/monster.h"
-#include "include/fights.h"
+#include "include/inventory.h"
 
-
-typedef struct armor {
-    char* name;
-    int def;
-    int inventorySpace;
-}armor;
-
-typedef struct weapon {
-    char* name;
-    int dmgMin;
-    int dmgMax;
-    int property;
-    int actions;
-}weapon;
-
-typedef struct bag {
-    char* name;
-    int utilitySpace;
-}bag;
-
-typedef struct inventory {
-    armor* armors;
-    weapon* weapons;
-    bag* bags;
-    int* utilities;
-}inventory;
 
 /*
 

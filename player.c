@@ -2,14 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "include/inventory.h"
-typedef struct joueur{
-    char* nom;
-    int vieMax;
-    int vie;
-    char **image;
-    int imgHeight;
-    inventory* inventory;
-}joueur;
+#include "include/player.h"
 
 
 /*
