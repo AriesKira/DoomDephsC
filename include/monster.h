@@ -4,7 +4,8 @@ typedef struct monstre {
     int vie;
     int vieMax;
     char **image;
-    int imgY;
+    int imgHeight;
+    inventory* inventory;
 }monstre;
 
 void initMonsterImage(struct monstre *m);

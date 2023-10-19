@@ -2,28 +2,9 @@
 #include <time.h>
 #include <stdarg.h>
 #include "include/inventory.h"
-
-
-typedef struct joueur{
-    char* nom;
-    int vieMax;
-    int vie;
-    int puissance;
-    char **image;
-    int imgHeight;
-    inventory* inventory;
-}joueur;
-
-typedef struct monstre {
-    int vie;
-    int vieMax;
-    int pMax;
-    int pMin;
-    int def;
-    char **image;
-    int imgHeight;
-    inventory* inventory;
-}monstre;
+#include "include/monster.h"
+#include "include/player.h"
+#include "include/fights.h"
 
 /*
 
@@ -54,7 +35,7 @@ FUNCTION PRINT PLAYER IMAGE
 */
 
 void printPlayerImage(joueur *j) {
-    printf(" \033[0;36m");
+    printf("\033[0;36m");
     for(int i = 0; i < j->imgHeight; i++) {
         printf("            %s\n",j->image[i]);
     }
@@ -241,7 +222,8 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
         case 5: {
             int i = va_arg(valist,int);
             joueur a = va_arg(valist,joueur);
-            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,monstres[i].pMax);
+            int damage = va_arg(valist,int);
+            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,damage);
             printf("Votre vie est dorenavant de %d\n",a.vie);
             break;
         }

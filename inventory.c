@@ -169,7 +169,7 @@ void generateRandomArmor(armor* a) {
             a->inventorySpace = rand() % 5 + 2;
             break;
         case 5 :
-            a->name = "Armure de mithril";
+            a->name = "Armure du roi Jonathan";
             a->def = rand() % 101 + 100;
             a->inventorySpace = rand() % 6 + 2;
             break;
@@ -303,7 +303,7 @@ void generateRandomWeapon(weapon* w) {
                     w->name = "Arc de glace";
                 }
                 w->type = weaponType;
-                w->dmgMin = (rand() % 9 )+ 17; // min 25
+                w->dmgMin = (rand() % 9 )+ 17; // min 17
                 w->dmgMax = (rand() % 16 )+ 25; // max 40
                 w->property = property;
                 w->actions =( rand() % 5 )+ 2; //max 6 min 2
@@ -315,7 +315,7 @@ void generateRandomWeapon(weapon* w) {
                     w->name = "Arc de foudre";
                 }
                 w->type = weaponType;
-                w->dmgMin = (rand() % 16)+ 40; // min 40
+                w->dmgMin = (rand() % 15)+ 26; // min 26
                 w->dmgMax = (rand() % 21 )+ 55; // max 75
                 w->property = property;
                 w->actions = (rand() % 5 )+ 4;                
