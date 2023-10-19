@@ -2,6 +2,7 @@
 #define FIGHTS_H
 
 #define INVENTORY_SPACE j->inventory->armors[0].inventorySpace
+#define UTILITIES_CAPACITY j->inventory->bags[0].utilitySpace
 #define PLAYER_MAX_DMG j->inventory->weapons[0].dmgMax
 #define PLAYER_MIN_DMG j->inventory->weapons[0].dmgMin
 #define PLAYER_DEF j->inventory->armors[0].def

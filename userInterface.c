@@ -98,15 +98,48 @@ void printMain(joueur *j, monstre *m) {
 
 /*
 
+FUNCTION getUtilityName(int index)
+
+*/
+
+char* getUtilityName(int index) {
+    switch (index) {
+        case 0:
+            return "small potion";
+            break;
+        case 1:
+            return "medium potion";
+            break;
+        case 2:
+            return "big potion";
+            break;
+        case 3:
+            return "small mana potion";
+            break;
+        case 4:
+            return "medium mana potion";
+            break;
+        case 5:
+            return "big mana potion";
+            break;
+        default:
+            return "Gold";
+            break;
+    }
+}
+
+/*
+
 FUNCTION printPlayerInventory
 
 */
-void printPlayerInentory(joueur *j) {
+void printPlayerInventory(joueur *j) {
     int inventorySpace = j->inventory->armors->inventorySpace;
     //armors
     printf("------ARMURES------\n");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+            printf("%d - Empty Slot [ ]\n",i+1);
             break;
         }
         if (i == 0) {
@@ -120,6 +153,7 @@ void printPlayerInentory(joueur *j) {
     printf("\n------ARMES------\n");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+            printf("%d - Empty Slot [ ]\n",i+1);
             break;
         }
         if (i ==0) {
@@ -145,6 +179,7 @@ void printPlayerInentory(joueur *j) {
     printf("\n------SACS------\n");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+            printf("%d - Empty Slot [ ]\n",i+1);
             break;
         }
         if (i ==0) {
@@ -156,7 +191,12 @@ void printPlayerInentory(joueur *j) {
     //utilities
     printf("\n------OBJETS------\n");
     for (int i = 0; i < 7; i++) {
-        printf("%d - %d\n",i+1,j->inventory->utilities[i]);
+        if (i == 6) {
+            printf("%s - %d\n",getUtilityName(i),j->inventory->utilities[i]);
+        }else {
+            printf("%s - %d/%d\n",getUtilityName(i),j->inventory->utilities[i],UTILITIES_CAPACITY);
+        }
+        
     }
     
 }

@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string.h>
 #include "include/inventory.h"
-
+#include "include/userInterface.h"
 
 /*
 
@@ -26,7 +26,7 @@ void initPlayerInventory(inventory *i) {
     i->weapons[0].name = "Epée en bois";
     i->weapons[0].dmgMin = 1;
     i->weapons[0].dmgMax = 5;
-    i->weapons[0].property = 1;
+    i->weapons[0].property = 0;
     i->weapons[0].actions = 2;
     i->weapons[1].name = "null";
     i->weapons[1].dmgMax = 0;
@@ -350,12 +350,12 @@ void getMonsterReward(monstre m) {
 
 }
 
-void lootMoster(joueur* j, monstre* m) {
+void lootMonster(joueur* j, monstre* m) {
 
 //print players Current Inventory
-
+printPlayerInventory(j);
 //print reward
-
+//printReward(m);
 //ask player if he wants to keep the reward
 
 //if yes check if he has space in his inventory
