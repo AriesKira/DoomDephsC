@@ -13,6 +13,8 @@
 #define MONSTER_MIN_DMG monstres[index].inventory->weapons[0].dmgMin
 #define MONSTER_DEF monstres[index].inventory->armors[0].def
 
+
+int finalDamage(int maxDmg, int minDmg, int def);
 void fight(monstre* monstres,int nbMonstre,joueur* j);
 
 #endif

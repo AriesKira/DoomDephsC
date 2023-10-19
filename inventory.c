@@ -3,6 +3,8 @@
 #include <time.h>
 #include <math.h>
 #include <string.h>
+#include "include/player.h"
+#include "include/monster.h"
 
 typedef struct armor {
     char* name;
@@ -12,7 +14,6 @@ typedef struct armor {
 
 typedef struct weapon {
     char* name;
-    int type;
     int dmgMin;
     int dmgMax;
     int property;
@@ -49,13 +50,11 @@ void initPlayerInventory(inventory *i) {
     i->armors[1].inventorySpace = 0;
     i->weapons = malloc(sizeof(weapon)* i->armors[0].inventorySpace);
     i->weapons[0].name = "Epée en bois";
-    i->weapons[0].type = 1;
     i->weapons[0].dmgMin = 1;
     i->weapons[0].dmgMax = 5;
     i->weapons[0].property = 1;
     i->weapons[0].actions = 2;
     i->weapons[1].name = "null";
-    i->weapons[1].type = 0;
     i->weapons[1].dmgMax = 0;
     i->weapons[1].dmgMin = 0;
     i->weapons[1].actions = 0;
@@ -96,7 +95,6 @@ void initMonsterInventory(inventory* i) {
     i->armors[0].inventorySpace = 1;
     i->weapons = malloc(sizeof(weapon)* i->armors[0].inventorySpace);
     i->weapons[0].name = "null";
-    i->weapons[0].type = 0;
     i->weapons[0].dmgMax = 0;
     i->weapons[0].dmgMin = 0;
     i->weapons[0].actions = 0;
@@ -185,7 +183,6 @@ FUNCTION GenerateRandomWeapon
 
 void generateRandomWeapon(weapon* w) {
     int propertyRand = rand() % 100 + 1;
-    int weaponType = rand() % 2 + 1;
     int weaponRarityRand = rand() % 100 + 1;
     int weaponRarity = 0;
     int property = 0;
@@ -210,60 +207,35 @@ void generateRandomWeapon(weapon* w) {
     if (property == 1) {
         switch (weaponRarity) {
             case 1:
-                if (weaponType == 1) {
-                    w->name = "Epée en bois";
-                }else {
-                    w->name = "Arc en bois";
-                }
-                w->type = weaponType;
+                w->name = "Epée en bois";
                 w->dmgMin = 1;
                 w->dmgMax = (rand() % 10 )+ 1;
                 w->property = property;
                 w->actions = 2;
                 break;
             case 2:
-                if (weaponType == 1) {
-                    w->name = "Epée en fer";
-                }else {
-                    w->name = "Arc en fer";
-                }
-                w->type = weaponType;
+                w->name = "Epée en fer";
                 w->dmgMin = (rand() % 6 )+ 5; // min 5
                 w->dmgMax = (rand() %  11 )+ 10;//max 20
                 w->property = property;
                 w->actions = (rand() % 3 )+ 2; //max 4 min 2
                 break;
             case 3:
-                if (weaponType == 1) {
-                    w->name = "Epée en acier";
-                }else {
-                    w->name = "Arc en acier";
-                }
-                w->type = weaponType;
+                w->name = "Epée en acier";
                 w->dmgMin = (rand() % 11 )+ 10; // min 10
                 w->dmgMax = (rand() % 16 )+ 20; // max 35
                 w->property = property;
                 w->actions =( rand() % 5 )+ 2; //max 6 min 2
                 break;
             case 4:
-                if (weaponType == 1) {
-                    w->name = "Epée en diamant";
-                }else {
-                    w->name = "Arc en diamant";
-                }
-                w->type = weaponType;
+                w->name = "Epée en diamant";
                 w->dmgMin = (rand() % 19 )+ 17; // min 17
                 w->dmgMax = (rand() % 16 )+ 35; // max 50
                 w->property = property;
                 w->actions = (rand() % 5 )+ 4;                
                 break;
             case 5:
-                if (weaponType == 1) {
-                    w->name = "Epée du roi Jonathan";
-                }else {
-                    w->name = "Arc du roi Jonathan";
-                }
-                w->type = weaponType;
+                w->name = "Epée du roi Jonathan";
                 w->dmgMin = (rand() % 25 + 1)+ 50;
                 w->dmgMax = (rand() % 150 + 1)+ 85;
                 w->property = property;
@@ -273,60 +245,35 @@ void generateRandomWeapon(weapon* w) {
     }else {
         switch (weaponRarity) {
             case 1:
-                if (weaponType == 1) {
-                    w->name = "Epée en herbe";
-                }else {
-                    w->name = "Arc en herbe";
-                }
-                w->type = weaponType;
+                w->name = "Epée en herbe";
                 w->dmgMin = 5; // min 5
                 w->dmgMax = (rand() % 11 )+ 5; // max 15
                 w->property = property;
                 w->actions = rand() % 2 + 2; //max 3 min 2
                 break;
             case 2:
-                if (weaponType == 1) {
-                    w->name = "Epée de feu"; 
-                }else {
-                    w->name = "Arc de feu";
-                }
-                w->type = weaponType;
+                w->name = "Epée de feu"; 
                 w->dmgMin = (rand() % 11 )+ 10; // min 10
                 w->dmgMax = (rand() %  15 )+ 11;//max 25
                 w->property = property;
                 w->actions = (rand() % 3 )+ 2; //max 4 min 2
                 break;
             case 3:
-                if (weaponType == 1) {
-                    w->name = "Epée de glace";
-                }else {
-                    w->name = "Arc de glace";
-                }
-                w->type = weaponType;
+                w->name = "Epée de glace";
                 w->dmgMin = (rand() % 9 )+ 17; // min 17
                 w->dmgMax = (rand() % 16 )+ 25; // max 40
                 w->property = property;
                 w->actions =( rand() % 5 )+ 2; //max 6 min 2
                 break;
             case 4:
-                if (weaponType == 1) {
-                    w->name = "Epée de foudre";
-                }else {
-                    w->name = "Arc de foudre";
-                }
-                w->type = weaponType;
+                w->name = "Epée de foudre";
                 w->dmgMin = (rand() % 15)+ 26; // min 26
                 w->dmgMax = (rand() % 21 )+ 55; // max 75
                 w->property = property;
                 w->actions = (rand() % 5 )+ 4;                
                 break;
             case 5:
-                if (weaponType == 1) {
-                    w->name = "Epée en cheveux du dieu Sananes";
-                }else {
-                    w->name = "Arc en cheveux du dieu Sananes";
-                }
-                w->type = weaponType;
+                w->name = "Epée en cheveux du dieu Sananes";
                 w->dmgMin = (rand() % 26)+ 80;
                 w->dmgMax = (rand() % 151)+ 106;
                 w->property = property;
@@ -421,5 +368,12 @@ void generateRandomLoot(inventory* i) {
             break;
         }
     }
+
+}
+
+
+void lootMoster(joueur* j, monstre* monstre) {
+
+
 
 }

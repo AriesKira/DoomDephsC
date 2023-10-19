@@ -57,6 +57,7 @@ void fight(monstre* monstres,int nbMonstre,joueur* j) {
                         MONSTER_HP = 0;
                         fightPrompts(4,nbMonstre,monstres,index);
                         delayPlayer();
+                        lootMonster(j,monstres[index]);
                         break;
                     }else {
                         MONSTER_HP -= damage;

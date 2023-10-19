@@ -1,5 +1,5 @@
-#ifndef UI_H
-#define UI_H
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
 void clearTerminal();
 void printPlayerImage(joueur *j);

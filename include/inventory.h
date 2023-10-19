@@ -9,7 +9,6 @@ typedef struct armor {
 
 typedef struct weapon {
     char* name;
-    int type;
     int dmgMin;
     int dmgMax;
     int property;
@@ -35,5 +34,6 @@ void generateRandomArmor(armor* a);
 void generateRandomWeapon(weapon* w);
 void generateRandomBag(bag* b);
 void generateRandomLoot(inventory* i);
+void lootMonster(joueur* j, monstre* m);
 
 #endif
