@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdarg.h>
+
 typedef struct monstre {
     int vie;
     int vieMax;
@@ -146,6 +147,7 @@ void delayPlayer() {
 FUNCTION FIGHT PROMPTS
 
 */
+
 void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     va_list valist;
     va_start(valist,monstres);
@@ -160,7 +162,7 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
                 scanf("%d",&val);
             } while (val < 1 || val > nbMonstre);
             
-            if (monstres[val-1].vie < 1) {
+            if (monstres[val-1].vie < 0) {
                 printf("Ce monstre est mort\n");
                 fightPrompts(1,nbMonstre,monstres,index);
             }

@@ -25,7 +25,7 @@ int main() {
     char* nom = malloc(sizeof(char) * 10);
     scanf("%s",nom);
     clearTerminal();
-    createJoueur(&a,nom,1,5);
+    createJoueur(&a,nom,100,5);
     free(nom);
     clearTerminal();
 
@@ -51,7 +51,8 @@ int main() {
                 
                 if(choice == 1){
                     printMain(&a, &monstres[index]);
-                    if(monstres[index].vie <= a.puissance) {
+                    if(monstres[index].vie <= -1) {
+                        deleteMonster(index,&nbMonstre,monstres);
                         fightPrompts(4,nbMonstre,monstres,index);
                         delayPlayer();
                         break;

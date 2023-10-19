@@ -260,3 +260,10 @@ void createMonstres( monstre *a, int nbMonstre, monstre* monstres){
         monstres[i] = *a; // Stock les monstres dans le tableau monstres
     }
 }
+
+void deleteMonster(int index, int *nbMonstre, monstre* monstres){
+    for (int i = index; i <= *nbMonstre - 1; i++) {
+        monstres[i] = monstres[i + 1];
+    }
+    *nbMonstre--;
+}
