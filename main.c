@@ -21,13 +21,10 @@ int main() {
     //initialisation des monstre
     createMonstres(nbMonstre,monstres);
     //initialisation du joueur
-    printf("Choississez votre nom : \n");
-    char* nom = malloc(sizeof(char) * 10);
-    scanf("%s",nom);
-    clearTerminal();
-    createJoueur(&j,nom,100,5);
-    free(nom);    
     
+    clearTerminal();
+    createJoueur(&j,100,5);
+
     fight(monstres,nbMonstre,&j);
     
     printf("Affrontez %d monstres\n",nbMonstre);

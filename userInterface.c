@@ -178,18 +178,30 @@ void printTargetList(int nbMonstre,monstre* monstres) {
 
 /*
 
+FUNCTION FLUSH STDIN
+
+*/
+
+void flushStdin() {
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+/*
+
 FUNCTION Delay Player
 
 */
 
 void delayPlayer() {
     char c;
+
     printf("\nAppuyez sur entrer pour continuer\n");
+    flushStdin();
     do{
-        
+
         c = getchar();
 
-    } while (c != '\n');
+    } while (c != '\n' && c != EOF);
     
 }
 
@@ -238,7 +250,9 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
         }
         case 3: {
             int index = va_arg(valist,int);
-            printf("La vie du monstre %d est de %d\n",index+1,monstres[index].vie);
+            int damage = va_arg(valist,int);
+            printf("Vous infliger %d points de degats\n",damage); 
+            printf("La vie de %s est de %d\n",monstres[index].name,monstres[index].vie);
             break;
         }
         case 4: {

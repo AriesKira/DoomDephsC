@@ -11,6 +11,6 @@ typedef struct joueur{
 }joueur;
 
 void initPlayerImage(struct joueur *j);
-void createJoueur(struct joueur *a, char* nom, int vie, int puissance);
+void createJoueur(struct joueur *a, int vie, int puissance);
 
 #endif

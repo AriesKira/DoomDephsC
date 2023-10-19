@@ -109,7 +109,10 @@ void initPlayerImage(joueur *j) {
 }
 
 
-void createJoueur(joueur *a, char* nom, int vie, int puissance){
+void createJoueur(joueur *a, int vie, int puissance){
+    char * nom = malloc(sizeof (char ) * 255);
+    printf("Choississez votre nom : \n");
+    scanf("%s",nom);
     initPlayerImage(a);
     a->nom = nom;
     a->vieMax = vie;
