@@ -1,26 +1,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdarg.h>
+#include "include/inventory.h"
+#include "include/monster.h"
+#include "include/player.h"
+#include "include/fights.h"
 
-typedef struct monstre {
-    int vie;
-    int vieMax;
-    int pMax;
-    int pMin;
-    int def;
-    char **image;
-    int imgHeight;
-}monstre;
-
-
-typedef struct joueur{
-    char* nom;
-    int vieMax;
-    int vie;
-    int puissance;
-    char **image;
-    int imgHeight;
-}joueur;
 /*
 
 FUNCTION CLEAR TERMINAL
@@ -50,7 +35,7 @@ FUNCTION PRINT PLAYER IMAGE
 */
 
 void printPlayerImage(joueur *j) {
-    printf(" \033[0;36m");
+    printf("\033[0;36m");
     for(int i = 0; i < j->imgHeight; i++) {
         printf("            %s\n",j->image[i]);
     }
@@ -110,6 +95,72 @@ void printMain(joueur *j, monstre *m) {
     printPlayerImage(j);
     printf("\n\n\n");
 }
+
+/*
+
+FUNCTION printPlayerInventory
+
+*/
+void printPlayerInentory(joueur *j) {
+    int inventorySpace = j->inventory->armors->inventorySpace;
+    //armors
+    printf("------ARMURES------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+            break;
+        }
+        if (i == 0) {
+            printf("%d - %s [*]\n",i+1,j->inventory->armors[i].name);
+        }else {
+            printf("%d - %s [ ]\n",i+1,j->inventory->armors[i].name);
+        }
+        
+    }
+    //weapons
+    printf("\n------ARMES------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+            break;
+        }
+        if (i ==0) {
+            if (IS_MAGIC) {
+                printf("\033[0;35m");
+                printf("%d - %s [*]\n",i+1,j->inventory->weapons[i].name);
+                printf("\033[0m");    
+            }else {
+                printf("%d - %s [*]\n",i+1,j->inventory->weapons[i].name);
+            }
+        }else {
+            if (IS_MAGIC) {
+                printf("\033[0;35m");
+                printf("%d - %s [ ]\n",i+1,j->inventory->weapons[i].name);
+                printf("\033[0m");    
+            }else {
+                printf("%d - %s [ ]\n",i+1,j->inventory->weapons[i].name);
+            }
+        }
+        
+    }
+    //bags
+    printf("\n------SACS------\n");
+    for (int i = 0; i < inventorySpace; i++) {
+        if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+            break;
+        }
+        if (i ==0) {
+            printf("%d - %s [*]\n",i+1,j->inventory->bags[i].name);
+        }else {
+            printf("%d - %s [ ]\n",i+1,j->inventory->bags[i].name);
+        }
+    }
+    //utilities
+    printf("\n------OBJETS------\n");
+    for (int i = 0; i < 7; i++) {
+        printf("%d - %d\n",i+1,j->inventory->utilities[i]);
+    }
+    
+}
+
 
 /*
 
@@ -198,7 +249,8 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
         case 5: {
             int i = va_arg(valist,int);
             joueur a = va_arg(valist,joueur);
-            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,monstres[i].pMax);
+            int damage = va_arg(valist,int);
+            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,damage);
             printf("Votre vie est dorenavant de %d\n",a.vie);
             break;
         }

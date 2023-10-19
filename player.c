@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include "include/inventory.h"
 typedef struct joueur{
     char* nom;
     int vieMax;
     int vie;
-    int puissance;
     char **image;
     int imgHeight;
+    inventory* inventory;
 }joueur;
 
 
@@ -116,12 +116,12 @@ void initPlayerImage(joueur *j) {
 }
 
 
-void createJoueur(struct joueur *a, char* nom, int vie, int puissance){
+void createJoueur(joueur *a, char* nom, int vie, int puissance){
     initPlayerImage(a);
     a->nom = nom;
     a->vieMax = vie;
     a->vie = a->vieMax;
-    a->puissance = puissance;
+    initPlayerInventory(a->inventory);
 }
 
 

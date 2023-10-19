@@ -3,15 +3,13 @@
 typedef struct monstre {
     int vie;
     int vieMax;
-    int pMax;
-    int pMin;
-    int def;
     char **image;
-    int imgY;
+    int imgHeight;
+    inventory* inventory;
 }monstre;
 
 void initMonsterImage(struct monstre *m);
-void createMonstres(struct monstre *a, int nbMonstre, struct monstre* monstres);
+void createMonstres(int nbMonstre, struct monstre* monstres);
 void deleteMonster(int index, int *nbMonstre, monstre* monstres);
 
 #endif
