@@ -469,6 +469,170 @@ int getUtilityIndex(monstre* m) {
     return 6;
 }
 
+/*
+
+FUNCTION printItemsFromCategory
+
+*/
+
+void printItemsFromCategory(joueur* j, int category) {
+    switch (category) {
+        case 1:
+
+            printf("----------ARMURES----------\n\n");
+
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                
+                if (i == 0) {
+                    printf("%d - %s (DEF : %d | Espace d'inventaire : %d) [*]\n",i+1,j->inventory->armors[i].name,j->inventory->armors[i].def,j->inventory->armors[i].inventorySpace);
+                }else {
+                    printf("%d - %s (DEF : %d | Espace d'inventaire : %d) [ ]\n",i+1,j->inventory->armors[i].name,j->inventory->armors[i].def,j->inventory->armors[i].inventorySpace);
+                }
+                
+            } 
+            break;
+        case 2:
+            printf("----------ARMES----------\n\n");
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (IS_MAGIC) {
+                    printf("\033[0;35m");
+                    if (i == 0) {
+                        printf("%d - %s (DMG : %d-%d | Propriete : %d | Actions : %d) [*]\n",i+1,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                    }else {
+                        printf("%d - %s (DMG : %d-%d | Propriete : %d | Actions : %d) [ ]\n",i+1,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                    }
+                    printf("\033[0m");
+                }else {
+                    if (i == 0) {
+                        printf("%d - %s (DMG : %d-%d | Propriete : %d | Actions : %d) [*]\n",i+1,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                    }else {
+                        printf("%d - %s (DMG : %d-%d | Propriete : %d | Actions : %d) [ ]\n",i+1,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                    }
+                }
+            }
+            break;
+        case 3:
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (i == 0) {
+                    printf("%d - %s (Espace d'utilitaires : %d) [*]\n",i+1,j->inventory->bags[i].name,j->inventory->bags[i].utilitySpace);
+                }else {
+                    printf("%d - %s (Espace d'utilitaires : %d) [ ]\n",i+1,j->inventory->bags[i].name,j->inventory->bags[i].utilitySpace);
+                }
+            }
+            break;
+    }
+}
+
+/*
+
+FUNCTION saveCurrentInventory()
+
+*/
+
+inventory saveCurrentInventory(joueur* j) {
+    inventory save;
+    save.armors = malloc(sizeof(armor)*PLAYER_INVENTORY_SPACE);
+    save.weapons = malloc(sizeof(weapon)*PLAYER_INVENTORY_SPACE);
+    save.bags = malloc(sizeof(bag)*PLAYER_INVENTORY_SPACE);
+    save.utilities = malloc(sizeof(int)*7);
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+        save.armors[i] = j->inventory->armors[i];
+        save.weapons[i] = j->inventory->weapons[i];
+        save.bags[i] = j->inventory->bags[i];
+    }
+    for (int i = 0; i < 7; i++) {
+        save.utilities[i] = j->inventory->utilities[i];
+    }
+    return save;
+}
+
+/*
+
+FUNCTION reallocInventorySpace
+
+*/
+
+void reallocInventorySpace(joueur* j, int x) {
+    if (x > j->inventory->armors->inventorySpace) {
+        int oldSize = j->inventory->armors->inventorySpace;
+        inventory saveCurInv = saveCurrentInventory(j);
+        
+        j->inventory->armors = realloc(j->inventory->armors,sizeof(armor)*x);
+        j->inventory->weapons = realloc(j->inventory->weapons,sizeof(weapon)*x);
+        j->inventory->bags = realloc(j->inventory->bags,sizeof(bag)*x);
+
+        for (int i = 0; i < oldSize; i++) {
+            j->inventory->armors[i] = saveCurInv.armors[i];
+            j->inventory->weapons[i] = saveCurInv.weapons[i];
+            j->inventory->bags[i] = saveCurInv.bags[i];
+        }
+
+        for (int i = 0; i < 7; i++) {
+            j->inventory->utilities[i] = saveCurInv.utilities[i];
+        }
+
+        for (int i = oldSize; i < x; i++) {
+            j->inventory->armors[i].name = "null";
+            j->inventory->armors[i].def = 0;
+            j->inventory->armors[i].inventorySpace = 0;
+            j->inventory->weapons[i].name = "null";
+            j->inventory->weapons[i].dmgMax = 0;
+            j->inventory->weapons[i].dmgMin = 0;
+            j->inventory->weapons[i].actions = 0;
+            j->inventory->weapons[i].property = 0;
+            j->inventory->bags[i].name = "null";
+            j->inventory->bags[i].utilitySpace = 0;
+        }
+
+        free(saveCurInv.armors);
+        free(saveCurInv.weapons);
+        free(saveCurInv.bags);
+        free(saveCurInv.utilities);        
+    }else {
+
+    }
+    
+}
+
+/*
+
+FUNCTION replaceItem
+
+*/
+
+int replaceItem(joueur* j, monstre* m, int category, int index) {
+    switch (category) {
+        case 1:
+            if (index == 0) {
+                if (PLAYER_INVENTORY_SPACE < MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE) {
+                    reallocInventorySpace(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
+                    j->inventory->armors[index] = m->inventory->armors[0];
+                }else if (PLAYER_INVENTORY_SPACE > MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE) {
+                    reallocInventorySpace(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
+                    j->inventory->armors[index] = m->inventory->armors[0];
+                }else {
+                    
+                }
+            }else {
+                j->inventory->armors[index] = m->inventory->armors[0];
+            }
+            break;
+        case 2:
+            j->inventory->weapons[index] = m->inventory->weapons[0];
+            break;
+        case 3:
+            j->inventory->bags[index] = m->inventory->bags[0];
+            break;
+        
+    }
+}
+
+
+/*
+
+FUNCTION lootMonster
+
+*/
 void lootMonster(joueur* j, monstre* m) {
 
     //print players Current Inventory
@@ -522,7 +686,37 @@ void lootMonster(joueur* j, monstre* m) {
             printf("\033[0m");
             printPlayerInventory(j);
         }else {
-            
+            //ask player if he wants to replace an item in his inventory (from same category)
+            if (getRewardCategory(m) == 4) {
+                printf("\033[1;33m");
+                printf("\n\nVous n'avez pas assez de place dans votre inventaire pour recuperer cet objet\n");
+                printf("\033[0m");
+
+            }else {
+                clearTerminal();
+                printMain(j,m);
+                printf("\033[1;33m");
+                printf("\n\nVous n'avez pas assez de place dans votre inventaire pour recuperer cet objet\n");
+                printf("Souhaitez vous remplacer un objet de meme categorie ?\n\n");
+                printf("1 - Oui             0 - Non\n\n");
+                printf("\033[0m");
+                int choice;
+                scanf("%d",&choice);
+                if (choice) {
+                    printf("Quel objet souhaitez vous remplacer ?\n\n");
+                    printItemsFromCategory(j,getRewardCategory(m));
+
+                    int choice2;
+                    do {
+                        scanf("%d",&choice2);
+                    }while (choice2 < 1 || choice2 > PLAYER_INVENTORY_SPACE);
+
+                    choice2--;
+
+                    replaceItem(j,m,getRewardCategory(m),choice2);
+
+                }
+            }
         }
         
     }

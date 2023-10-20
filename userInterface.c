@@ -241,7 +241,7 @@ void printMonsterItem(monstre* m) {
         printf("Actions : %d\n",MONSTER_INVENTORY_WEAPON_ACTIONS);
     }else if (!emptyEquipementSpace(MONSTER_INVENTORY_BAG)) {
         printf("Sac : %s\n",MONSTER_INVENTORY_BAG);
-        printf("Espace d'utilite : %d\n",MONSTER_INVENTORY_BAG_UTILITY_SPACE);
+        printf("Espace d'utilitaires : %d\n",MONSTER_INVENTORY_BAG_UTILITY_SPACE);
     }else {
         for (int i = 0; i < 7; i++) {
             if (m->inventory->utilities[i] != 0) {
