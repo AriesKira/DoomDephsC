@@ -4,9 +4,10 @@
 void clearTerminal();
 void printPlayerImage(joueur *j);
 void printMonsterImage(monstre *m);
-void printMain(joueur *j, monstre *m);
+void printMain(joueur *j, monstre *m,...);
 char* getUtilityName(int index);
 void printPlayerInventory(joueur *j);
+void printReward(monstre *m);
 void printTargetList(int nbMonstre,monstre* monstres);
 void flushStdin();
 void delayPlayer();

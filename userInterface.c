@@ -85,15 +85,28 @@ FUNCTION PRINT MAIN SCREEN
 
 
 
-void printMain(joueur *j, monstre *m) {
-    clearTerminal();
-    printf("\n\n");
-    printHealth(j);
-    printf("\n\n\n");
-    printMonsterImage(m);
-    printf("\n\n\n");
-    printPlayerImage(j);
-    printf("\n\n\n");
+void printMain(joueur *j, monstre *m,...) {
+    va_list valist;
+    va_start(valist,m);
+    int lootPhase = va_arg(valist,int);
+    if (lootPhase) {
+        clearTerminal();
+        printf("\n\n");
+        printHealth(j);
+        printf("\n\n\n");
+        printPlayerImage(j);
+        printf("\n\n\n");
+    }else {
+        clearTerminal();
+        printf("\n\n");
+        printHealth(j);
+        printf("\n\n\n");
+        printMonsterImage(m);
+        printf("\n\n\n");
+        printPlayerImage(j);
+        printf("\n\n\n");
+    }
+    
 }
 
 /*
@@ -135,8 +148,11 @@ FUNCTION printPlayerInventory
 */
 void printPlayerInventory(joueur *j) {
     int inventorySpace = j->inventory->armors->inventorySpace;
+    printf("\033[0;36m");
+    printf("------INVENTAIRE------\n\n");
     //armors
     printf("------ARMURES------\n");
+    printf("\033[0m");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->armors[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
@@ -150,7 +166,9 @@ void printPlayerInventory(joueur *j) {
         
     }
     //weapons
+    printf("\033[0;36m");
     printf("\n------ARMES------\n");
+    printf("\033[0m");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
@@ -176,7 +194,9 @@ void printPlayerInventory(joueur *j) {
         
     }
     //bags
+    printf("\033[0;36m");
     printf("\n------SACS------\n");
+    printf("\033[0m");
     for (int i = 0; i < inventorySpace; i++) {
         if (emptyEquipementSpace(j->inventory->bags[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
@@ -189,7 +209,9 @@ void printPlayerInventory(joueur *j) {
         }
     }
     //utilities
+    printf("\033[0;36m");
     printf("\n------OBJETS------\n");
+    printf("\033[0m");
     for (int i = 0; i < 7; i++) {
         if (i == 6) {
             printf("%s - %d\n",getUtilityName(i),j->inventory->utilities[i]);
@@ -201,6 +223,49 @@ void printPlayerInventory(joueur *j) {
     
 }
 
+/*
+
+FUNCTION printMonsterItem
+
+*/
+
+void printMonsterItem(monstre* m) {
+    if (!emptyEquipementSpace(MONSTER_INVENTORY_ARMOR)) {
+        printf("Armure : %s\n",MONSTER_INVENTORY_ARMOR);
+        printf("Defense : %d\n",MONSTER_INVENTORY_ARMOR_DEF);
+        printf("Espace d'inventaire : %d\n",MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
+    }else if (!emptyEquipementSpace(MONSTER_INVENTORY_WEAPON)) {
+        printf("Arme : %s\n",MONSTER_INVENTORY_WEAPON);
+        printf("Degats : %d - %d\n",MONSTER_INVENTORY_WEAPON_DMG_MIN,MONSTER_INVENTORY_WEAPON_DMG_MAX);
+        printf("Propriete : %d\n",MONSTER_INVENTORY_WEAPON_PROPERTY);
+        printf("Actions : %d\n",MONSTER_INVENTORY_WEAPON_ACTIONS);
+    }else if (!emptyEquipementSpace(MONSTER_INVENTORY_BAG)) {
+        printf("Sac : %s\n",MONSTER_INVENTORY_BAG);
+        printf("Espace d'utilite : %d\n",MONSTER_INVENTORY_BAG_UTILITY_SPACE);
+    }else {
+        for (int i = 0; i < 7; i++) {
+            if (m->inventory->utilities[i] != 0) {
+                printf("%s - %d\n",getUtilityName(i),m->inventory->utilities[i]);
+            }
+        }
+    }
+
+
+}
+
+/*
+
+FUNCTION printReward
+
+*/
+
+void printReward(monstre* m) {
+    printf("\033[1;36m");
+    printf("------RECOMPENSE------\n\n");
+    printf("\033[0m");
+    printMonsterItem(m);
+    printf("\n\n");
+}
 
 /*
 

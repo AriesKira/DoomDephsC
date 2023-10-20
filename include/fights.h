@@ -13,6 +13,11 @@
 #define MONSTER_MAX_DMG monstres[index].inventory->weapons[0].dmgMax
 #define MONSTER_MIN_DMG monstres[index].inventory->weapons[0].dmgMin
 #define MONSTER_DEF monstres[index].inventory->armors[0].def
+#define MONSTER_NAME monstres[index].name
+#define MONSTER_IMAGE monstres[index].image
+#define MONSTER_ARMOR monstres[index].inventory->armors[0].name
+#define MONSTER_WEAPON monstres[index].inventory->weapons[0].name
+#define MONSTER_BAG monstres[index].inventory->bags[0].name
 
 
 int finalDamage(int maxDmg, int minDmg, int def);

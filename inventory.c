@@ -345,26 +345,187 @@ void generateRandomLoot(inventory* i) {
 
 }
 
+/*
 
-void getMonsterReward(monstre m) {
+FUNCTION hasSpace
+checks if the player has space in his inventory for the reward
 
+*/
+
+int hasSpace(joueur* j, int category) {
+    switch (category) {
+        case 1:
+            for (int i = 0; i < j->inventory->armors[0].inventorySpace; i++) {
+                if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+                    return 1;
+                }
+            }
+            break;
+        case 2:
+            for (int i = 0; i < j->inventory->armors[0].inventorySpace; i++) {
+                if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+                    return 1;
+                }
+            }
+            break;
+        case 3:
+            for (int i = 0; i < j->inventory->armors[0].inventorySpace; i++) {
+                if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+                    return 1;
+                }
+            }
+            break;
+        case 4:
+            for (int i = 0; i < UTILITIES_ARRAY_SIZE - 1; i++) {
+                if (j->inventory->utilities[i] < UTILITIES_CAPACITY) {
+                    return 1;
+                }
+            }
+            break;
+        case 5: 
+            return 1;
+            break;
+            
+    }
+    return 0;
+}
+
+/*
+
+FUNCTION GET REWARD CATEGORY
+
+
+*/
+
+int getRewardCategory(monstre* m) {
+    if (!emptyEquipementSpace(MONSTER_INVENTORY_ARMOR)) {
+        return 1;
+    }
+    if (!emptyEquipementSpace(MONSTER_INVENTORY_WEAPON)) {
+        return 2;
+    }
+    if (!emptyEquipementSpace(MONSTER_INVENTORY_BAG)) {
+        return 3;
+    }
+    for (int i = 0; i < UTILITIES_ARRAY_SIZE - 1; i++) {
+        if (m->inventory->utilities[i] > 0) {
+            return 4;
+        }
+    }
+    if (m->inventory->utilities[6] > 0) {
+        return 5;
+    }
+    //should never happen
+    return 0;
+}
+
+/*
+
+FUNCTION getAvailableInventorySpace
+
+*/
+
+int getAvailableInventorySpace(joueur* j, int x) {
+    switch (x) {
+        case 1:
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+                    return i;
+                }
+            }
+            break;
+        case 2:
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+                    return i;
+                }
+            }
+            break;
+        case 3:
+            for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+                    return i;
+                }
+            }
+            break;
+    }
+    //should never happen
+    return 0;
+} 
+
+
+/*
+
+FUNCTION getUtilityIndex
+
+*/
+
+int getUtilityIndex(monstre* m) {
+    for (int i = 0; i < UTILITIES_ARRAY_SIZE - 1; i++) {
+        if (m->inventory->utilities[i] > 0) {
+            return i;
+        }
+    }
+    return 6;
 }
 
 void lootMonster(joueur* j, monstre* m) {
 
-//print players Current Inventory
-printPlayerInventory(j);
-//print reward
-//printReward(m);
-//ask player if he wants to keep the reward
+    //print players Current Inventory
+    //printPlayerInventory(j);
 
-//if yes check if he has space in his inventory
+    //print reward
+    printReward(m);
 
-//if yes add reward to inventory
+    //ask player if he wants to keep the reward
+    printf("Voulez vous garder la recompense ?\n\n");
+    printf("1 - Oui             0 - Non\n\n");
+    int choice;
+    scanf("%d",&choice);
 
-//if no ask him if he wants to replace an item
-
-//if yes ask him which item he wants to replace (from same category)
+    if (choice) {
+        //check if he has space in his inventory for this item category (armor, weapon, bag, utility)
+        if(hasSpace(j,getRewardCategory(m))) {
+            //if yes add reward to inventory
+            int i;
+            switch (getRewardCategory(m)) {
+                
+                case 1:
+                    i = getAvailableInventorySpace(j,1);
+                    j->inventory->armors[i] = m->inventory->armors[0];
+                    break;
+                case 2:
+                    i = getAvailableInventorySpace(j,2);
+                    j->inventory->weapons[i] = m->inventory->weapons[0];
+                    break;
+                case 3:
+                    i = getAvailableInventorySpace(j,3);
+                    j->inventory->bags[i] = m->inventory->bags[0];
+                    break;
+                case 4:
+                    i = getUtilityIndex(m);
+                    if (PLAYER_UTILITY_OWNED + MONSTER_INVENTORY_OWNED_UTILITY > UTILITIES_CAPACITY) {
+                        int difference = UTILITIES_CAPACITY - PLAYER_UTILITY_OWNED;
+                        j->inventory->utilities[i] = UTILITIES_CAPACITY;
+                        printf("Vous avez recupéré %d %s car votre sac ne vous permet pas d'en porter plus de %d\n",difference,getUtilityName(i),UTILITIES_CAPACITY);
+                    }else {
+                        PLAYER_UTILITY_OWNED += MONSTER_INVENTORY_OWNED_UTILITY;
+                    }
+                    break;
+                case 5:
+                    i = getUtilityIndex(m);
+                    PLAYER_GOLD += MONSTER_INVENTORY_OWNED_UTILITY;
+                    break;
+            }
+            printf("\033[0;32m");
+            printf("\n\nVous avez recupere l'objet\n");
+            printf("\033[0m");
+            printPlayerInventory(j);
+        }else {
+            
+        }
+        
+    }
 
 
 }

@@ -254,7 +254,7 @@ void createMonstres(int nbMonstre, monstre* monstres){
     for(int i = 0; i < nbMonstre; i++){
         monstre* a = malloc(sizeof(monstre)); // Crée un monstre temporaire
         initMonsterImage(a);
-        a->vieMax = rand() % 100+1;
+        a->vieMax = rand() % 5+1;
         a->vie = a->vieMax;
         a->inventory = malloc(sizeof(inventory));
         initMonsterInventory(a->inventory);

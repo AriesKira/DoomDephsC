@@ -46,6 +46,9 @@ void fight(monstre* monstres,int nbMonstre,joueur* j) {
                     if (MONSTER_HP - damage <= 0) {
                         MONSTER_HP = 0;
                         fightPrompts(4,nbMonstre,monstres,index,damage);
+                        delayPlayer();
+                        clearTerminal();
+                        printMain(j, &monstres[index],1);
                         lootMonster(j,&monstres[index]);
                         delayPlayer();
                         break;
