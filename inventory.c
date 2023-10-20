@@ -587,12 +587,69 @@ void reallocInventorySpace(joueur* j, int x) {
         free(saveCurInv.armors);
         free(saveCurInv.weapons);
         free(saveCurInv.bags);
-        free(saveCurInv.utilities);        
+        free(saveCurInv.utilities);    
+
     }else {
+        int oldSize = j->inventory->armors->inventorySpace;
+        inventory saveCurInv = saveCurrentInventory(j);
+        
+        free(j->inventory->armors);
+        free(j->inventory->weapons);
+        free(j->inventory->bags);
+
+        j->inventory->armors = malloc(sizeof(armor)*x);
+        j->inventory->weapons = malloc(sizeof(weapon)*x);
+        j->inventory->bags = malloc(sizeof(bag)*x);
+
+        for (int i = 0; i < x; i++) {
+            j->inventory->armors[i] = saveCurInv.armors[i];
+            j->inventory->weapons[i] = saveCurInv.weapons[i];
+            j->inventory->bags[i] = saveCurInv.bags[i];
+        }
+
+        for (int i = 0; i < 7; i++) {
+            j->inventory->utilities[i] = saveCurInv.utilities[i];
+        }
+
+        free(saveCurInv.armors);
+        free(saveCurInv.weapons);
+        free(saveCurInv.bags);
+        free(saveCurInv.utilities);
 
     }
     
 }
+
+/*
+
+FUNCTION printLostItems
+
+*/
+
+void printLostItems(joueur * j, monstre* m) {
+    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (!emptyEquipementSpace(j->inventory->armors[i].name)) {
+            printf("%s | DEF : %d | Espace d'inventaire : %d\n",j->inventory->armors[i].name,j->inventory->armors[i].def,j->inventory->armors[i].inventorySpace);
+        }
+    }
+    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (!emptyEquipementSpace(j->inventory->weapons[i].name)) {
+            if (IS_MAGIC) {
+                printf("\033[0;35m");
+                printf("%s | DMG : %d-%d | Propriete : %d | Actions : %d\n",j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                printf("\033[0m");
+            }else {
+                printf("%s | DMG : %d-%d | Actions : %d\n",j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].actions);
+            }
+        }
+    }
+    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (!emptyEquipementSpace(j->inventory->bags[i].name)) {
+            printf("%s\n",j->inventory->bags[i].name);
+        }
+    }
+}
+
 
 /*
 
@@ -607,23 +664,46 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
                 if (PLAYER_INVENTORY_SPACE < MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE) {
                     reallocInventorySpace(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
                     j->inventory->armors[index] = m->inventory->armors[0];
+                    return 1;
                 }else if (PLAYER_INVENTORY_SPACE > MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE) {
-                    reallocInventorySpace(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
-                    j->inventory->armors[index] = m->inventory->armors[0];
-                }else {
+                    printf("Remplacer l'armure actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\npas assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostItems(j,m);
+                    printf("\n\nVoulez vous continuer ?\n\n");
+                    printf("1 - Oui             0 - Non\n\n");
+                    int choice;
+                    do {
+                        scanf("%d",&choice);
+                    } while (choice < 0 || choice > 1);
                     
+                    if (choice) {
+                        reallocInventorySpace(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
+                        j->inventory->armors[index] = m->inventory->armors[0];
+                        return 1;
+                    }else {
+                        printf("Vous n'avez pas remplacer votre armure\n");
+                        return 0;
+                    }
+                    
+                }else {
+                    j->inventory->armors[index] = m->inventory->armors[0];
+                    return 1;
                 }
             }else {
                 j->inventory->armors[index] = m->inventory->armors[0];
+                return 1;
             }
             break;
         case 2:
             j->inventory->weapons[index] = m->inventory->weapons[0];
+            return 1;
             break;
         case 3:
             j->inventory->bags[index] = m->inventory->bags[0];
+            return 1;
             break;
-        
+        default:
+            return 0;
+            break;
     }
 }
 
@@ -701,7 +781,12 @@ void lootMonster(joueur* j, monstre* m) {
                 printf("1 - Oui             0 - Non\n\n");
                 printf("\033[0m");
                 int choice;
-                scanf("%d",&choice);
+
+                do {
+                    scanf("%d",&choice);
+                } while (choice < 0 || choice > 1);
+                
+                
                 if (choice) {
                     printf("Quel objet souhaitez vous remplacer ?\n\n");
                     printItemsFromCategory(j,getRewardCategory(m));
@@ -713,7 +798,14 @@ void lootMonster(joueur* j, monstre* m) {
 
                     choice2--;
 
-                    replaceItem(j,m,getRewardCategory(m),choice2);
+                    if (replaceItem(j,m,getRewardCategory(m),choice2)) {
+                        clearTerminal();
+                        printMain(j,m);
+                        printf("\033[0;32m");
+                        printf("\n\nVous avez recupere l'objet\n");
+                        printf("\033[0m");
+                        printPlayerInventory(j);
+                    }
 
                 }
             }

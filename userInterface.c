@@ -237,7 +237,6 @@ void printMonsterItem(monstre* m) {
     }else if (!emptyEquipementSpace(MONSTER_INVENTORY_WEAPON)) {
         printf("Arme : %s\n",MONSTER_INVENTORY_WEAPON);
         printf("Degats : %d - %d\n",MONSTER_INVENTORY_WEAPON_DMG_MIN,MONSTER_INVENTORY_WEAPON_DMG_MAX);
-        printf("Propriete : %d\n",MONSTER_INVENTORY_WEAPON_PROPERTY);
         printf("Actions : %d\n",MONSTER_INVENTORY_WEAPON_ACTIONS);
     }else if (!emptyEquipementSpace(MONSTER_INVENTORY_BAG)) {
         printf("Sac : %s\n",MONSTER_INVENTORY_BAG);
