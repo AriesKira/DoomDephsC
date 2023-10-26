@@ -626,13 +626,13 @@ FUNCTION printLostItems
 
 */
 
-void printLostItems(joueur * j, monstre* m) {
-    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+void printLostItems(joueur * j, int newSize) {
+    for (int i = newSize; i < PLAYER_INVENTORY_SPACE; i++) {
         if (!emptyEquipementSpace(j->inventory->armors[i].name)) {
             printf("%s | DEF : %d | Espace d'inventaire : %d\n",j->inventory->armors[i].name,j->inventory->armors[i].def,j->inventory->armors[i].inventorySpace);
         }
     }
-    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+    for (int i = newSize; i < PLAYER_INVENTORY_SPACE; i++) {
         if (!emptyEquipementSpace(j->inventory->weapons[i].name)) {
             if (IS_MAGIC) {
                 printf("\033[0;35m");
@@ -643,7 +643,7 @@ void printLostItems(joueur * j, monstre* m) {
             }
         }
     }
-    for (int i = MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE; i < PLAYER_INVENTORY_SPACE; i++) {
+    for (int i = newSize; i < PLAYER_INVENTORY_SPACE; i++) {
         if (!emptyEquipementSpace(j->inventory->bags[i].name)) {
             printf("%s\n",j->inventory->bags[i].name);
         }
@@ -814,4 +814,41 @@ void lootMonster(joueur* j, monstre* m) {
     }
 
 
+}
+
+/*
+
+FUNCTION changeEquipedItem
+
+*/
+
+void changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
+    if (newEquipementIndex) {
+
+        switch (category) {
+            case 1:
+                if (j->inventory->armors[newEquipementIndex].inventorySpace > j->inventory->armors[0].inventorySpace) {
+                    reallocInventorySpace(j,j->inventory->armors[newEquipementIndex].inventorySpace);
+                    armor temp = j->inventory->armors[0];
+                    j->inventory->armors[0] = j->inventory->armors[newEquipementIndex];
+                    j->inventory->armors[newEquipementIndex] = temp;
+                }else if (j->inventory->armors[newEquipementIndex].inventorySpace < j->inventory->armors[0].inventorySpace) {
+                    reallocInventorySpace(j,j->inventory->armors[newEquipementIndex].inventorySpace);
+
+
+                }else {
+                    armor temp = j->inventory->armors[0];
+                    j->inventory->armors[0] = j->inventory->armors[newEquipementIndex];
+                    j->inventory->armors[newEquipementIndex] = temp;
+                }
+
+                break;
+            case 2:
+                
+                break;
+            case 3:
+                
+                break;
+        }
+    }
 }

@@ -75,7 +75,7 @@ int getUtilityIndex(monstre* m);
 void printItemsFromCategory(joueur* j, int category);
 inventory saveCurrentInventory(joueur* j);
 void reallocInventorySpace(joueur* j, int x);
-void printLostItems(joueur * j, monstre* m);
+void printLostItems(joueur * j, int newSize);
 int replaceItem(joueur* j, monstre* m, int category, int index);
 void lootMonster(joueur* j, monstre* m);
 
