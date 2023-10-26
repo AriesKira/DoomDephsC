@@ -666,8 +666,8 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
                     j->inventory->armors[index] = m->inventory->armors[0];
                     return 1;
                 }else if (PLAYER_INVENTORY_SPACE > MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE) {
-                    printf("Remplacer l'armure actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\npas assez de place dans votre inventaire pour les stocker :\n\n");
-                    printLostItems(j,m);
+                    printf("Remplacer l'armure actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostItems(j,MONSTER_INVENTORY_ARMOR_INVENTORY_SPACE);
                     printf("\n\nVoulez vous continuer ?\n\n");
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
@@ -822,7 +822,7 @@ FUNCTION changeEquipedItem
 
 */
 
-void changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
+int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
     if (newEquipementIndex) {
 
         switch (category) {
@@ -833,22 +833,49 @@ void changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
                     j->inventory->armors[0] = j->inventory->armors[newEquipementIndex];
                     j->inventory->armors[newEquipementIndex] = temp;
                 }else if (j->inventory->armors[newEquipementIndex].inventorySpace < j->inventory->armors[0].inventorySpace) {
-                    reallocInventorySpace(j,j->inventory->armors[newEquipementIndex].inventorySpace);
+                    printf("Remplacer l'armure actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostItems(j,j->inventory->armors[newEquipementIndex].inventorySpace);
+                    printf("\n\nVoulez vous continuer ?\n\n");
+                    printf("1 - Oui             0 - Non\n\n");
+                    int choice;
+                    do {
+                        scanf("%d",&choice);
+                    } while (choice < 0 || choice > 1);
 
-
+                    if (choice) {
+                        reallocInventorySpace(j,j->inventory->armors[newEquipementIndex].inventorySpace);
+                        armor temp = j->inventory->armors[0];
+                        j->inventory->armors[0] = j->inventory->armors[newEquipementIndex];
+                        j->inventory->armors[newEquipementIndex] = temp;
+                    }else {
+                        printf("Vous n'avez pas remplacer votre armure\n");
+                        return 0;
+                    }
+                    
                 }else {
                     armor temp = j->inventory->armors[0];
                     j->inventory->armors[0] = j->inventory->armors[newEquipementIndex];
                     j->inventory->armors[newEquipementIndex] = temp;
+                    printf("Vous avez equiper %s\n",j->inventory->armors[0].name);
+                    return 1;
                 }
 
                 break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
+            case 2:{
+                weapon temp = j->inventory->weapons[0];
+                j->inventory->weapons[0] = j->inventory->weapons[newEquipementIndex];
+                j->inventory->weapons[newEquipementIndex] = temp;
+                printf("Vous avez equiper %s\n",j->inventory->weapons[0].name);
+                return 1;
+            }
+            case 3:{
+                bag temp = j->inventory->bags[0];
+                j->inventory->bags[0] = j->inventory->bags[newEquipementIndex];
+                j->inventory->bags[newEquipementIndex] = temp;
+                printf("Vous avez equiper %s\n",j->inventory->bags[0].name);
+                return 1;
+            }
         }
     }
+    return 0;
 }

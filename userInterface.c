@@ -65,8 +65,8 @@ FUNCTION PRINT HEALTH
 void printHealth(joueur *j) {
     printf("\033[0;32m");
     printf("Vie :");
-    for(int i = 0; i <= j->vieMax; i++) {
-        if (i <= j->vie) {
+    for(int i = 0; i <= 100; i++) {
+        if (i <= (j->vie/j->vieMax)*100) {
             printf("#");
         } else {
             printf("-");
