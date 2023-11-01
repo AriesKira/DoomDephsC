@@ -17,73 +17,123 @@ int finalDamage(int maxDmg, int minDmg, int def) {
     return finalDamage;
 }
 
-void fight(monstre* monstres,int nbMonstre,joueur* j) {
+void fight(monstre* monstres,joueur* j) {
     
-        
-    int isDead = 0;
-    int stop = 0;
-    int index = 0;
-    int tour = 0;
+    int nbMonstre = getNbOfMonsters(monstres);
+    int target = 0;
+    int playerTurn = 1;
     int choice;
 
     
-    while(isDead == 0){
+    while(PLAYER_HP && nbMonstre){
 
-        printMain(j,&monstres[index]);
+        printMain(j,&monstres[target]);
 
-        if(tour == 0){
-            fightPrompts(1,nbMonstre,monstres,&index);            
-            printMain(j, &monstres[index]);
-            
-            while(1){
-                
-                fightPrompts(2,nbMonstre,monstres,index,&choice);
-                
-                if(choice == 1){
-                    printMain(j, &monstres[index]);
-                    int damage = finalDamage(PLAYER_MAX_DMG,PLAYER_MIN_DMG,MONSTER_DEF);
-                    
-                    if (MONSTER_HP - damage <= 0) {
-                        MONSTER_HP = 0;
-                        fightPrompts(4,nbMonstre,monstres,index,damage);
-                        delayPlayer();
-                        clearTerminal();
-                        printMain(j, &monstres[index],1);
-                        lootMonster(j,&monstres[index]);
-                        delayPlayer();
+        if(playerTurn && PLAYER_ACTIONS){
+            choice = fightPrompts(ACTION_PROMPT,nbMonstre,monstres); //chose action      
+
+            switch (choice) {
+                case 1:
+                    //Attack
+                    printMain(j,&monstres[target]);
+                    choice = fightPrompts(TARGET_PROMPT,nbMonstre,monstres,&target); //chose target
+                    if (!choice) {
                         break;
                     }else {
-                        MONSTER_HP -= damage;
-                        fightPrompts(3,nbMonstre,monstres,index,damage);
-                        delayPlayer();
-                        break;
+                        printMain(j,&monstres[target]);
+                        choice = fightPrompts(ATTACKT_TYPE_PROMPT,nbMonstre,monstres); //chose attack type //spell or attck
+                        if (!choice) {
+                            break;
+                        }else if (choice == 1) { //normal attck
+                            PLAYER_ACTIONS--;
+                            int damage = 0;
+                            damage =  finalDamage(PLAYER_MAX_DMG,PLAYER_MIN_DMG,MONSTER_DEF);
+                            MONSTER_HP -= damage;
+                            if (MONSTER_HP <= 0) {
+                                printMain(j,&monstres[target]);
+                                fightPrompts(MONSTER_KILLED,nbMonstre,monstres,damage);
+                                delayPlayer();
+                                nbMonstre--;
+                                killMonster(monstres,target);
+                                target = 0;
+                                if (nbMonstre == 0) {
+                                    break;
+                                }
+
+                            }else {
+                                printMain(j,&monstres[target]);
+                                fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,damage);
+                                delayPlayer();
+                                break;
+                            }
+                        }else { //spell
+                        /*
+                            PLAYER_ACTIONS--;
+                            int damage = 0;
+                            //do damages
+                            MONSTER_HP -= damage;
+                            if () {//monsterIsDead
+                                fightPrompts(MONSTER_KILLED,nbMonstre,monstres,damage);
+                                delayPlayer();
+                                nbMonstre--;
+                                killMonster(monstres,target);
+                                target = 0;
+                                if (nbMonstre == 0) {
+                                    break;
+                                }
+                            }else {
+                                printMain(j,&monstres[target]);
+                                fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,damage);
+                                delayPlayer();
+                                break;
+                            }
+                            */
+                        }
                     }
-                    
-                }else if(choice == 2) {
-                    printMain(j, &monstres[index]);
-                    printf("Vous arretez d'attaquer\n");
-                    delayPlayer();
-                    stop = 1;
-                    tour = 1;
                     break;
-                }
+                case 2:
+                    //use utility
+                    int utilityToUse = 0;
+                    printMain(j,&monstres[target]);
+                    choice = fightPrompts(LIST_UTILITIES_PROMPT,nbMonstre,monstres,j,&utilityToUse); //chose utility to use
+                    if (!choice) {
+                        break;
+                    }else {
+                        useUtility(j,utilityToUse);
+                    }
+                    break;
+                case 3:
+                    printMain(j,&monstres[target]);
+                    printPlayerInventory(j);
+                    delayPlayer();
+                    break;
+                case 4:
+                    playerTurn = 0;
+                break; 
             }
-        }else if(tour == 1) {
+
+        }else if(!playerTurn) {
 
             for(int i = 0; i < nbMonstre ;i++){
-                printMain(j,&monstres[index]);
+                printMain(j,&monstres[target]);
                 int damage = finalDamage(MONSTER_MAX_DMG,MONSTER_MIN_DMG,PLAYER_DEF);
                 PLAYER_HP -= damage;
-                fightPrompts(5,nbMonstre,monstres,i,j,damage);
-                delayPlayer();            
                 if (PLAYER_HP <= 0) {
-                    fightPrompts(6,nbMonstre,monstres,&isDead);
+                    PLAYER_HP = 0;
+                    printMain(j,&monstres[target]);
+                    fightPrompts(PLAYER_KILLED,nbMonstre,monstres,damage);
+                    delayPlayer();
                     break;
+                }else {
+                    printMain(j,&monstres[target]);
+                    fightPrompts(PLAYER_DAMAGED,nbMonstre,monstres,damage);
+                    delayPlayer();
                 }
             }
             
-            tour = 0;
+            playerTurn = 1;
         }
     }
 
 }
+

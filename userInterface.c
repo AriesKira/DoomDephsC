@@ -315,42 +315,35 @@ FUNCTION FIGHT PROMPTS
 
 */
 
-void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
+int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     va_list valist;
     va_start(valist,monstres);
 
     switch (promptNb) {
         case 1: {
-            int val = 0;
-            int* index = va_arg(valist,int*);
-            printf("Choissisez un monstre a combatttre\n");
-            printTargetList(nbMonstre,monstres);
-            do {
-                scanf("%d",&val);
-            } while (val < 1 || val > nbMonstre);
-            
-            if (monstres[val-1].vie < 0) {
-                printf("Ce monstre est mort\n");
-                fightPrompts(1,nbMonstre,monstres,index);
-            }
-            
-            *index = val-1;
+            printf("Que souhaitez vous faire ?\n");
+            printf("1 - Attaquer (cout : 1 action)\n");
+            printf("2 - Utiliser un objet (cout : 1 action)\n");
+            printf("3 - Afficher l'inventaire\n");
+            printf("4 - Finir votre tour\n");
 
-            break;
+            int choice = 0;
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > 4);
+
+            return choice;
         }
         case 2: {
-            int index = va_arg(valist,int);
-            int *choice = va_arg(valist,int*);
-            int val = 0;
-            printf("Vous combatez le monstre %d sa vie est de %d\n",index+1,monstres[index].vie);
-            printf("1 pour attaquer / 2 pour fuir\n");
-
+            int target = va_arg(valist,int);
+            printf("Quel monstre souhaitez vous attaquer ?\n");
+            printTargetList(nbMonstre,monstres);
+            int choice = 0;
             do {
-                scanf("%d",&val);
-            } while (val < 1 || val > 2);
-            
-            *choice = val;
-            break;
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > nbMonstre);
+            target = choice-1;
+            return 1;
         }
         case 3: {
             int index = va_arg(valist,int);
