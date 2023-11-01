@@ -11,6 +11,7 @@
 #define PLAYER_ACTIONS j->inventory->weapons[0].actions
 #define PLAYER_NAME j->name
 
+//Target monster
 #define MONSTER_NAME monstres[target].name
 #define MONSTER_MAX_HP monstres[target].vieMax
 #define MONSTER_HP monstres[target].vie
@@ -22,6 +23,18 @@
 #define MONSTER_ARMOR monstres[target].inventory->armors[0].name
 #define MONSTER_WEAPON monstres[target].inventory->weapons[0].name
 #define MONSTER_BAG monstres[target].inventory->bags[0].name
+
+//Monster turn
+#define PLAYING_MONSTER_MAX_DMG monstres[attacker].inventory->weapons[0].dmgMax
+#define PLAYING_MONSTER_MIN_DMG monstres[attacker].inventory->weapons[0].dmgMin
+#define PLAYING_MONSTER_DEF monstres[attacker].inventory->armors[0].def
+#define PLAYING_MONSTER_HP monstres[attacker].vie
+#define PLAYING_MONSTER_MAX_HP monstres[attacker].vieMax
+#define PLAYING_MONSTER_NAME monstres[attacker].name
+#define PLAYING_MONSTER_IMAGE monstres[attacker].image
+#define PLAYING_MONSTER_ARMOR monstres[attacker].inventory->armors[0].name
+#define PLAYING_MONSTER_WEAPON monstres[attacker].inventory->weapons[0].name
+#define PLAYING_MONSTER_BAG monstres[attacker].inventory->bags[0].name
 
 
 int finalDamage(int maxDmg, int minDmg, int def);

@@ -143,17 +143,14 @@ char* getUtilityName(int index) {
 
 /*
 
-FUNCTION printPlayerInventory
+FUNCTION printPlayerArmors
 
 */
-void printPlayerInventory(joueur *j) {
-    int inventorySpace = j->inventory->armors->inventorySpace;
-    printf("\033[0;36m");
-    printf("------INVENTAIRE------\n\n");
-    //armors
+
+void printPlayerArmors(joueur * j) {
     printf("------ARMURES------\n");
     printf("\033[0m");
-    for (int i = 0; i < inventorySpace; i++) {
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
         if (emptyEquipementSpace(j->inventory->armors[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
             break;
@@ -165,11 +162,19 @@ void printPlayerInventory(joueur *j) {
         }
         
     }
-    //weapons
+}
+
+/*
+
+FUNCTION printPlayerWeapons
+
+*/
+
+void printPlayerWeapons(joueur * j) {
     printf("\033[0;36m");
     printf("\n------ARMES------\n");
     printf("\033[0m");
-    for (int i = 0; i < inventorySpace; i++) {
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
         if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
             break;
@@ -193,11 +198,20 @@ void printPlayerInventory(joueur *j) {
         }
         
     }
-    //bags
+}
+
+
+/*
+
+FUNTION printPlayerBags
+
+*/
+
+void printPlayerBags(joueur * j) {
     printf("\033[0;36m");
     printf("\n------SACS------\n");
     printf("\033[0m");
-    for (int i = 0; i < inventorySpace; i++) {
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
         if (emptyEquipementSpace(j->inventory->bags[i].name)) {
             printf("%d - Empty Slot [ ]\n",i+1);
             break;
@@ -208,7 +222,15 @@ void printPlayerInventory(joueur *j) {
             printf("%d - %s [ ]\n",i+1,j->inventory->bags[i].name);
         }
     }
-    //utilities
+}
+
+/*
+
+FUNCTION printPlayerUtilities
+
+*/
+
+void printPlayerUtilities(joueur *j) {
     printf("\033[0;36m");
     printf("\n------OBJETS------\n");
     printf("\033[0m");
@@ -220,6 +242,26 @@ void printPlayerInventory(joueur *j) {
         }
         
     }
+}
+
+
+/*
+
+FUNCTION printPlayerInventory
+
+*/
+void printPlayerInventory(joueur *j) {
+    
+    printf("\033[0;36m");
+    printf("------INVENTAIRE------\n\n");
+    //armors
+    printPlayerArmors(j);
+    //weapons
+    printPlayerWeapons(j);
+    //bags
+    printPlayerBags(j);
+    //utilities
+    printPlayerUtilities(j);
     
 }
 
@@ -311,6 +353,21 @@ void delayPlayer() {
 
 /*
 
+FUNCTION listPlayerUtilities
+
+*/
+
+void listPlayerUtilities(joueur *j) {
+    for (int i = 0; i < 6; i++) {
+        if (j->inventory->utilities[i] != 0) {
+            printf("%d - %s\n",i+1,getUtilityName(i));
+        }
+    }
+}
+
+
+/*
+
 FUNCTION FIGHT PROMPTS
 
 */
@@ -380,18 +437,37 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             break;
         }
         case 6: {
-            int i = va_arg(valist,int);
-            joueur a = va_arg(valist,joueur);
-            int damage = va_arg(valist,int);
-            printf("le monstre %d vous attaque et vous inflige %d degats\n",i+1,damage);
-            printf("Votre vie est dorenavant de %d\n",a.vie);
-            break;
+            joueur *j = va_arg(valist,joueur*);
+            int *utilityToUse = va_arg(valist,int*);
+            printf("Quel objet souhaitez vous utiliser ?\n");
+            listPlayerUtilities(j);
+            printf("%d - Annuler\n",7);
+            int choice = 0;
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > 7);
+            if (choice == 7) {
+                return 0;
+            }else {
+                *utilityToUse = choice-1;
+                return 1;
+            }
         }
         case 7: {
-            int* estMort = va_arg(valist,int*);
-            printf("Vous etes mort\n");
-            *estMort = 1;
-            break;
+            int damage = va_arg(valist,int);
+            int attacker = va_arg(valist,int);
+            printf("%s vous inflige %d points de dégats\n",PLAYING_MONSTER_NAME,damage);
+            printf("Vous êtes mort\n");
+            printf("Vous avez été tué par %s\n",PLAYING_MONSTER_NAME);
+            return 0;
+        }
+        case 8: {
+            int damage = va_arg(valist,int);
+            int attacker = va_arg(valist,int);
+            joueur *j = va_arg(valist,joueur*);
+            printf("%s vous inflige %d points de dégats\n",PLAYING_MONSTER_NAME,damage);
+            printf("Il vous reste %d points de vie\n",PLAYER_HP);
+            return 0;
         }
     }
 

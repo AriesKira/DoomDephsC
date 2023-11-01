@@ -25,7 +25,7 @@ int main() {
     clearTerminal();
     createJoueur(&j,100,5);
 
-    fight(monstres,nbMonstre,&j);
+    fight(monstres,&j);
     
     printf("Affrontez %d monstres\n",nbMonstre);
 

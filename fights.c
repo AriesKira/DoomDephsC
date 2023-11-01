@@ -113,20 +113,20 @@ void fight(monstre* monstres,joueur* j) {
             }
 
         }else if(!playerTurn) {
-
-            for(int i = 0; i < nbMonstre ;i++){
-                printMain(j,&monstres[target]);
-                int damage = finalDamage(MONSTER_MAX_DMG,MONSTER_MIN_DMG,PLAYER_DEF);
+            int tmp= 0;
+            for(int attacker = 0; attacker < nbMonstre ;attacker++){
+                printMain(j,&monstres[attacker]);
+                int damage = finalDamage(PLAYING_MONSTER_MAX_DMG,PLAYING_MONSTER_MIN_DMG,PLAYER_DEF);
                 PLAYER_HP -= damage;
                 if (PLAYER_HP <= 0) {
                     PLAYER_HP = 0;
-                    printMain(j,&monstres[target]);
-                    fightPrompts(PLAYER_KILLED,nbMonstre,monstres,damage);
+                    printMain(j,&monstres[attacker]);
+                    tmp = fightPrompts(PLAYER_KILLED,nbMonstre,monstres,damage,attacker);
                     delayPlayer();
                     break;
                 }else {
-                    printMain(j,&monstres[target]);
-                    fightPrompts(PLAYER_DAMAGED,nbMonstre,monstres,damage);
+                    printMain(j,&monstres[attacker]);
+                    tmp = fightPrompts(PLAYER_DAMAGED,nbMonstre,monstres,damage,attacker,j);
                     delayPlayer();
                 }
             }
