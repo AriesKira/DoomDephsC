@@ -117,7 +117,9 @@ void createJoueur(joueur *a, int vie, int puissance){
     a->nom = nom;
     a->vieMax = vie;
     a->vie = a->vieMax;
+    a->mana = 4;
     initPlayerInventory(a->inventory);
+
 }
 
 

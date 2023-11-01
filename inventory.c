@@ -879,3 +879,24 @@ int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
     }
     return 0;
 }
+
+
+/* ----------------SPELLS---------------- */
+/*
+
+Player Spells are based on his weapons properties
+
+if the player has magic weapons he can use spells
+
+each magic weapon in the player's inventory gives the player 1 spell
+
+casting a spell cost 2 actions and 2 mana
+
+spells ignore ennemy defenses
+
+player mana will regenerate by 1 each turn
+
+mana will be uped by 2 each time the player levels up
+
+
+*/

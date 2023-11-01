@@ -379,7 +379,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     switch (promptNb) {
         case 1: {
             printf("Que souhaitez vous faire ?\n");
-            printf("1 - Attaquer (cout : 1 action)\n");
+            printf("1 - Attaquer (cout : 1 - 2 actions)\n");
             printf("2 - Utiliser un objet (cout : 1 action)\n");
             printf("3 - Afficher l'inventaire\n");
             printf("4 - Finir votre tour\n");
@@ -410,8 +410,8 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
         case 3: {
             int choice = 0;
             printf("Souhaitez-vous :\n");
-            printf("1 - Attaquer avec votre arme\n");
-            printf("2 - Attaquer avec un sort\n");
+            printf("1 - Attaquer avec votre arme (cout : 1 action)\n");
+            printf("2 - Attaquer avec un sort (cout : 2 actions et 1 mana)\n");
             printf("3 - Annuler\n");
             do {
                 scanf("%d",&choice);
@@ -437,6 +437,18 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             break;
         }
         case 6: {
+
+        }
+        case 7: {
+
+        }
+        case 8: {
+
+        }
+        case 9: {
+
+        }
+        case 10: {
             joueur *j = va_arg(valist,joueur*);
             int *utilityToUse = va_arg(valist,int*);
             printf("Quel objet souhaitez vous utiliser ?\n");
@@ -453,7 +465,10 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
                 return 1;
             }
         }
-        case 7: {
+        case 11: {
+
+        }
+        case 12: {
             int damage = va_arg(valist,int);
             int attacker = va_arg(valist,int);
             printf("%s vous inflige %d points de dégats\n",PLAYING_MONSTER_NAME,damage);
@@ -461,7 +476,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("Vous avez été tué par %s\n",PLAYING_MONSTER_NAME);
             return 0;
         }
-        case 8: {
+        case 13: {
             int damage = va_arg(valist,int);
             int attacker = va_arg(valist,int);
             joueur *j = va_arg(valist,joueur*);
