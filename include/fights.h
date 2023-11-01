@@ -9,6 +9,9 @@
 #define PLAYER_HP j->vie
 #define PLAYER_MAX_HP j->vieMax
 #define PLAYER_ACTIONS j->inventory->weapons[0].actions
+#define PLAYER_NAME j->name
+
+#define MONSTER_NAME monstres[target].name
 #define MONSTER_MAX_HP monstres[target].vieMax
 #define MONSTER_HP monstres[target].vie
 #define MONSTER_MAX_DMG monstres[target].inventory->weapons[0].dmgMax

@@ -338,28 +338,48 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int target = va_arg(valist,int);
             printf("Quel monstre souhaitez vous attaquer ?\n");
             printTargetList(nbMonstre,monstres);
+            printf("%d - Annuler\n",nbMonstre+1);
             int choice = 0;
             do {
                 scanf("%d",&choice);
-            } while (choice < 1 || choice > nbMonstre);
-            target = choice-1;
+            } while (choice < 1 || choice > nbMonstre + 1);
+            if (choice == nbMonstre + 1) {
+                return 0;
+            }else {
+                target = choice-1;
+            }
             return 1;
         }
         case 3: {
-            int index = va_arg(valist,int);
-            int damage = va_arg(valist,int);
-            printf("Vous infliger %d points de degats\n",damage); 
-            printf("La vie de %s est de %d\n",monstres[index].name,monstres[index].vie);
-            break;
+            int choice = 0;
+            printf("Souhaitez-vous :\n");
+            printf("1 - Attaquer avec votre arme\n");
+            printf("2 - Attaquer avec un sort\n");
+            printf("3 - Annuler\n");
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > 3);
+
+            if (choice == 3) {
+                return 0;
+            }
+            return choice;
         }
         case 4: {
-            int index = va_arg(valist,int);
+            int target = va_arg(valist,int);
             int damage = va_arg(valist,int);
             printf("Vous infliger %d points de degats\n",damage); 
-            printf("Vous aves vaincu le monstre %d\n",index+1);
+            printf("Vous aves vaincu %s\n",MONSTER_NAME);
             break;
         }
         case 5: {
+            int target = va_arg(valist,int);
+            int damage = va_arg(valist,int);
+            printf("Vous infliger %d points de degats à %s\n",damage,MONSTER_NAME); 
+            printf("%s a %d points de vie\n",MONSTER_NAME,MONSTER_HP);
+            break;
+        }
+        case 6: {
             int i = va_arg(valist,int);
             joueur a = va_arg(valist,joueur);
             int damage = va_arg(valist,int);
@@ -367,7 +387,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("Votre vie est dorenavant de %d\n",a.vie);
             break;
         }
-        case 6: {
+        case 7: {
             int* estMort = va_arg(valist,int*);
             printf("Vous etes mort\n");
             *estMort = 1;
