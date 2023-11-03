@@ -30,6 +30,13 @@
 #define PLAYER_UTILITY_OWNED j->inventory->utilities[i]
 #define PLAYER_GOLD j->inventory->utilities[GOLD_INDEX]
 
+#define PLAYER_MANA j->mana
+#define PLAYER_MAX_MANA j->manaMax
+#define PLAYER_SPELLBOOK_SIZE j->spellbookSize
+#define PLAYER_SPELLBOOK j->spellBook
+
+#define PLAYER_HP j->vie
+#define PLAYER_MAX_HP j->vieMax
 
 
 typedef struct armor {
@@ -78,5 +85,11 @@ void reallocInventorySpace(joueur* j, int x);
 void printLostItems(joueur * j, int newSize);
 int replaceItem(joueur* j, monstre* m, int category, int index);
 void lootMonster(joueur* j, monstre* m);
-
+int magicItems(joueur* j);
+int getSpellDamages(joueur *j);
+int getSpellNameFromWeapon(char* weaponName);
+char * getSpellName(joueur* j);
+void reallocSpells(joueur* j,int nbOfSpells);
+void getSpells(joueur* j);
+int hasMana(joueur* j);
 #endif

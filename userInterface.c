@@ -5,7 +5,7 @@
 #include "include/monster.h"
 #include "include/player.h"
 #include "include/fights.h"
-
+#include "include/userInterface.h"
 /*
 
 FUNCTION CLEAR TERMINAL
@@ -360,9 +360,44 @@ FUNCTION listPlayerUtilities
 void listPlayerUtilities(joueur *j) {
     for (int i = 0; i < 6; i++) {
         if (j->inventory->utilities[i] != 0) {
-            printf("%d - %s\n",i+1,getUtilityName(i));
+            printf("%d - %s %d/%d\n",i+1,getUtilityName(i),j->inventory->utilities[i],UTILITIES_CAPACITY);
         }
     }
+}
+
+/*
+
+FUNCTION showSpells
+
+*/
+void showSpells(joueur *j) {
+    if (magicItems(j)) {
+        printf("\033[0;36m");
+        printf("------SORTS------\n\n");
+        printf("\033[0m");
+        for (int i = 0; i < j->spellbookSize; i++) {
+            if (hasMana(j)) {
+                printf("\033[0;36m");
+                printf("%d - %s (%d degats)\n",i+1,j->spellBook[i].name,j->spellBook[i].dmg);
+            }else {
+                printf("\033[0;31m");
+                printf("*Pas asssez de mana* %d - %s (%d degats)\n",i+1,j->spellBook[i].name,j->spellBook[i].dmg);
+            }
+        }
+        printf("\033[0m");
+    }else {
+        printf("\033[0;31m");
+        printf("Vous n'avez pas de sorts\n");
+        printf("\033[0m");
+    }
+    
+}
+
+int sananed(char *name) {
+    if (strcmp(name,"Colère Sananesque") == 0) {
+        return 1;
+    }
+    return 0;
 }
 
 
@@ -377,21 +412,23 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     va_start(valist,monstres);
 
     switch (promptNb) {
-        case 1: {
+        case ACTION_PROMPT: {
             printf("Que souhaitez vous faire ?\n");
             printf("1 - Attaquer (cout : 1 - 2 actions)\n");
             printf("2 - Utiliser un objet (cout : 1 action)\n");
             printf("3 - Afficher l'inventaire\n");
-            printf("4 - Finir votre tour\n");
+            printf("4 - Changer d'équipement (cout : 1 action)\n");
+            printf("5 - Sauvegarder\n");
+            printf("6 - Finir votre tour\n");
 
             int choice = 0;
             do {
                 scanf("%d",&choice);
-            } while (choice < 1 || choice > 4);
+            } while (choice < 1 || choice > 6);
 
             return choice;
         }
-        case 2: {
+        case TARGET_PROMPT: {
             int target = va_arg(valist,int);
             printf("Quel monstre souhaitez vous attaquer ?\n");
             printTargetList(nbMonstre,monstres);
@@ -407,7 +444,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             }
             return 1;
         }
-        case 3: {
+        case ATTACKT_TYPE_PROMPT: {
             int choice = 0;
             printf("Souhaitez-vous :\n");
             printf("1 - Attaquer avec votre arme (cout : 1 action)\n");
@@ -422,38 +459,69 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             }
             return choice;
         }
-        case 4: {
+        case MONSTER_KILLED: {
             int target = va_arg(valist,int);
             int damage = va_arg(valist,int);
             printf("Vous infliger %d points de degats\n",damage); 
             printf("Vous aves vaincu %s\n",MONSTER_NAME);
-            break;
+            return 0;
         }
-        case 5: {
+        case MONSTER_DAMAGED: {
             int target = va_arg(valist,int);
             int damage = va_arg(valist,int);
             printf("Vous infliger %d points de degats à %s\n",damage,MONSTER_NAME); 
             printf("%s a %d points de vie\n",MONSTER_NAME,MONSTER_HP);
-            break;
+            return 0;
         }
-        case 6: {
+        case LIST_SPELLS: {
+            joueur *j = va_arg(valist,joueur*);
+            int *spellToUse = va_arg(valist,int*);
+            printf("Quel sort souhaitez vous utiliser ?\n");
+            showSpells(j);
+            if (j->spellbookSize == 0) {
+                printf("1 - Annuler\n");
+            }else {
+                printf("%d - Annuler\n",j->spellbookSize+1);
+            }
+
+            int choice = 0;
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > j->spellbookSize + 1);
+            if (choice == j->spellbookSize + 1) {
+                return 0;
+            }else {
+                *spellToUse = choice-1;
+                return 1;
+            }
 
         }
-        case 7: {
-
+        case MONSTER_SPELL_KILLED: {
+            int target = va_arg(valist,int);
+            int damage = va_arg(valist,int);
+            char *spellName = va_arg(valist,char*);
+            printf("Vous infliger %d points de degats avec %s\n",damage,spellName);
+            sananed(spellName) ? printf("Vous avez vaincu %s et vos lunettes reprenne une taille normal\n",MONSTER_NAME) : printf("Vous avez vaincu %s\n",MONSTER_NAME);
+            return 0;
         }
-        case 8: {
-
+        case MONSTER_SPELL_DAMAGED: {
+            int target = va_arg(valist,int);
+            int damage = va_arg(valist,int);
+            char *spellName = va_arg(valist,char*);
+            printf("Vous infliger %d points de degats avec %s\n",damage,spellName);
+            sananed(spellName) ? printf("%s a %d points de vie et la taille de vos lunettes a grandement baisser\n",MONSTER_NAME,MONSTER_HP) : printf("%s a %d points de vie\n",MONSTER_NAME,MONSTER_HP);
+            return 0;
         }
-        case 9: {
-
+        case SPELL_NOT_ENOUGH_MANA: {
+            printf("Vous n'avez pas assez de mana pour lancer un sort\n");
+            return 0;
         }
-        case 10: {
+        case LIST_UTILITIES_PROMPT: {
             joueur *j = va_arg(valist,joueur*);
             int *utilityToUse = va_arg(valist,int*);
             printf("Quel objet souhaitez vous utiliser ?\n");
             listPlayerUtilities(j);
-            printf("%d - Annuler\n",7);
+            printf("%d - Annuler\n",6);
             int choice = 0;
             do {
                 scanf("%d",&choice);
@@ -465,10 +533,10 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
                 return 1;
             }
         }
-        case 11: {
+        case UTILITY_USED: {
 
         }
-        case 12: {
+        case PLAYER_KILLED: {
             int damage = va_arg(valist,int);
             int attacker = va_arg(valist,int);
             printf("%s vous inflige %d points de dégats\n",PLAYING_MONSTER_NAME,damage);
@@ -476,7 +544,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("Vous avez été tué par %s\n",PLAYING_MONSTER_NAME);
             return 0;
         }
-        case 13: {
+        case PLAYER_DAMAGED: {
             int damage = va_arg(valist,int);
             int attacker = va_arg(valist,int);
             joueur *j = va_arg(valist,joueur*);

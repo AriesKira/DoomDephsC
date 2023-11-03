@@ -66,28 +66,38 @@ void fight(monstre* monstres,joueur* j) {
                                 delayPlayer();
                                 break;
                             }
-                        }else { //spell
-                        /*
-                            PLAYER_ACTIONS--;
-                            int damage = 0;
-                            //do damages
-                            MONSTER_HP -= damage;
-                            if () {//monsterIsDead
-                                fightPrompts(MONSTER_KILLED,nbMonstre,monstres,damage);
-                                delayPlayer();
-                                nbMonstre--;
-                                killMonster(monstres,target);
-                                target = 0;
-                                if (nbMonstre == 0) {
+                        }else { //spells
+                            int spellToUse = 0;
+                            printMain(j,&monstres[target]);
+                            choice = fightPrompts(LIST_SPELLS,nbMonstre,monstres,j,&spellToUse);
+                            if (!choice) {
+                                break;
+                            }else {
+                                if (hasMana(j)) {
+                                    j->mana -= 2;
+                                    PLAYER_ACTIONS--;
+                                    int damage = j->spellBook[spellToUse].dmg;
+                                    MONSTER_HP -= damage;
+                                    if (MONSTER_HP <= 0) {
+                                        printMain(j,&monstres[target]);
+                                        fightPrompts(MONSTER_SPELL_KILLED,nbMonstre,monstres,damage,j->spellBook[spellToUse].name);
+                                        delayPlayer();
+                                        nbMonstre--;
+                                        killMonster(monstres,target);
+                                        target = 0;
+                                    }else {
+                                        printMain(j,&monstres[target]);
+                                        fightPrompts(MONSTER_SPELL_DAMAGED,nbMonstre,monstres,damage,j->spellBook[spellToUse].name);
+                                        delayPlayer();
+                                    }
+                                    break;
+                                }else {
+                                    printMain(j,&monstres[target]);
+                                    fightPrompts(SPELL_NOT_ENOUGH_MANA,nbMonstre,monstres);
+                                    delayPlayer();
                                     break;
                                 }
-                            }else {
-                                printMain(j,&monstres[target]);
-                                fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,damage);
-                                delayPlayer();
-                                break;
                             }
-                            */
                         }
                     }
                     break;
@@ -100,16 +110,25 @@ void fight(monstre* monstres,joueur* j) {
                         break;
                     }else {
                         useUtility(j,utilityToUse);
+                        delayPlayer();
                     }
                     break;
                 case 3:
+                    //show inventory
                     printMain(j,&monstres[target]);
                     printPlayerInventory(j);
                     delayPlayer();
                     break;
                 case 4:
+                    //change gear
+                    break;
+                case 5:
+                    //save
+                    break;
+                case 6:
+                    //end turn
                     playerTurn = 0;
-                break; 
+                    break; 
             }
 
         }else if(!playerTurn) {

@@ -32,5 +32,8 @@ void printReward(monstre *m);
 void printTargetList(int nbMonstre,monstre* monstres);
 void flushStdin();
 void delayPlayer();
+void listPlayerUtilities(joueur *j);
+void showSpells(joueur *j);
+int sananed(char *name);
 int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...);
 #endif

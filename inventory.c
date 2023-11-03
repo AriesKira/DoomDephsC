@@ -636,7 +636,7 @@ void printLostItems(joueur * j, int newSize) {
         if (!emptyEquipementSpace(j->inventory->weapons[i].name)) {
             if (IS_MAGIC) {
                 printf("\033[0;35m");
-                printf("%s | DMG : %d-%d | Propriete : %d | Actions : %d\n",j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
+                printf("%s | DMG : %d-%d | Propriete : %d | Actions : %d (vous perdrez le sort associé à cet objet)\n",j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].property,j->inventory->weapons[i].actions);
                 printf("\033[0m");
             }else {
                 printf("%s | DMG : %d-%d | Actions : %d\n",j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].actions);
@@ -881,6 +881,137 @@ int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
 }
 
 
+/*
+
+FUNCTION useUtility
+
+*/
+
+void useUtility(joueur * j,int utilityToUse) {
+    switch (utilityToUse) {
+        case 0:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                PLAYER_HP += PLAYER_MAX_HP * 0.2;
+                if (PLAYER_HP > PLAYER_MAX_HP) {
+                    PLAYER_HP = PLAYER_MAX_HP;
+                }
+                printf("Vous avez utilisé ");
+                printf("\033[0;32m]");
+                printf("%s",getUtilityName(utilityToUse));
+                printf("\033[0m");
+                printf(" et vous avez récupéré %d points de vie\n",PLAYER_MAX_HP * 0.2);
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+            break;
+        case 1:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                PLAYER_HP += PLAYER_MAX_HP * 0.5;
+                if (PLAYER_HP > PLAYER_MAX_HP) {
+                    PLAYER_HP = PLAYER_MAX_HP;
+                }
+                printf("Vous avez utilisé ");
+                printf("\033[0;32m]");
+                printf("%s",getUtilityName(utilityToUse));
+                printf("\033[0m");
+                printf(" et vous avez récupéré la moitié de vos points de vie\n");
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+            break;
+        case 2:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                PLAYER_HP = PLAYER_MAX_HP;
+                printf("Vous avez utilisé ");
+                printf("\033[0;32m]");
+                printf("%s",getUtilityName(utilityToUse));
+                printf("\033[0m");
+                printf(" et vous avez récupéré la totalité de vos points de vie\n");
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+           break;
+        case 3:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                if (PLAYER_MANA == PLAYER_MAX_MANA) {
+                    printf("Vous avez utilisé "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("mais vous aviez déja la totalité de votre mana\n");
+                }else {
+                    PLAYER_MANA += 1;
+                    printf("Vous avez utilise "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("et vous avez récupéré 1 points de mana\n");
+                }
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+            break;
+        case 4:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                if (PLAYER_MANA == PLAYER_MAX_MANA) {
+                    printf("Vous avez utilisé "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("mais vous aviez déja la totalité de votre mana\n");
+                }else {
+                    PLAYER_MANA = PLAYER_MAX_MANA / 2;
+                    printf("Vous avez utilisé "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("et vous avez récupéré la moitié de vos points de mana\n");
+                }
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+           break;
+        case 5:
+            if (j->inventory->utilities[utilityToUse] > 0) {
+                j->inventory->utilities[utilityToUse]--;
+                if (PLAYER_MANA == PLAYER_MAX_MANA) {
+                    printf("Vous avez utilisé "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("mais vous aviez déja la totalité de votre mana\n");
+                }else {
+                    PLAYER_MANA = PLAYER_MAX_MANA;
+                    printf("Vous avez utilisé "); 
+                    printf("\033[0;36m]");
+                    printf("%s",getUtilityName(utilityToUse));
+                    printf("\033[0m");
+                    printf("et vous avez récupéré la totalité de vos points de mana\n");
+                }
+            }else {
+                printf("\033[0;36m]");
+                printf("Vous n'avez pas d'objet de ce type\n");
+                printf("\033[0m");
+            }
+            break;
+    }
+}
+
 /* ----------------SPELLS---------------- */
 /*
 
@@ -900,3 +1031,133 @@ mana will be uped by 2 each time the player levels up
 
 
 */
+
+/*
+
+FUNCTION hasMagic
+
+*/
+
+int magicItems(joueur* j) {
+    int count = 0;
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (IS_MAGIC) {
+            count++;
+        }
+    }
+    return count;
+}
+
+/*
+
+FUNCTION getSpellDamages
+
+*/
+
+int getSpellDamages(joueur *j) {
+    int dmg = 0;
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+        dmg = 0;
+        if (IS_MAGIC) {
+            dmg += j->inventory->weapons[i].dmgMax;
+        }
+    }
+    return dmg * 1.5;
+}
+
+/*
+
+FUNCTION getSpellNameFromWeapon
+
+*/
+
+int getSpellNameFromWeapon(char* weaponName) {
+    if (strcmp(weaponName,"Epée en herbe") == 0) {
+        return 1;
+    }else if (strcmp(weaponName,"Epée de feu") == 0) {
+        return 2;
+    }else if (strcmp(weaponName,"Epée de glace") == 0) {
+        return 3;
+    }else if (strcmp(weaponName,"Epée de foudre") == 0) {
+        return 4;
+    }else {
+        return 5;
+    }
+}
+
+/*
+
+FUNCTION getSpellName
+
+*/
+
+char * getSpellName(joueur* j) {
+    
+    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (IS_MAGIC) {
+            switch (getSpellNameFromWeapon(j->inventory->weapons[i].name)) {
+                case 1 :
+                    char name = "Tanche herbe";
+                    break;
+                case 2 :
+                    char name = "Lance flamme";
+                    break;
+                case 3 :
+                    char name = "Lames de glace";
+                    break;
+                case 4 :
+                    char name = "Tonnerre de Zeus";
+                    break;
+                case 5 :
+                    char name = "Colère Sananesque";
+                    break;
+            } 
+        }
+    }
+   
+}
+
+/*
+
+FUNCTION reallocSpells
+
+
+*/
+
+void reallocSpells(joueur* j,int nbOfSpells) {
+    free(j->spellBook);
+    j->spellBook = malloc(sizeof(spells)*nbOfSpells);
+    for (int i = 0; i < nbOfSpells; i++) {
+        j->spellBook[i].dmg = getSpellDamages(j);
+        j->spellBook[i].name = getSpellName(j);
+    }
+}
+
+/*
+
+FUNCTION getSpells
+
+*/
+
+void getSpells(joueur* j) {
+
+    if (magicItems(j)) {
+        reallocSpells(j,magicItems(j));
+        j->spellbookSize = magicItems(j);
+    }
+
+}
+
+/*
+
+FUNCTION hasMana
+
+*/
+
+int hasMana(joueur* j) {
+    if (j->mana >= 2) {
+        return 1;
+    }else {
+        return 0;
+    }
+}
