@@ -13,10 +13,13 @@
 #define SPELL_NOT_ENOUGH_MANA 9
 //UTILITY_PROMPTS
 #define LIST_UTILITIES_PROMPT 10
-#define UTILITY_USED 11
+//CHANGE_GEAR_PROMPTS
+#define CHANGE_GEAR_TYPE_PROMPT 11
+#define CHANGE_GEAR_PROMPT 12
+#define GEAR_CHANGED 13
 //MONSTER_ATTACK_PROMPTS
-#define PLAYER_KILLED 12
-#define PLAYER_DAMAGED 13
+#define PLAYER_KILLED 14
+#define PLAYER_DAMAGED 15
 
 void clearTerminal();
 void printPlayerImage(joueur *j);
@@ -34,6 +37,7 @@ void flushStdin();
 void delayPlayer();
 void listPlayerUtilities(joueur *j);
 void showSpells(joueur *j);
+void printGearList(joueur *j,int gearType);
 int sananed(char *name);
 int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...);
 #endif

@@ -650,6 +650,19 @@ void printLostItems(joueur * j, int newSize) {
     }
 }
 
+/*
+
+printLostUtilities
+
+*/
+
+void printLostUtilities(joueur* j, int newSize) {
+    for (int i = 0; i < 6; i++) {
+        if (j->inventory->utilities[i] > UTILITIES_CAPACITY) {
+            printf("%s : %d\n",getUtilityName(i),j->inventory->utilities[i] - UTILITIES_CAPACITY);
+        }
+    }
+}
 
 /*
 
@@ -698,11 +711,31 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
             return 1;
             break;
         case 3:
-            j->inventory->bags[index] = m->inventory->bags[0];
+            if (index == 0) {
+                if (UTILITIES_CAPACITY < m->inventory->bags[0].utilitySpace) {
+                    printf("Remplacer le sac actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostUtilities(j,m->inventory->bags[0].utilitySpace);
+                    printf("\n\nVoulez vous continuer ?\n\n");
+                    printf("1 - Oui             0 - Non\n\n");
+                    int choice;
+                    do {
+                        scanf("%d",&choice);
+                    } while (choice < 0 || choice > 1);
+                    
+                    if (choice) {
+                        for (int i = 0; i < 6; i++) {
+                            if (j->inventory->utilities[i] > m->inventory->bags[0].utilitySpace) {
+                                j->inventory->utilities[i] = m->inventory->bags[0].utilitySpace;
+                            }
+                        }
+                        j->inventory->bags[index] = m->inventory->bags[0];
+                    }else {
+                        printf("Vous n'avez pas remplacer votre sac\n");
+                        return 0;
+                    }
+                }
+            }
             return 1;
-            break;
-        default:
-            return 0;
             break;
     }
 }
@@ -870,8 +903,29 @@ int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
             }
             case 3:{
                 bag temp = j->inventory->bags[0];
-                j->inventory->bags[0] = j->inventory->bags[newEquipementIndex];
-                j->inventory->bags[newEquipementIndex] = temp;
+                if (j->inventory->bags[newEquipementIndex].utilitySpace < j->inventory->bags[0].utilitySpace) {
+                    printf("Remplacer le sac actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostUtilities(j,j->inventory->bags[newEquipementIndex].utilitySpace);
+                    printf("\n\nVoulez vous continuer ?\n\n");
+                    printf("1 - Oui             0 - Non\n\n");
+                    int choice;
+                    do {
+                        scanf("%d",&choice);
+                    } while (choice < 0 || choice > 1);
+
+                    if (choice) {
+                        for (int i = 0 ; i < 6; i++) {
+                            if (j->inventory->utilities[i] > j->inventory->bags[newEquipementIndex].utilitySpace) {
+                                j->inventory->utilities[i] = j->inventory->bags[newEquipementIndex].utilitySpace;
+                            }
+                        }
+                        j->inventory->bags[0] = j->inventory->bags[newEquipementIndex];
+                        j->inventory->bags[newEquipementIndex] = temp;
+                    }else {
+                        printf("Vous n'avez pas remplacer votre sac\n");
+                        return 0;
+                    }
+                }
                 printf("Vous avez equiper %s\n",j->inventory->bags[0].name);
                 return 1;
             }
@@ -1011,6 +1065,90 @@ void useUtility(joueur * j,int utilityToUse) {
             break;
     }
 }
+
+
+/*
+
+FUNCTION changeGear
+
+*/
+
+void changeGear(joueur * j,int gearType,int gearToEquip) {
+
+    switch (gearType) {
+        case 1 :{
+                weapon temp = j->inventory->weapons[0];
+                j->inventory->weapons[0] = j->inventory->weapons[gearToEquip];
+                j->inventory->weapons[gearToEquip] = temp;
+                printf("Vous avez equiper %s\n",j->inventory->weapons[0].name);
+            }
+            break;
+        case 2 : {
+                armor temp = j->inventory->armors[0];
+                if (j->inventory->armors[gearToEquip].inventorySpace > j->inventory->armors[0].inventorySpace) {
+                    reallocInventorySpace(j,j->inventory->armors[gearToEquip].inventorySpace);
+                    j->inventory->armors[0] = j->inventory->armors[gearToEquip];
+                    j->inventory->armors[gearToEquip] = temp;
+                    printf("Vous avez equiper %s\n",j->inventory->armors[0].name);
+                }else if (j->inventory->armors[gearToEquip].inventorySpace < j->inventory->armors[0].inventorySpace) {
+                    printf("Remplacer l'armure actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                    printLostItems(j,j->inventory->armors[gearToEquip].inventorySpace);
+                    printf("\n\nVoulez vous continuer ?\n\n");
+                    printf("1 - Oui             0 - Non\n\n");
+                    int choice;
+                    do {
+                        scanf("%d",&choice);
+                    } while (choice < 0 || choice > 1);
+
+                    if (choice) {
+                        reallocInventorySpace(j,j->inventory->armors[gearToEquip].inventorySpace);
+                        j->inventory->armors[0] = j->inventory->armors[gearToEquip];
+                        j->inventory->armors[gearToEquip] = temp;
+                    }else {
+                        printf("Vous n'avez pas remplacer votre armure\n");
+                    }
+                }else {
+                    j->inventory->armors[0] = j->inventory->armors[gearToEquip];
+                    j->inventory->armors[gearToEquip] = temp;
+                    printf("Vous avez equiper %s\n",j->inventory->armors[0].name);
+                }
+            }
+            break;
+        case 3:
+            bag temp = j->inventory->bags[0];
+            if (j->inventory->bags[gearToEquip].utilitySpace < j->inventory->bags[0].utilitySpace) {
+                printf("Remplacer le sac actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
+                printLostUtilities(j,j->inventory->bags[gearToEquip].utilitySpace);
+                printf("\n\nVoulez vous continuer ?\n\n");
+                printf("1 - Oui             0 - Non\n\n");
+                int choice;
+                do {
+                    scanf("%d",&choice);
+                } while (choice < 0 || choice > 1);
+
+                if (choice) {
+                    for (int i = 0 ; i < 6; i++) {
+                        if (j->inventory->utilities[i] > j->inventory->bags[gearToEquip].utilitySpace) {
+                            j->inventory->utilities[i] = j->inventory->bags[gearToEquip].utilitySpace;
+                        }
+                    }
+                    j->inventory->bags[0] = j->inventory->bags[gearToEquip];
+                    j->inventory->bags[gearToEquip] = temp;
+
+                }else {
+                    printf("Vous n'avez pas remplacer votre sac\n");
+                }
+
+            }else {
+                j->inventory->bags[0] = j->inventory->bags[gearToEquip];
+                j->inventory->bags[gearToEquip] = temp;
+                printf("Vous avez equiper %s\n",j->inventory->bags[0].name);
+            }
+            break;
+    }
+
+}
+
 
 /* ----------------SPELLS---------------- */
 /*

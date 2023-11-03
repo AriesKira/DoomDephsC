@@ -26,7 +26,7 @@ void fight(monstre* monstres,joueur* j) {
 
     
     while(PLAYER_HP && nbMonstre){
-
+        choice = 0;
         printMain(j,&monstres[target]);
 
         if(playerTurn && PLAYER_ACTIONS){
@@ -121,6 +121,22 @@ void fight(monstre* monstres,joueur* j) {
                     break;
                 case 4:
                     //change gear
+                    printMain(j,&monstres[target]);
+                    choice = fightPrompts(CHANGE_GEAR_TYPE_PROMPT,nbMonstre,monstres);
+                    if (!choice) {
+                        break;
+                    }else {
+                        int gearToEquip = 0;
+                        int gearType = choice;
+                        printMain(j,&monstres[target]);
+                        choice = fightPrompts(CHANGE_GEAR_PROMPT,nbMonstre,monstres,j,&gearToEquip,gearType);
+                        if (!choice) {
+                            break;
+                        }else {
+                            changeGear(j,gearType,gearToEquip);
+                            delayPlayer();
+                        }
+                    }
                     break;
                 case 5:
                     //save

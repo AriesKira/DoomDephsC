@@ -393,12 +393,93 @@ void showSpells(joueur *j) {
     
 }
 
+/*
+
+FUNCTION printGearList
+
+*/
+
+void printGearList(joueur *j,int gearType) {
+    switch (gearType) {
+        case 1:
+            printf("\033[0;36m");
+            printf("------ARMES------\n");
+            printf("\033[0m");
+            printf("Equipe : ");
+            if (PLAYER_CURRENT_WEAPON.property) {
+                printf("\033[0;35m");
+                printf("%s (Dégats MAX : %d | Dégats MIN : %d | Actions : %d) \n",PLAYER_CURRENT_WEAPON.name,PLAYER_CURRENT_WEAPON.dmgMax,PLAYER_CURRENT_WEAPON.dmgMin,PLAYER_CURRENT_WEAPON.actions);
+                printf("\033[0m");
+            }else {
+                printf("%s (Dégats MAX : %d | Dégats MIN : %d | Actions : %d) \n",PLAYER_CURRENT_WEAPON.name,PLAYER_CURRENT_WEAPON.dmgMax,PLAYER_CURRENT_WEAPON.dmgMin,PLAYER_CURRENT_WEAPON.actions);
+            }
+
+            for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++){
+                
+                if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
+                    printf("%d - Empty Slot\n",i);
+                }else {
+
+                    if (IS_MAGIC) {
+                        
+                        printf("\033[0;35m");
+                        printf("%d - %s (Dégats MAX : %d | Dégats MIN : %d | Actions : %d)\n",i,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].actions);
+                        printf("\033[0m");    
+
+                    }else {
+                        printf("%d - %s (Dégats MAX : %d | Dégats MIN : %d | Actions : %d)\n",i,j->inventory->weapons[i].name,j->inventory->weapons[i].dmgMax,j->inventory->weapons[i].dmgMin,j->inventory->weapons[i].actions);
+                    }
+
+                }
+
+
+            } 
+            break;
+        case 2:
+            printf("\033[0;36m");
+            printf("------ARMURES------\n");
+            printf("\033[0m");
+            printf("Equipe : %s (Defense : %d | Espace d'inventaire : %d)\n",PLAYER_CURRENT_ARMOR.name,PLAYER_CURRENT_ARMOR.def,PLAYER_CURRENT_ARMOR.inventorySpace);
+
+            for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (emptyEquipementSpace(j->inventory->armors[i].name)) {
+                    printf("%d - Empty Slot\n",i);
+                }else {
+                    printf("%d - %s (Defense : %d | Espace d'inventaire : %d)\n",i,j->inventory->armors[i].name,j->inventory->armors[i].def,j->inventory->armors[i].inventorySpace);
+                }
+            }
+            break;
+        case 3:
+            printf("\033[0;36m");
+            printf("------SACS------\n");
+            printf("\033[0m");
+            printf("Equipe : %s (Espace d'utilitaires : %d)\n",PLAYER_CURRENT_BAG.name,PLAYER_CURRENT_BAG.utilitySpace);
+
+            for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++) {
+                if (emptyEquipementSpace(j->inventory->bags[i].name)) {
+                    printf("%d - Empty Slot\n",i);
+                }else {
+                    printf("%d - %s (Espace d'utilitaires : %d)\n",i,j->inventory->bags[i].name,j->inventory->bags[i].utilitySpace);
+                }
+            }
+
+            break;
+    }
+}
+
+/*
+
+FUNCTION sananed
+
+*/
+
 int sananed(char *name) {
     if (strcmp(name,"Colère Sananesque") == 0) {
         return 1;
     }
     return 0;
 }
+
 
 
 /*
@@ -525,16 +606,57 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int choice = 0;
             do {
                 scanf("%d",&choice);
-            } while (choice < 1 || choice > 7);
-            if (choice == 7) {
+            } while (choice < 1 || choice > 6);
+            if (choice == 6) {
                 return 0;
             }else {
                 *utilityToUse = choice-1;
                 return 1;
             }
         }
-        case UTILITY_USED: {
+        case CHANGE_GEAR_TYPE_PROMPT: {
+            int choice = 0;
+            printf("Souhaitez-vous :\n");
+            printf("1 - Changer d'arme (cout : 1 action)\n");
+            printf("2 - Changer d'armure (cout : 1 action)\n");
+            printf("3 - Changer de sac (cout : 1 action)\n");
+            printf("4 - Annuler\n");
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > 4);
 
+            if (choice == 4) {
+                return 0;
+            }
+            return choice;
+        }
+        case CHANGE_GEAR_PROMPT : {
+            joueur *j = va_arg(valist,joueur*);
+            int * gearToChange = va_arg(valist,int*);
+            int gearType = va_arg(valist,int);
+            int choice = 0;
+            printf("Quel équipement souhaitez vous équiper ?\n");
+            printGearList(j,gearType);
+            printf("%d - Annuler\n",PLAYER_INVENTORY_SPACE+1);
+            
+            do {
+                scanf("%d",&choice);
+            } while (choice < 1 || choice > PLAYER_INVENTORY_SPACE+1);
+            if (choice == PLAYER_INVENTORY_SPACE+1) {
+                return 0;
+            }else {
+                if (emptyEquipementSpace(j->inventory->weapons[choice].name) && gearType == 1) {
+                    printf("Vous ne pouvez pas équiper un slot vide\n");
+                    return 0;
+                }
+                gearToChange = choice;
+                return 1;
+            }
+
+        }
+        case GEAR_CHANGED: {
+
+            
         }
         case PLAYER_KILLED: {
             int damage = va_arg(valist,int);

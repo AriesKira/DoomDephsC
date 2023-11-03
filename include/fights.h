@@ -10,6 +10,9 @@
 #define PLAYER_MAX_HP j->vieMax
 #define PLAYER_ACTIONS j->inventory->weapons[0].actions
 #define PLAYER_NAME j->name
+#define PLAYER_CURRENT_WEAPON j->inventory->weapons[0]
+#define PLAYER_CURRENT_ARMOR j->inventory->armors[0]
+#define PLAYER_CURRENT_BAG j->inventory->bags[0]
 
 //Target monster
 #define MONSTER_NAME monstres[target].name

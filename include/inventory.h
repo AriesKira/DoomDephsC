@@ -25,6 +25,7 @@
 #define GOLD_INDEX 6
 #define UTILITIES_ARRAY_SIZE 7
 
+
 #define PLAYER_INVENTORY_SPACE j->inventory->armors[0].inventorySpace
 #define UTILITIES_CAPACITY j->inventory->bags[0].utilitySpace
 #define PLAYER_UTILITY_OWNED j->inventory->utilities[i]
@@ -85,6 +86,7 @@ void reallocInventorySpace(joueur* j, int x);
 void printLostItems(joueur * j, int newSize);
 int replaceItem(joueur* j, monstre* m, int category, int index);
 void lootMonster(joueur* j, monstre* m);
+void useUtility(joueur * j,int utilityToUse);
 int magicItems(joueur* j);
 int getSpellDamages(joueur *j);
 int getSpellNameFromWeapon(char* weaponName);
