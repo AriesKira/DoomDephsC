@@ -24,6 +24,9 @@
 void clearTerminal();
 void printPlayerImage(joueur *j);
 void printMonsterImage(monstre *m);
+void printHealth(joueur *j);
+void printMana(joueur *j);
+void printKamas(joueur *j);
 void printMain(joueur *j, monstre *m,...);
 char* getUtilityName(int index);
 void printPlayerArmors(joueur * j);

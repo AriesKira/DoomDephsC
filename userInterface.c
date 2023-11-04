@@ -67,7 +67,7 @@ FUNCTION PRINT HEALTH
 void printHealth(joueur *j) {
     double percentage = (((double)j->vie/j->vieMax)*100);
     printf("\033[0;32m");
-    printf("Vie :");
+    printf("Vie  :");
     for(int i = 0; i <= 100; i++) {
         if (i <= percentage) {
             printf("#");
@@ -82,33 +82,59 @@ void printHealth(joueur *j) {
 
 /*
 
+FUNCTION printMana
+
+*/
+
+void printMana(joueur *j) {
+    double percentage = (((double)j->mana/j->manaMax)*100);
+    printf("\033[0;34m");
+    printf("Mana :");
+    for(int i = 0; i <= 100; i++) {
+        if (i <= percentage) {
+            printf("#");
+        } else {
+            printf("-");
+        }
+    }
+    printf("\033[0;33m");
+    printf(" %d/%d\n",j->mana,j->manaMax);
+    printf("\033[0m");
+}
+
+/*
+
+FUNCTION printKamas
+
+*/
+
+void printKamas(joueur *j) {
+    printf("\033[0;33m");
+    printf("Gils : %d\n",j->inventory->utilities[6]);
+    printf("\033[0m");
+}
+
+
+/*
+
 FUNCTION PRINT MAIN SCREEN
 
 */
 
-
-
 void printMain(joueur *j, monstre *m,...) {
     va_list valist;
     va_start(valist,m);
-    int lootPhase = va_arg(valist,int);
-    if (lootPhase) {
-        clearTerminal();
-        printf("\n\n");
-        printHealth(j);
-        printf("\n\n\n");
-        printPlayerImage(j);
-        printf("\n\n\n");
-    }else {
-        clearTerminal();
-        printf("\n\n");
-        printHealth(j);
-        printf("\n\n\n");
-        printMonsterImage(m);
-        printf("\n\n\n");
-        printPlayerImage(j);
-        printf("\n\n\n");
-    }
+    clearTerminal();
+    printf("\n\n");
+    printHealth(j);
+    printMana(j);
+    printKamas(j);
+    printf("\n\n\n");
+    printMonsterImage(m);
+    printf("\n\n\n");
+    printPlayerImage(j);
+    printf("\n\n\n");
+    
     
 }
 
@@ -378,6 +404,7 @@ void showSpells(joueur *j) {
         printf("\033[0;36m");
         printf("------SORTS------\n\n");
         printf("\033[0m");
+        j->spellbookSize = magicItems(j);
         for (int i = 0; i < j->spellbookSize; i++) {
             if (hasMana(j)) {
                 printf("\033[0;36m");
@@ -406,7 +433,7 @@ void printGearList(joueur *j,int gearType) {
     switch (gearType) {
         case 1:
             printf("\033[0;36m");
-            printf("------ARMES------\n");
+            printf("------ARMES------\n\n");
             printf("\033[0m");
             printf("Equipe : ");
             if (PLAYER_CURRENT_WEAPON.property) {
@@ -416,7 +443,7 @@ void printGearList(joueur *j,int gearType) {
             }else {
                 printf("%s (Dégats MAX : %d | Dégats MIN : %d | Actions : %d) \n",PLAYER_CURRENT_WEAPON.name,PLAYER_CURRENT_WEAPON.dmgMax,PLAYER_CURRENT_WEAPON.dmgMin,PLAYER_CURRENT_WEAPON.actions);
             }
-
+            printf("\n-----------------\n\n");
             for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++){
                 
                 if (emptyEquipementSpace(j->inventory->weapons[i].name)) {
@@ -440,10 +467,10 @@ void printGearList(joueur *j,int gearType) {
             break;
         case 2:
             printf("\033[0;36m");
-            printf("------ARMURES------\n");
+            printf("------ARMURES------\n\n");
             printf("\033[0m");
             printf("Equipe : %s (Defense : %d | Espace d'inventaire : %d)\n",PLAYER_CURRENT_ARMOR.name,PLAYER_CURRENT_ARMOR.def,PLAYER_CURRENT_ARMOR.inventorySpace);
-
+            printf("\n-----------------\n\n");
             for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++) {
                 if (emptyEquipementSpace(j->inventory->armors[i].name)) {
                     printf("%d - Empty Slot\n",i);
@@ -454,10 +481,10 @@ void printGearList(joueur *j,int gearType) {
             break;
         case 3:
             printf("\033[0;36m");
-            printf("------SACS------\n");
+            printf("------SACS------\n\n");
             printf("\033[0m");
             printf("Equipe : %s (Espace d'utilitaires : %d)\n",PLAYER_CURRENT_BAG.name,PLAYER_CURRENT_BAG.utilitySpace);
-
+            printf("\n-----------------\n\n");
             for (int i = 1; i < PLAYER_INVENTORY_SPACE; i++) {
                 if (emptyEquipementSpace(j->inventory->bags[i].name)) {
                     printf("%d - Empty Slot\n",i);
@@ -640,16 +667,17 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int choice = 0;
             printf("Quel équipement souhaitez vous équiper ?\n");
             printGearList(j,gearType);
-            printf("%d - Annuler\n",PLAYER_INVENTORY_SPACE+1);
+            printf("%d - Annuler\n",PLAYER_INVENTORY_SPACE);
             
             do {
                 scanf("%d",&choice);
             } while (choice < 1 || choice > PLAYER_INVENTORY_SPACE+1);
-            if (choice == PLAYER_INVENTORY_SPACE+1) {
+            if (choice == PLAYER_INVENTORY_SPACE) {
                 return 0;
             }else {
-                if (emptyEquipementSpace(j->inventory->weapons[choice].name) && gearType == 1) {
+                if (emptyEquipementSpace(j->inventory->weapons[choice].name)) {
                     printf("Vous ne pouvez pas équiper un slot vide\n");
+                    delayPlayer();
                     return 0;
                 }
             }
