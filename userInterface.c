@@ -110,7 +110,7 @@ FUNCTION printKamas
 
 void printKamas(joueur *j) {
     printf("\033[0;33m");
-    printf("Gils : %d\n",j->inventory->utilities[6]);
+    printf("Kamas : %d\n",j->inventory->utilities[6]);
     printf("\033[0m");
 }
 
@@ -165,7 +165,7 @@ char* getUtilityName(int index) {
             return "grosse potion de mana";
             break;
         default:
-            return "Gils";
+            return "Kamas";
             break;
     }
 }
@@ -534,7 +534,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
 
             int choice = 0;
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > 6);
 
             return choice;
@@ -546,7 +546,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("%d - Annuler\n",nbMonstre+1);
             int choice = 0;
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > nbMonstre + 1);
             if (choice == nbMonstre + 1) {
                 return 0;
@@ -562,7 +562,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("2 - Attaquer avec un sort (cout : 2 actions et 1 mana)\n");
             printf("3 - Annuler\n");
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > 3);
 
             if (choice == 3) {
@@ -597,7 +597,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
 
             int choice = 0;
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > j->spellbookSize + 1);
             if (choice == j->spellbookSize + 1) {
                 return 0;
@@ -635,7 +635,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("%d - Annuler\n",6);
             int choice = 0;
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > 6);
             if (choice == 6) {
                 return 0;
@@ -652,7 +652,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("3 - Changer de sac (cout : 1 action)\n");
             printf("4 - Annuler\n");
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > 4);
 
             if (choice == 4) {
@@ -670,15 +670,33 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("%d - Annuler\n",PLAYER_INVENTORY_SPACE);
             
             do {
-                scanf("%d",&choice);
+                choice = getchar() - '0';
             } while (choice < 1 || choice > PLAYER_INVENTORY_SPACE+1);
             if (choice == PLAYER_INVENTORY_SPACE) {
                 return 0;
             }else {
-                if (emptyEquipementSpace(j->inventory->weapons[choice].name)) {
-                    printf("Vous ne pouvez pas équiper un slot vide\n");
-                    delayPlayer();
-                    return 0;
+                switch (gearType) {
+                    case 1:
+                        if (emptyEquipementSpace(j->inventory->weapons[choice].name)) {
+                            printf("Vous ne pouvez pas équiper un slot vide\n");
+                            delayPlayer();
+                            return 0;
+                        }
+                        break;
+                    case 2:
+                        if (emptyEquipementSpace(j->inventory->armors[choice].name)) {
+                            printf("Vous ne pouvez pas équiper un slot vide\n");
+                            delayPlayer();
+                            return 0;
+                        }
+                        break;
+                    case 3:
+                        if (emptyEquipementSpace(j->inventory->bags[choice].name)) {
+                            printf("Vous ne pouvez pas équiper un slot vide\n");
+                            delayPlayer();
+                            return 0;
+                        }
+                        break;
                 }
             }
             *gearToChange = choice;
