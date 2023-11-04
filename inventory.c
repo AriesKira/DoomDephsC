@@ -737,7 +737,11 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
             }
             return 1;
             break;
+        default:
+            return 0;
+            break;
     }
+    return 0;
 }
 
 
@@ -946,7 +950,8 @@ void useUtility(joueur * j,int utilityToUse) {
         case 0:
             if (j->inventory->utilities[utilityToUse] > 0) {
                 j->inventory->utilities[utilityToUse]--;
-                PLAYER_HP += PLAYER_MAX_HP * 0.2;
+                int recovery = PLAYER_MAX_HP * 0.20;
+                PLAYER_HP += recovery;
                 if (PLAYER_HP > PLAYER_MAX_HP) {
                     PLAYER_HP = PLAYER_MAX_HP;
                 }
@@ -954,7 +959,7 @@ void useUtility(joueur * j,int utilityToUse) {
                 printf("\033[0;32m]");
                 printf("%s",getUtilityName(utilityToUse));
                 printf("\033[0m");
-                printf(" et vous avez récupéré %d points de vie\n",PLAYER_MAX_HP * 0.2);
+                printf(" et vous avez récupéré %d points de vie\n",recovery);
             }else {
                 printf("\033[0;36m]");
                 printf("Vous n'avez pas d'objet de ce type\n");
@@ -1114,7 +1119,7 @@ void changeGear(joueur * j,int gearType,int gearToEquip) {
                 }
             }
             break;
-        case 3:
+        case 3 : {
             bag temp = j->inventory->bags[0];
             if (j->inventory->bags[gearToEquip].utilitySpace < j->inventory->bags[0].utilitySpace) {
                 printf("Remplacer le sac actuellement équiper vas entrainer la perte des objets suivants car vous n'aurez pas\n assez de place dans votre inventaire pour les stocker :\n\n");
@@ -1144,6 +1149,7 @@ void changeGear(joueur * j,int gearType,int gearToEquip) {
                 j->inventory->bags[gearToEquip] = temp;
                 printf("Vous avez equiper %s\n",j->inventory->bags[0].name);
             }
+        }
             break;
     }
 
@@ -1230,29 +1236,30 @@ FUNCTION getSpellName
 */
 
 char * getSpellName(joueur* j) {
-    
+    char * name;
     for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
         if (IS_MAGIC) {
             switch (getSpellNameFromWeapon(j->inventory->weapons[i].name)) {
-                case 1 :
-                    char name = "Tanche herbe";
-                    break;
+                case 1 :  
+                    name = "Tanche herbe";
+                    return name;
                 case 2 :
-                    char name = "Lance flamme";
-                    break;
+                    name = "Lance flamme";
+                    return name;
                 case 3 :
-                    char name = "Lames de glace";
-                    break;
+                    name = "Lames de glace";
+                    return name;
                 case 4 :
-                    char name = "Tonnerre de Zeus";
-                    break;
+                    name = "Tonnerre de Zeus";
+                    return name;
                 case 5 :
-                    char name = "Colère Sananesque";
-                    break;
+                    name = "Colère Sananesque";
+                    return name;
             } 
         }
     }
-   
+    
+    return "null";
 }
 
 /*

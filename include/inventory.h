@@ -88,7 +88,7 @@ void printLostUtilities(joueur* j, int newSize);
 int replaceItem(joueur* j, monstre* m, int category, int index);
 void lootMonster(joueur* j, monstre* m);
 void useUtility(joueur * j,int utilityToUse);
-void changeGear(joueur * j,int gearType,int gearToEquip)
+void changeGear(joueur * j,int gearType,int gearToEquip);
 int magicItems(joueur* j);
 int getSpellDamages(joueur *j);
 int getSpellNameFromWeapon(char* weaponName);

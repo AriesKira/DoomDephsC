@@ -13,7 +13,7 @@ int main() {
     int nbMonstre;
     nbMonstre = rand() % 10 + 1;
     // Création d'un tableau de monstre
-    monstre monstres[nbMonstre];
+    monstre * monstres = malloc(sizeof(monstre)*nbMonstre);
     // Création d'un joueur et monstre
     joueur j;
     //vide le terminal
@@ -25,9 +25,12 @@ int main() {
     clearTerminal();
     createJoueur(&j,100,5);
 
-    fight(monstres,&j);
+    if (fight(monstres,nbMonstre,&j)) {
+        printf("Vous avez gagné !\n");
+    } else {
+        printf("Vous avez perdu !\n");
+    }
     
-    printf("Affrontez %d monstres\n",nbMonstre);
 
     free(j.image);
     for(int i = 0; i < nbMonstre; i++) {

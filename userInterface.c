@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <stdarg.h>
 #include "include/inventory.h"
@@ -510,7 +512,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             return choice;
         }
         case TARGET_PROMPT: {
-            int target = va_arg(valist,int);
+            int* target = va_arg(valist,int*);
             printf("Quel monstre souhaitez vous attaquer ?\n");
             printTargetList(nbMonstre,monstres);
             printf("%d - Annuler\n",nbMonstre+1);
@@ -521,7 +523,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             if (choice == nbMonstre + 1) {
                 return 0;
             }else {
-                target = choice-1;
+                *target = choice-1;
             }
             return 1;
         }
@@ -649,13 +651,12 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
                     printf("Vous ne pouvez pas équiper un slot vide\n");
                     return 0;
                 }
-                gearToChange = choice;
-                return 1;
             }
-
+            *gearToChange = choice;
+            return 1;
         }
         case GEAR_CHANGED: {
-
+            return 1;
             
         }
         case PLAYER_KILLED: {
@@ -674,6 +675,9 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("Il vous reste %d points de vie\n",PLAYER_HP);
             return 0;
         }
+        default:
+            return 0;
+            break;
     }
 
 }

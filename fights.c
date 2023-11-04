@@ -6,6 +6,11 @@
 #include "include/fights.h"
 #include "include/userInterface.h"
 
+/*
+
+FUNCTION finalDamage
+
+*/
 
 int finalDamage(int maxDmg, int minDmg, int def) {
     int finalDamage = 0;
@@ -17,13 +22,18 @@ int finalDamage(int maxDmg, int minDmg, int def) {
     return finalDamage;
 }
 
-void fight(monstre* monstres,joueur* j) {
+/*
+
+FUNCTION fight
+
+*/
+
+int fight(monstre* monstres,int nbMonstre,joueur* j) {
     
-    int nbMonstre = getNbOfMonsters(monstres);
     int target = 0;
     int playerTurn = 1;
     int choice;
-
+    int loose = 0;
     
     while(PLAYER_HP && nbMonstre){
         choice = 0;
@@ -35,12 +45,14 @@ void fight(monstre* monstres,joueur* j) {
             switch (choice) {
                 case 1:
                     //Attack
+                    choice = 0;
                     printMain(j,&monstres[target]);
                     choice = fightPrompts(TARGET_PROMPT,nbMonstre,monstres,&target); //chose target
                     if (!choice) {
                         break;
                     }else {
                         printMain(j,&monstres[target]);
+                        choice = 0;
                         choice = fightPrompts(ATTACKT_TYPE_PROMPT,nbMonstre,monstres); //chose attack type //spell or attck
                         if (!choice) {
                             break;
@@ -51,10 +63,11 @@ void fight(monstre* monstres,joueur* j) {
                             MONSTER_HP -= damage;
                             if (MONSTER_HP <= 0) {
                                 printMain(j,&monstres[target]);
-                                fightPrompts(MONSTER_KILLED,nbMonstre,monstres,damage);
+                                fightPrompts(MONSTER_KILLED,nbMonstre,monstres,target,damage);
                                 delayPlayer();
+                                lootMonster(j,&monstres[target]);
                                 nbMonstre--;
-                                killMonster(monstres,target);
+                                monstres = killMonster(monstres,target,nbMonstre);
                                 target = 0;
                                 if (nbMonstre == 0) {
                                     break;
@@ -62,13 +75,14 @@ void fight(monstre* monstres,joueur* j) {
 
                             }else {
                                 printMain(j,&monstres[target]);
-                                fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,damage);
+                                fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,target,damage);
                                 delayPlayer();
                                 break;
                             }
                         }else { //spells
                             int spellToUse = 0;
                             printMain(j,&monstres[target]);
+                            choice = 0;
                             choice = fightPrompts(LIST_SPELLS,nbMonstre,monstres,j,&spellToUse);
                             if (!choice) {
                                 break;
@@ -80,14 +94,15 @@ void fight(monstre* monstres,joueur* j) {
                                     MONSTER_HP -= damage;
                                     if (MONSTER_HP <= 0) {
                                         printMain(j,&monstres[target]);
-                                        fightPrompts(MONSTER_SPELL_KILLED,nbMonstre,monstres,damage,j->spellBook[spellToUse].name);
+                                        fightPrompts(MONSTER_SPELL_KILLED,nbMonstre,monstres,target,damage,j->spellBook[spellToUse].name);
                                         delayPlayer();
+                                        lootMonster(j,&monstres[target]);
                                         nbMonstre--;
-                                        killMonster(monstres,target);
+                                        monstres = killMonster(monstres,target,nbMonstre);
                                         target = 0;
                                     }else {
                                         printMain(j,&monstres[target]);
-                                        fightPrompts(MONSTER_SPELL_DAMAGED,nbMonstre,monstres,damage,j->spellBook[spellToUse].name);
+                                        fightPrompts(MONSTER_SPELL_DAMAGED,nbMonstre,monstres,target,damage,j->spellBook[spellToUse].name);
                                         delayPlayer();
                                     }
                                     break;
@@ -101,16 +116,18 @@ void fight(monstre* monstres,joueur* j) {
                         }
                     }
                     break;
-                case 2:
+                case 2: {
                     //use utility
-                    int utilityToUse = 0;
-                    printMain(j,&monstres[target]);
-                    choice = fightPrompts(LIST_UTILITIES_PROMPT,nbMonstre,monstres,j,&utilityToUse); //chose utility to use
-                    if (!choice) {
-                        break;
-                    }else {
-                        useUtility(j,utilityToUse);
-                        delayPlayer();
+                        int utilityToUse = 0;
+                        printMain(j,&monstres[target]);
+                        choice = 0;
+                        choice = fightPrompts(LIST_UTILITIES_PROMPT,nbMonstre,monstres,j,&utilityToUse); //chose utility to use
+                        if (!choice) {
+                            break;
+                        }else {
+                            useUtility(j,utilityToUse);
+                            delayPlayer();
+                        }
                     }
                     break;
                 case 3:
@@ -122,6 +139,7 @@ void fight(monstre* monstres,joueur* j) {
                 case 4:
                     //change gear
                     printMain(j,&monstres[target]);
+                    choice = 0;
                     choice = fightPrompts(CHANGE_GEAR_TYPE_PROMPT,nbMonstre,monstres);
                     if (!choice) {
                         break;
@@ -129,6 +147,7 @@ void fight(monstre* monstres,joueur* j) {
                         int gearToEquip = 0;
                         int gearType = choice;
                         printMain(j,&monstres[target]);
+                        choice = 0;
                         choice = fightPrompts(CHANGE_GEAR_PROMPT,nbMonstre,monstres,j,&gearToEquip,gearType);
                         if (!choice) {
                             break;
@@ -155,6 +174,7 @@ void fight(monstre* monstres,joueur* j) {
                 PLAYER_HP -= damage;
                 if (PLAYER_HP <= 0) {
                     PLAYER_HP = 0;
+                    loose = 1;
                     printMain(j,&monstres[attacker]);
                     tmp = fightPrompts(PLAYER_KILLED,nbMonstre,monstres,damage,attacker);
                     delayPlayer();
@@ -170,5 +190,10 @@ void fight(monstre* monstres,joueur* j) {
         }
     }
 
+    if (loose) {
+        return 0;
+    }else {
+        return 1;
+    }
 }
 

@@ -264,9 +264,16 @@ void createMonstres(int nbMonstre, monstre* monstres){
     }
 }
 
-void deleteMonster(int index, int *nbMonstre, monstre* monstres){
-    for (int i = index; i <= *nbMonstre - 1; i++) {
-        monstres[i] = monstres[i + 1];
+monstre * killMonster(monstre * monstres,int target,int nbMonstre) {
+
+    monstre * temp = malloc(sizeof(monstre) * nbMonstre);
+    for (int i = 0; i < nbMonstre; i++) {
+        if (i < target) {
+            temp[i] = monstres[i];
+        }else {
+            temp[i] = monstres[i+1];
+        }
     }
-    *nbMonstre -= 1;
+    free(monstres);
+    return temp;
 }

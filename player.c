@@ -121,6 +121,7 @@ void createJoueur(joueur *a, int vie, int puissance){
     a->manaMax = 4;
     a->spellbookSize = 0;
     a->spellBook = malloc(sizeof(spells)*a->spellbookSize);
+    a->inventory = malloc(sizeof(inventory));
     initPlayerInventory(a->inventory);
 
 }
