@@ -65,10 +65,11 @@ FUNCTION PRINT HEALTH
 */
 
 void printHealth(joueur *j) {
+    double percentage = (((double)j->vie/j->vieMax)*100);
     printf("\033[0;32m");
     printf("Vie :");
     for(int i = 0; i <= 100; i++) {
-        if (i <= (j->vie/j->vieMax)*100) {
+        if (i <= percentage) {
             printf("#");
         } else {
             printf("-");

@@ -130,6 +130,10 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                         }else {
                             useUtility(j,utilityToUse);
                             delayPlayer();
+                            playerActions--;
+                            if (playerActions == 0) {
+                                playerTurn = 0;
+                            }
                         }
                     }
                     break;
@@ -157,6 +161,10 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                         }else {
                             changeGear(j,gearType,gearToEquip);
                             delayPlayer();
+                            playerActions--;
+                            if (playerActions == 0) {
+                                playerTurn = 0;
+                            }
                         }
                     }
                     break;
