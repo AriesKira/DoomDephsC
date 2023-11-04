@@ -120,25 +120,25 @@ FUNCTION getUtilityName(int index)
 char* getUtilityName(int index) {
     switch (index) {
         case 0:
-            return "small potion";
+            return "petite potion";
             break;
         case 1:
-            return "medium potion";
+            return "moyenne potion";
             break;
         case 2:
-            return "big potion";
+            return "grosse potion";
             break;
         case 3:
-            return "small mana potion";
+            return "petite potion de mana";
             break;
         case 4:
-            return "medium mana potion";
+            return "moyenne potion de mana";
             break;
         case 5:
-            return "big mana potion";
+            return "grosse potion de mana";
             break;
         default:
-            return "Gold";
+            return "Gils";
             break;
     }
 }

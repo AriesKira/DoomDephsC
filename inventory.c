@@ -956,12 +956,12 @@ void useUtility(joueur * j,int utilityToUse) {
                     PLAYER_HP = PLAYER_MAX_HP;
                 }
                 printf("Vous avez utilisé ");
-                printf("\033[0;32m]");
+                printf("\033[0;32m");
                 printf("%s",getUtilityName(utilityToUse));
                 printf("\033[0m");
                 printf(" et vous avez récupéré %d points de vie\n",recovery);
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }
@@ -974,12 +974,12 @@ void useUtility(joueur * j,int utilityToUse) {
                     PLAYER_HP = PLAYER_MAX_HP;
                 }
                 printf("Vous avez utilisé ");
-                printf("\033[0;32m]");
+                printf("\033[0;32m");
                 printf("%s",getUtilityName(utilityToUse));
                 printf("\033[0m");
                 printf(" et vous avez récupéré la moitié de vos points de vie\n");
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }
@@ -989,12 +989,12 @@ void useUtility(joueur * j,int utilityToUse) {
                 j->inventory->utilities[utilityToUse]--;
                 PLAYER_HP = PLAYER_MAX_HP;
                 printf("Vous avez utilisé ");
-                printf("\033[0;32m]");
+                printf("\033[0;32m");
                 printf("%s",getUtilityName(utilityToUse));
                 printf("\033[0m");
                 printf(" et vous avez récupéré la totalité de vos points de vie\n");
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }
@@ -1004,20 +1004,20 @@ void useUtility(joueur * j,int utilityToUse) {
                 j->inventory->utilities[utilityToUse]--;
                 if (PLAYER_MANA == PLAYER_MAX_MANA) {
                     printf("Vous avez utilisé "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
-                    printf("mais vous aviez déja la totalité de votre mana\n");
+                    printf(" mais vous aviez déja la totalité de votre mana\n");
                 }else {
                     PLAYER_MANA += 1;
                     printf("Vous avez utilise "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
-                    printf("et vous avez récupéré 1 points de mana\n");
+                    printf(" et vous avez récupéré 1 points de mana\n");
                 }
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }
@@ -1027,20 +1027,20 @@ void useUtility(joueur * j,int utilityToUse) {
                 j->inventory->utilities[utilityToUse]--;
                 if (PLAYER_MANA == PLAYER_MAX_MANA) {
                     printf("Vous avez utilisé "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
                     printf("mais vous aviez déja la totalité de votre mana\n");
                 }else {
                     PLAYER_MANA = PLAYER_MAX_MANA / 2;
                     printf("Vous avez utilisé "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
-                    printf("et vous avez récupéré la moitié de vos points de mana\n");
+                    printf(" et vous avez récupéré la moitié de vos points de mana\n");
                 }
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }
@@ -1050,20 +1050,20 @@ void useUtility(joueur * j,int utilityToUse) {
                 j->inventory->utilities[utilityToUse]--;
                 if (PLAYER_MANA == PLAYER_MAX_MANA) {
                     printf("Vous avez utilisé "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
-                    printf("mais vous aviez déja la totalité de votre mana\n");
+                    printf(" mais vous aviez déja la totalité de votre mana\n");
                 }else {
                     PLAYER_MANA = PLAYER_MAX_MANA;
                     printf("Vous avez utilisé "); 
-                    printf("\033[0;36m]");
+                    printf("\033[0;36m");
                     printf("%s",getUtilityName(utilityToUse));
                     printf("\033[0m");
                     printf("et vous avez récupéré la totalité de vos points de mana\n");
                 }
             }else {
-                printf("\033[0;36m]");
+                printf("\033[0;36m");
                 printf("Vous n'avez pas d'objet de ce type\n");
                 printf("\033[0m");
             }

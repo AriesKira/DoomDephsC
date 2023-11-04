@@ -34,8 +34,10 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
     int playerTurn = 1;
     int choice;
     int loose = 0;
-    
+    int playerActions = 0;
+
     while(PLAYER_HP && nbMonstre){
+        playerActions = PLAYER_ACTIONS;
         choice = 0;
         printMain(j,&monstres[target]);
 
@@ -69,16 +71,15 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                                 nbMonstre--;
                                 monstres = killMonster(monstres,target,nbMonstre);
                                 target = 0;
-                                if (nbMonstre == 0) {
-                                    break;
-                                }
-
                             }else {
                                 printMain(j,&monstres[target]);
                                 fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,target,damage);
                                 delayPlayer();
-                                break;
                             }
+                            if (PLAYER_ACTIONS == 0) {
+                                playerTurn = 0;
+                            }
+                            break;
                         }else { //spells
                             int spellToUse = 0;
                             printMain(j,&monstres[target]);
@@ -104,6 +105,9 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                                         printMain(j,&monstres[target]);
                                         fightPrompts(MONSTER_SPELL_DAMAGED,nbMonstre,monstres,target,damage,j->spellBook[spellToUse].name);
                                         delayPlayer();
+                                    }
+                                    if (PLAYER_ACTIONS == 0) {
+                                        playerTurn = 0;
                                     }
                                     break;
                                 }else {
@@ -185,7 +189,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                     delayPlayer();
                 }
             }
-            
+            PLAYER_ACTIONS = PLAYER_CURRENT_WEAPON.actions;
             playerTurn = 1;
         }
     }
