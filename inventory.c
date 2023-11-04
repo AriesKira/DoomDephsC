@@ -69,7 +69,7 @@ void initMonsterInventory(inventory* i) {
     i->armors[0].inventorySpace = 1;
     i->weapons = malloc(sizeof(weapon)* i->armors[0].inventorySpace);
     i->weapons[0].name = "null";
-    i->weapons[0].dmgMax = 0;
+    i->weapons[0].dmgMax = 10;
     i->weapons[0].dmgMin = 0;
     i->weapons[0].actions = 0;
     i->weapons[0].property = 0;

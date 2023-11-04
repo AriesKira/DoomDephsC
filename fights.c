@@ -34,14 +34,13 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
     int playerTurn = 1;
     int choice;
     int loose = 0;
-    int playerActions = 0;
+    int playerActions = PLAYER_CURRENT_WEAPON.actions;
 
     while(PLAYER_HP && nbMonstre){
-        playerActions = PLAYER_ACTIONS;
         choice = 0;
         printMain(j,&monstres[target]);
 
-        if(playerTurn && PLAYER_ACTIONS){
+        if(playerTurn && playerActions){
             choice = fightPrompts(ACTION_PROMPT,nbMonstre,monstres); //chose action      
 
             switch (choice) {
@@ -59,7 +58,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                         if (!choice) {
                             break;
                         }else if (choice == 1) { //normal attck
-                            PLAYER_ACTIONS--;
+                            playerActions--;
                             int damage = 0;
                             damage =  finalDamage(PLAYER_MAX_DMG,PLAYER_MIN_DMG,MONSTER_DEF);
                             MONSTER_HP -= damage;
@@ -76,7 +75,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                                 fightPrompts(MONSTER_DAMAGED,nbMonstre,monstres,target,damage);
                                 delayPlayer();
                             }
-                            if (PLAYER_ACTIONS == 0) {
+                            if (playerActions == 0) {
                                 playerTurn = 0;
                             }
                             break;
@@ -90,7 +89,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                             }else {
                                 if (hasMana(j)) {
                                     j->mana -= 2;
-                                    PLAYER_ACTIONS--;
+                                    playerActions--;
                                     int damage = j->spellBook[spellToUse].dmg;
                                     MONSTER_HP -= damage;
                                     if (MONSTER_HP <= 0) {
@@ -106,7 +105,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                                         fightPrompts(MONSTER_SPELL_DAMAGED,nbMonstre,monstres,target,damage,j->spellBook[spellToUse].name);
                                         delayPlayer();
                                     }
-                                    if (PLAYER_ACTIONS == 0) {
+                                    if (playerActions == 0) {
                                         playerTurn = 0;
                                     }
                                     break;
@@ -189,7 +188,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                     delayPlayer();
                 }
             }
-            PLAYER_ACTIONS = PLAYER_CURRENT_WEAPON.actions;
+            playerActions = PLAYER_CURRENT_WEAPON.actions;
             playerTurn = 1;
         }
     }
