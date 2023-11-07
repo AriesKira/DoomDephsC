@@ -1,2 +1,4 @@
 .vscode
 .idea
+Doom.dSYM
+cmake-build-debug

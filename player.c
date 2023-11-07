@@ -1,15 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-typedef struct joueur{
-    char* nom;
-    int vieMax;
-    int vie;
-    int puissance;
-    char **image;
-    int imgHeight;
-}joueur;
+#include "include/inventory.h"
+#include "include/player.h"
 
 
 /*
@@ -116,12 +109,24 @@ void initPlayerImage(joueur *j) {
 }
 
 
+<<<<<<< HEAD
 void createJoueur(struct joueur *a, char* nom, int vieMax, int vie, int puissance){
     initPlayerImage(a);
     a->nom = nom;
     a->vieMax = vieMax;
     a->vie = vie;
     a->puissance = puissance;
+=======
+void createJoueur(joueur *a, int vie, int puissance){
+    char * nom = malloc(sizeof (char ) * 255);
+    printf("Choississez votre nom : \n");
+    scanf("%s",nom);
+    initPlayerImage(a);
+    a->nom = nom;
+    a->vieMax = vie;
+    a->vie = a->vieMax;
+    initPlayerInventory(a->inventory);
+>>>>>>> main
 }
 
 

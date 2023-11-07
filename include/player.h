@@ -5,13 +5,16 @@ typedef struct joueur{
     char* nom;
     int vieMax;
     int vie;
-    int puissance;
     char **image;
     int imgHeight;
+    inventory* inventory;
 }joueur;
 
-void clearTerminal();
 void initPlayerImage(struct joueur *j);
+<<<<<<< HEAD
 void createJoueur(struct joueur *a, char* nom, int vieMax, int vie, int puissance);
+=======
+void createJoueur(struct joueur *a, int vie, int puissance);
+>>>>>>> main
 
 #endif

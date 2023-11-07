@@ -1,16 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-typedef struct monstre {
-    int vie;
-    int vieMax;
-    int pMax;
-    int pMin;
-    int def;
-    char **image;
-    int imgHeight;
-}monstre;
+#include "include/inventory.h"
+#include "include/monster.h"
 
 
 void initMonsterImage(monstre *m){
@@ -36,6 +28,7 @@ void initMonsterImage(monstre *m){
         m->image[13] = "        |_____|            ";
         m->image[14] = "        |_____|            ";
         m->imgHeight = 15;
+        m->name = "Reaper";
         break;
     case 2:
         m->image = malloc(sizeof(char*) * 17);
@@ -57,6 +50,7 @@ void initMonsterImage(monstre *m){
         m->image[15] = "           ,__) /  ";
         m->image[16] = "            `..'   ";
         m->imgHeight = 17;
+        m->name = "Ghost";
         break;
     case 3:
         m->image = malloc(sizeof(char*) * 21);
@@ -82,6 +76,7 @@ void initMonsterImage(monstre *m){
         m->image[19] = "      |= /\\ =|                 ";
         m->image[20] = "      /_/  \\_\\                ";
         m->imgHeight = 21;
+        m->name = "Minotaur";
         break;
     case 4:
         m->image = malloc(sizeof(char*) * 9);
@@ -95,6 +90,7 @@ void initMonsterImage(monstre *m){
         m->image[7] = "     ()   /\\   )=(   /\\      ";
         m->image[8] = "     {}  /  \\_/\\=/\\_/  \\   ";
         m->imgHeight = 9;
+        m->name = "Devil";
         break;
     case 5:
         m->image = malloc(sizeof(char*) * 10);
@@ -109,6 +105,7 @@ void initMonsterImage(monstre *m){
         m->image[8] = "                '.    .'                 ";
         m->image[9] = "                  `\\/`                  ";
         m->imgHeight = 10;
+        m->name = "Bat";
         break;    
     case 6:
         m->image = malloc(sizeof(char*) * 21);
@@ -134,6 +131,7 @@ void initMonsterImage(monstre *m){
         m->image[19] = "             /~  |       /~  |      ";
         m->image[20] = "             ~~~~        ~~~~       ";
         m->imgHeight = 21;
+        m->name = "Cow Guy";
         break;
     case 7:
         m->image = malloc(sizeof(char*) * 29);
@@ -167,6 +165,7 @@ void initMonsterImage(monstre *m){
         m->image[27] = "        |   ;             :   |       ";
         m->image[28] = "        ;   |             |   |       ";
         m->imgHeight = 29;
+        m->name = "Lucky Luke";
         break;
     case 8:
         m->image = malloc(sizeof(char*) * 17);
@@ -188,6 +187,7 @@ void initMonsterImage(monstre *m){
         m->image[15] = "     .'       `.         .'       `.      ";
         m->image[16] = "   .'           `-.   .-'           `.    ";
         m->imgHeight = 17;
+        m->name = "Vampire";
         break;
     case 9:
         m->image = malloc(sizeof(char*) * 25);
@@ -217,6 +217,7 @@ void initMonsterImage(monstre *m){
         m->image[23] = "                              ;'..)";
         m->image[24] = "                               ;";
         m->imgHeight = 25;
+        m->name = "Drake";
         break;
     case 10:
         m->image = malloc(sizeof(char*) * 19);
@@ -240,22 +241,28 @@ void initMonsterImage(monstre *m){
         m->image[17] = "                                   \\~\\";
         m->image[18] = "                                    ~~";
         m->imgHeight = 19;
+<<<<<<< HEAD
+=======
+        m->name = "Unicorn";
+>>>>>>> main
         break;
     }
 
 
 }
 
-void createMonstres( monstre *a, int nbMonstre, monstre* monstres){
+void createMonstres(int nbMonstre, monstre* monstres){
     // Initialise les monstres avec des statistiques aléatoires
     for(int i = 0; i < nbMonstre; i++){
+        monstre* a = malloc(sizeof(monstre)); // Crée un monstre temporaire
         initMonsterImage(a);
-        a->vieMax = rand() % 100;
+        a->vieMax = rand() % 5+1;
         a->vie = a->vieMax;
-        a->pMax = rand() % 5;
-        a->pMin = rand() % a->pMax;
-        a->def = rand() % 100;
+        a->inventory = malloc(sizeof(inventory));
+        initMonsterInventory(a->inventory);
+        generateRandomLoot(a->inventory);
         monstres[i] = *a; // Stock les monstres dans le tableau monstres
+        free(a); // Libère la mémoire du monstre temporaire
     }
 }
 
@@ -263,6 +270,10 @@ void deleteMonster(int index, int *nbMonstre, monstre* monstres){
     for (int i = index; i <= *nbMonstre - 1; i++) {
         monstres[i] = monstres[i + 1];
     }
+<<<<<<< HEAD
     nbMonstre--;
     realloc(monstres, (size_t)(nbMonstre) * sizeof(monstre));
+=======
+    *nbMonstre -= 1;
+>>>>>>> main
 }
