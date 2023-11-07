@@ -116,11 +116,11 @@ void initPlayerImage(joueur *j) {
 }
 
 
-void createJoueur(struct joueur *a, char* nom, int vie, int puissance){
+void createJoueur(struct joueur *a, char* nom, int vieMax, int vie, int puissance){
     initPlayerImage(a);
     a->nom = nom;
-    a->vieMax = vie;
-    a->vie = a->vieMax;
+    a->vieMax = vieMax;
+    a->vie = vie;
     a->puissance = puissance;
 }
 

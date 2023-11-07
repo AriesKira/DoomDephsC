@@ -83,7 +83,6 @@ void initMonsterImage(monstre *m){
         m->image[20] = "      /_/  \\_\\                ";
         m->imgHeight = 21;
         break;
-
     case 4:
         m->image = malloc(sizeof(char*) * 9);
         m->image[0] = "   ,    ,    /\\   /\\         ";
@@ -241,7 +240,6 @@ void initMonsterImage(monstre *m){
         m->image[17] = "                                   \\~\\";
         m->image[18] = "                                    ~~";
         m->imgHeight = 19;
-
         break;
     }
 
@@ -265,5 +263,6 @@ void deleteMonster(int index, int *nbMonstre, monstre* monstres){
     for (int i = index; i <= *nbMonstre - 1; i++) {
         monstres[i] = monstres[i + 1];
     }
-    *nbMonstre--;
+    nbMonstre--;
+    realloc(monstres, (size_t)(nbMonstre) * sizeof(monstre));
 }

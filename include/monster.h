@@ -7,7 +7,7 @@ typedef struct monstre {
     int pMin;
     int def;
     char **image;
-    int imgY;
+    int imgHeight;
 }monstre;
 
 void initMonsterImage(struct monstre *m);

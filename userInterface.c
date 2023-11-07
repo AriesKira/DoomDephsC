@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdarg.h>
 
+
 typedef struct monstre {
     int vie;
     int vieMax;
@@ -118,11 +119,9 @@ PRINT ENNEMY TARGET LIST
 */
 
 void printTargetList(int nbMonstre) {
-
     for (int i = 0; i < nbMonstre; i++) {
         printf("%d - Monstre %d\n",i+1,i+1);
     }
-
 }
 
 /*
@@ -151,7 +150,6 @@ FUNCTION FIGHT PROMPTS
 void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     va_list valist;
     va_start(valist,monstres);
-
     switch (promptNb) {
         case 1: {
             int val = 0;
@@ -161,12 +159,13 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             do {
                 scanf("%d",&val);
             } while (val < 1 || val > nbMonstre);
-            
+
             if (monstres[val-1].vie < 0) {
+
                 printf("Ce monstre est mort\n");
                 fightPrompts(1,nbMonstre,monstres,index);
             }
-            
+
             *index = val-1;
 
             break;
@@ -176,11 +175,11 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int *choice = va_arg(valist,int*);
             int val = 0;
             printf("Vous combatez le monstre %d sa vie est de %d\n",index+1,monstres[index].vie);
-            printf("1 pour attaquer / 2 pour fuir\n");
+            printf("1 pour attaquer / 2 pour fuir / 3 pour sauvegarder et quitter\n");
 
             do {
                 scanf("%d",&val);
-            } while (val < 1 || val > 2);
+            } while (val < 1 || val > 3);
             
             *choice = val;
             break;
@@ -209,6 +208,5 @@ void fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             break;
         }
     }
-
 }
 
