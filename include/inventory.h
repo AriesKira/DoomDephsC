@@ -90,7 +90,7 @@ void lootMonster(joueur* j, monstre* m);
 void useUtility(joueur * j,int utilityToUse);
 void changeGear(joueur * j,int gearType,int gearToEquip);
 int magicItems(joueur* j);
-int getSpellDamages(joueur *j);
+int getSpellDamages(joueur *j,int i);
 int getSpellNameFromWeapon(char* weaponName);
 char * getSpellName(joueur* j);
 void reallocSpells(joueur* j,int nbOfSpells);

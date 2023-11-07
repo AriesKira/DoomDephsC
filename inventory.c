@@ -1198,15 +1198,9 @@ FUNCTION getSpellDamages
 
 */
 
-int getSpellDamages(joueur *j) {
-    int dmg = 0;
-    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
-        dmg = 0;
-        if (IS_MAGIC) {
-            dmg += j->inventory->weapons[i].dmgMax;
-        }
-    }
-    return dmg * 1.5;
+int getSpellDamages(joueur *j,int i) {
+    int dmg = j->inventory->weapons[i].dmgMax * 1.5;
+    return dmg;
 }
 
 /*
@@ -1273,7 +1267,7 @@ void reallocSpells(joueur* j,int nbOfSpells) {
     free(j->spellBook);
     j->spellBook = malloc(sizeof(spells)*nbOfSpells);
     for (int i = 0; i < nbOfSpells; i++) {
-        j->spellBook[i].dmg = getSpellDamages(j);
+        j->spellBook[i].dmg = getSpellDamages(j,i);
         j->spellBook[i].name = getSpellName(j);
     }
 }

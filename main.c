@@ -11,31 +11,35 @@ int main() {
     // Génère un nombre de monstre aléatoire
     srand(time(NULL));
     int nbMonstre;
-    nbMonstre = rand() % 10 + 1;
+    int levels = 3;
+    nbMonstre = 8;//rand() % 10 + 1;
     // Création d'un tableau de monstre
-    monstre * monstres = malloc(sizeof(monstre)*nbMonstre);
+    
     // Création d'un joueur et monstre
     joueur j;
     //vide le terminal
     clearTerminal();
     //initialisation des monstre
-    createMonstres(nbMonstre,monstres);
+    
     //initialisation du joueur
     
     clearTerminal();
     createJoueur(&j,100,5);
-
-    if (fight(monstres,nbMonstre,&j)) {
-        printf("Vous avez gagné !\n");
-    } else {
-        printf("Vous avez perdu !\n");
+    for (int i = 0 ; i < levels ; i++) {
+        monstre * monstres = malloc(sizeof(monstre)*nbMonstre);
+        createMonstres(nbMonstre,monstres);
+        if (fight(monstres,nbMonstre,&j)) {
+            printf("Vous avez gagné !\n");
+        } else {
+            printf("Vous avez perdu !\n");
+        }
+        delayPlayer();
     }
+
+    
     
 
     free(j.image);
-    for(int i = 0; i < nbMonstre; i++) {
-        free(monstres[i].image);
-    }
 
     free(j.inventory->armors);
     free(j.inventory->weapons);

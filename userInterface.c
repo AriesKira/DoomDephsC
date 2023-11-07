@@ -632,11 +632,11 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int *utilityToUse = va_arg(valist,int*);
             printf("Quel objet souhaitez vous utiliser ?\n");
             listPlayerUtilities(j);
-            printf("%d - Annuler\n",6);
+            printf("%d - Annuler\n",7);
             int choice = 0;
             do {
                 choice = getchar() - '0';
-            } while (choice < 1 || choice > 6);
+            } while (choice < 1 || choice > 7);
             if (choice == 6) {
                 return 0;
             }else {

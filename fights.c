@@ -81,6 +81,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                             break;
                         }else { //spells
                             int spellToUse = 0;
+                            getSpells(j);
                             printMain(j,&monstres[target]);
                             choice = 0;
                             choice = fightPrompts(LIST_SPELLS,nbMonstre,monstres,j,&spellToUse);
