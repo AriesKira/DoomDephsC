@@ -78,7 +78,6 @@ void initMonsterImage(monstre *m){
         m->imgHeight = 21;
         m->name = "Minotaur";
         break;
-
     case 4:
         m->image = malloc(sizeof(char*) * 9);
         m->image[0] = "   ,    ,    /\\   /\\         ";
@@ -276,4 +275,5 @@ monstre * killMonster(monstre * monstres,int target,int nbMonstre) {
     }
     free(monstres);
     return temp;
+
 }

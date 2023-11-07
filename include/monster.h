@@ -1,5 +1,6 @@
 #ifndef MONSTER_H 
 #define MONSTER_H
+
 typedef struct monstre {
     char * name;
     int vie;

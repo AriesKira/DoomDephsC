@@ -5,6 +5,7 @@
 #include "include/player.h"
 #include "include/fights.h"
 #include "include/userInterface.h"
+#include "include/save.h"
 
 /*
 
@@ -28,7 +29,7 @@ FUNCTION fight
 
 */
 
-int fight(monstre* monstres,int nbMonstre,joueur* j) {
+int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves,int saveIndex) {
     
     int target = 0;
     int playerTurn = 1;
@@ -171,6 +172,27 @@ int fight(monstre* monstres,int nbMonstre,joueur* j) {
                     break;
                 case 5:
                     //save
+                    if(savechoice) {
+                        char name[100];
+                        printf("Choississez un nom pour votre sauvegarde : ");
+                        scanf("%s",name);
+                        save(PLAYER_HP,name,nbMonstre,monstres);
+                    }else {
+                        printf("1 pour ecraser la precedente sauvegarde / 2 pour creer une nouvelle sauvegarde");
+                        int newSaveChoice;
+                        do {
+                            newSaveChoice = getchar() - '0';
+                        } while (newSaveChoice < 1 || newSaveChoice > 2);
+                        
+                        if(newSaveChoice == 1) {
+                            save(PLAYER_HP,*saves[saveIndex],nbMonstre,monstres);
+                        }else {
+                            char name[100];
+                            printf("Choississez un nom pour votre sauvegarde : ");
+                            scanf("%s",name);
+                            save(PLAYER_HP,name,nbMonstre,monstres);
+                        }
+                    }
                     break;
                 case 6:
                     //end turn

@@ -41,6 +41,6 @@
 
 
 int finalDamage(int maxDmg, int minDmg, int def);
-int fight(monstre* monstres,int nbMonstre,joueur* j);
+int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves,int saveIndex);
 
 #endif

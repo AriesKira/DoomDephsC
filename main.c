@@ -6,35 +6,69 @@
 #include "include/player.h"
 #include "include/userInterface.h"
 #include "include/fights.h"
+#include "include/save.h"
+
 
 int main() {
-    // Génère un nombre de monstre aléatoire
     srand(time(NULL));
+    char **saves = getSaves();
+    int savechoice;
+    int sauvegarde;
     int nbMonstre;
-    int levels = 3;
     nbMonstre = 8;//rand() % 10 + 1;
-    // Création d'un tableau de monstre
-    
-    // Création d'un joueur et monstre
+    int levels = 3;
+    monstre * monstres;
     joueur j;
-    //vide le terminal
-    clearTerminal();
-    //initialisation des monstre
-    
-    //initialisation du joueur
-    
-    clearTerminal();
-    createJoueur(&j,100,5);
-    for (int i = 0 ; i < levels ; i++) {
-        monstre * monstres = malloc(sizeof(monstre)*nbMonstre);
+
+    printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
+    do {
+        savechoice = getchar() - '0';
+    } while (savechoice < 1 || savechoice > 3);
+
+    if(savechoice == 1){
+        savechoice = 0;
+        // Génère un nombre de monstre aléatoire
+        nbMonstre = rand() % 10 + 1;
+        // Création d'un tableau de monstre
+        monstres = malloc(sizeof(monstre) * nbMonstre);
+        clearTerminal();
+        //initialisation des monstre
         createMonstres(nbMonstre,monstres);
-        if (fight(monstres,nbMonstre,&j)) {
-            printf("Vous avez gagné !\n");
-        } else {
-            printf("Vous avez perdu !\n");
-        }
-        delayPlayer();
+        //initialisation du joueur
+        
+        clearTerminal();
+        createJoueur(&j);
     }
+    else if (savechoice == 2) {
+        int nbsave = GetNbSaves();
+        for(int i = 0; i < nbsave; i++){
+            printf("%d %s",(i+1),saves[i]);
+        }
+        printf("Choississez une sauvegarde :\n");
+        int choixSave;
+        do
+        {
+            choixSave = getchar() - '0';
+        } while (choixSave < 1 || choixSave > nbsave);
+        // gérer le cas ou valeur incorrecte
+
+        sauvegarde = choixSave - 1;
+        nbMonstre = GetNbMonstre(saves[sauvegarde]);
+        monstres = GetMonstres(saves[sauvegarde],&nbMonstre);
+        //loadSavedPlayer(&j,"test",getVieMaxSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getInventorySave(saves[sauvegarde]));   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
+    }else {
+        return 0;
+    }
+
+    clearTerminal();
+       
+    if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
+        printf("Vous avez gagné !\n");
+    } else {
+        printf("Vous avez perdu !\n");
+    }
+    delayPlayer();
+    
 
     
     

@@ -39,6 +39,9 @@
 #define PLAYER_HP j->vie
 #define PLAYER_MAX_HP j->vieMax
 
+//SAVE
+
+
 
 typedef struct armor {
     char* name;
@@ -90,7 +93,7 @@ void lootMonster(joueur* j, monstre* m);
 void useUtility(joueur * j,int utilityToUse);
 void changeGear(joueur * j,int gearType,int gearToEquip);
 int magicItems(joueur* j);
-int getSpellDamages(joueur *j,int i);
+int getSpellDamages(joueur *j);
 int getSpellNameFromWeapon(char* weaponName);
 char * getSpellName(joueur* j);
 void reallocSpells(joueur* j,int nbOfSpells);

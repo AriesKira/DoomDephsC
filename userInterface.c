@@ -343,12 +343,12 @@ PRINT ENNEMY TARGET LIST
 
 */
 
+
 void printTargetList(int nbMonstre,monstre* monstres) {
 
     for (int i = 0; i < nbMonstre; i++) {
         printf("%d - %s \n",i+1,monstres[i].name);
     }
-
 }
 
 /*
@@ -521,7 +521,6 @@ FUNCTION FIGHT PROMPTS
 int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
     va_list valist;
     va_start(valist,monstres);
-
     switch (promptNb) {
         case ACTION_PROMPT: {
             printf("Que souhaitez vous faire ?\n");
@@ -726,6 +725,6 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             return 0;
             break;
     }
-
 }
+
 
