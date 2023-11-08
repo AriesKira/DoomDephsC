@@ -542,10 +542,17 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int* target = va_arg(valist,int*);
             printf("Quel monstre souhaitez vous attaquer ?\n");
             printTargetList(nbMonstre,monstres);
-            printf("%d - Annuler\n",nbMonstre+1);
+            nbMonstre < 9 ? printf("%d - Annuler\n",nbMonstre+1) : printf("n - Annuler\n");
             int choice = 0;
             do {
-                choice = getchar() - '0';
+                choice = getchar();
+
+                if (nbMonstre >= 9 && choice == 'n') {
+                    return 0;
+                }
+
+                choice -= '0';
+
             } while (choice < 1 || choice > nbMonstre + 1);
             if (choice == nbMonstre + 1) {
                 return 0;

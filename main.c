@@ -15,7 +15,7 @@ int main() {
     int savechoice;
     int sauvegarde;
     int nbMonstre;
-    nbMonstre = 8;//rand() % 10 + 1;
+    nbMonstre = 9;//rand() % 10 + 1;
     int levels = 5;
     
     joueur j;
