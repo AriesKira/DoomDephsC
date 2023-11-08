@@ -20,7 +20,9 @@ void initPlayerImage(joueur *j) {
     printf("2 - Superman\n");
     printf("3 - Darth Vader\n");
     
-    scanf("%d",&choice);
+    do {
+        choice = getchar() - '0';
+    } while (choice < 1 || choice > 3);
 
     switch (choice) {
     case 1:
@@ -116,7 +118,7 @@ void createJoueur(joueur *a) {
     scanf("%s",nom);
     initPlayerImage(a);
     a->nom = nom;
-    a->vieMax = 100;
+    a->vieMax = 200;
     a->vie = a->vieMax;
     a->mana = 4;
     a->manaMax = 4;

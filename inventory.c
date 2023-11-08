@@ -685,7 +685,7 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
                     do {
-                        scanf("%d",&choice);
+                        choice = getchar() - '0';
                     } while (choice < 0 || choice > 1);
                     
                     if (choice) {
@@ -719,7 +719,7 @@ int replaceItem(joueur* j, monstre* m, int category, int index) {
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
                     do {
-                        scanf("%d",&choice);
+                        choice = getchar() - '0';
                     } while (choice < 0 || choice > 1);
                     
                     if (choice) {
@@ -762,7 +762,9 @@ void lootMonster(joueur* j, monstre* m) {
     printf("Voulez vous garder la recompense ?\n\n");
     printf("1 - Oui             0 - Non\n\n");
     int choice;
-    scanf("%d",&choice);
+    do {
+        choice = getchar() - '0';
+    } while (choice < 0 || choice > 1);
 
     if (choice) {
         //check if he has space in his inventory for this item category (armor, weapon, bag, utility)
@@ -820,7 +822,7 @@ void lootMonster(joueur* j, monstre* m) {
                 int choice;
 
                 do {
-                    scanf("%d",&choice);
+                    choice = getchar() - '0';
                 } while (choice < 0 || choice > 1);
                 
                 
@@ -830,7 +832,7 @@ void lootMonster(joueur* j, monstre* m) {
 
                     int choice2;
                     do {
-                        scanf("%d",&choice2);
+                        choice2 = getchar() - '0';
                     }while (choice2 < 1 || choice2 > PLAYER_INVENTORY_SPACE);
 
                     choice2--;
@@ -876,7 +878,7 @@ int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
                     do {
-                        scanf("%d",&choice);
+                        choice = getchar() - '0';
                     } while (choice < 0 || choice > 1);
 
                     if (choice) {
@@ -914,7 +916,7 @@ int changeEquipedItem(joueur* j, int newEquipementIndex, int category) {
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
                     do {
-                        scanf("%d",&choice);
+                        choice = getchar() - '0';
                     } while (choice < 0 || choice > 1);
 
                     if (choice) {
@@ -1102,7 +1104,7 @@ void changeGear(joueur * j,int gearType,int gearToEquip) {
                     printf("1 - Oui             0 - Non\n\n");
                     int choice;
                     do {
-                        scanf("%d",&choice);
+                       choice = getchar() - '0';
                     } while (choice < 0 || choice > 1);
 
                     if (choice) {
@@ -1128,7 +1130,7 @@ void changeGear(joueur * j,int gearType,int gearToEquip) {
                 printf("1 - Oui             0 - Non\n\n");
                 int choice;
                 do {
-                    scanf("%d",&choice);
+                    choice = getchar() - '0';
                 } while (choice < 0 || choice > 1);
 
                 if (choice) {
@@ -1198,15 +1200,9 @@ FUNCTION getSpellDamages
 
 */
 
-int getSpellDamages(joueur *j) {
-    int dmg = 0;
-    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
-        dmg = 0;
-        if (IS_MAGIC) {
-            dmg += j->inventory->weapons[i].dmgMax;
-        }
-    }
-    return dmg * 1.5;
+int getSpellDamages(joueur *j,int i) {
+    int dmg = j->inventory->weapons[i].dmgMax * 1.5;
+    return dmg;
 }
 
 /*
@@ -1235,9 +1231,9 @@ FUNCTION getSpellName
 
 */
 
-char * getSpellName(joueur* j) {
+char * getSpellName(joueur* j,int i) {
     char * name;
-    for (int i = 0; i < PLAYER_INVENTORY_SPACE; i++) {
+    for (int k = 0; k < PLAYER_INVENTORY_SPACE; k++) {
         if (IS_MAGIC) {
             switch (getSpellNameFromWeapon(j->inventory->weapons[i].name)) {
                 case 1 :  
@@ -1272,9 +1268,17 @@ FUNCTION reallocSpells
 void reallocSpells(joueur* j,int nbOfSpells) {
     free(j->spellBook);
     j->spellBook = malloc(sizeof(spells)*nbOfSpells);
+    int * spellItemIndex = malloc(sizeof(int)*nbOfSpells);
+    int index = 0;
+    for (int i = 0 ; i < PLAYER_INVENTORY_SPACE; i++) {
+        if (IS_MAGIC) {
+            spellItemIndex[index] = i;
+            index ++;
+        }
+    }
     for (int i = 0; i < nbOfSpells; i++) {
-        j->spellBook[i].dmg = getSpellDamages(j);
-        j->spellBook[i].name = getSpellName(j);
+        j->spellBook[i].name = getSpellName(j,spellItemIndex[i]);
+        j->spellBook[i].dmg = getSpellDamages(j,spellItemIndex[i]);
     }
 }
 

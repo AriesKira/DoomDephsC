@@ -91,7 +91,7 @@ int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves
                             }else {
                                 if (hasMana(j)) {
                                     j->mana -= 2;
-                                    playerActions--;
+                                    playerActions-=2;
                                     int damage = j->spellBook[spellToUse].dmg;
                                     MONSTER_HP -= damage;
                                     if (MONSTER_HP <= 0) {

@@ -558,7 +558,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             int choice = 0;
             printf("Souhaitez-vous :\n");
             printf("1 - Attaquer avec votre arme (cout : 1 action)\n");
-            printf("2 - Attaquer avec un sort (cout : 2 actions et 1 mana)\n");
+            printf("2 - Attaquer avec un sort (cout : 2 actions et 2 mana)\n");
             printf("3 - Annuler\n");
             do {
                 choice = getchar() - '0';
@@ -636,7 +636,7 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             do {
                 choice = getchar() - '0';
             } while (choice < 1 || choice > 7);
-            if (choice == 6) {
+            if (choice == 7) {
                 return 0;
             }else {
                 *utilityToUse = choice-1;

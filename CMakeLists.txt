@@ -11,9 +11,11 @@ add_executable(doomdephsC
         include/monster.h
         include/player.h
         include/userInterface.h
+        include/save.h
         fights.c
         inventory.c
         main.c
         monster.c
         player.c
-        userInterface.c)
+        userInterface.c
+        save.c)
