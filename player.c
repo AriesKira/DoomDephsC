@@ -118,7 +118,7 @@ void createJoueur(joueur *a) {
     scanf("%s",nom);
     initPlayerImage(a);
     a->nom = nom;
-    a->vieMax = 200;
+    a->vieMax = 100;
     a->vie = a->vieMax;
     a->mana = 4;
     a->manaMax = 4;

@@ -15,12 +15,12 @@ int main() {
     int savechoice;
     int sauvegarde;
     int nbMonstre;
-    nbMonstre = 9;//rand() % 10 + 1;
+    nbMonstre = rand() % 10 + 1;
     int levels = 5;
-    
+    monstre * monstres;
     joueur j;
 
-   /* printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
+   printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
     do {
         savechoice = getchar() - '0';
     } while (savechoice < 1 || savechoice > 3);
@@ -59,21 +59,15 @@ int main() {
     }else {
         return 0;
     }
-    */
 
-    createJoueur(&j);
     clearTerminal();
-    for (int i = 0; i < levels; i++) {
-        monstre * monstres;
-        monstres = malloc(sizeof (monstre) * nbMonstre);
-        createMonstres(nbMonstre,monstres);
-        if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
-            printf("Vous avez gagné !\n");
-        } else {
-            printf("Vous avez perdu !\n");
-        }
-        delayPlayer();
+        
+    if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
+        printf("Vous avez gagné !\n");
+    } else {
+        printf("Vous avez perdu !\n");
     }
+    delayPlayer();
     
     
 
