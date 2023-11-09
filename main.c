@@ -7,6 +7,7 @@
 #include "include/userInterface.h"
 #include "include/fights.h"
 #include "include/save.h"
+#include "include/map.h"
 
 
 int main() {
@@ -19,6 +20,8 @@ int main() {
     int levels = 5;
     monstre * monstres;
     joueur j;
+    map map;
+    int* alowedMoves = malloc(sizeof(int) * 4); // 0 = up, 1 = down, 2 = left, 3 = right
 
    printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
     do {
@@ -38,6 +41,8 @@ int main() {
         
         clearTerminal();
         createJoueur(&j);
+
+        generateMap(0,&map,&j);
     }
     else if (savechoice == 2) {
         int nbsave = GetNbSaves();
@@ -56,12 +61,64 @@ int main() {
         nbMonstre = GetNbMonstre(saves[sauvegarde]);
         monstres = GetMonstres(saves[sauvegarde],&nbMonstre);
         //loadSavedPlayer(&j,"test",getVieMaxSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getInventorySave(saves[sauvegarde]));   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
+
+        //map = GetMap(saves[sauvegarde]);
     }else {
         return 0;
     }
 
     clearTerminal();
+    
+    int choice;
+    while (nbMonstre > 0) {
+        printDonjon(map,j);
         
+        alowedMoves = getAlowedMoves(map,j);
+
+        printAlowedMoves(alowedMoves);
+        
+        do {
+            choice = getchar();
+        } while (choice != 'z' && choice != 'q' && choice != 's' && choice != 'd');
+
+        switch (choice) {
+            case 'z':
+                if (alowedMoves[0]) {
+
+                }else {
+                    printf("Vous ne pouvez pas aller dans cette direction !\n");
+                }
+                break;
+            
+            case 'q':
+                if (alowedMoves[2]) {
+
+                }else {
+                    printf("Vous ne pouvez pas aller dans cette direction !\n");
+                }
+                break;
+
+            case 's':
+                if (alowedMoves[1]) {
+
+                }else {
+                    printf("Vous ne pouvez pas aller dans cette direction !\n");
+                }
+                break;
+            
+            case 'd':
+                if (alowedMoves[3]) {
+
+                }else {
+                    printf("Vous ne pouvez pas aller dans cette direction !\n");
+                }
+                break;
+        }
+
+    }
+    
+
+
     if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
         printf("Vous avez gagné !\n");
     } else {

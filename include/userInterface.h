@@ -43,4 +43,7 @@ void showSpells(joueur *j);
 void printGearList(joueur *j,int gearType);
 int sananed(char *name);
 int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...);
+void printLevel(int level);
+void printMap(map map);
+void printDonjon(map map,joueur j);
 #endif

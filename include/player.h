@@ -17,6 +17,8 @@ typedef struct joueur {
     int manaMax;
     int spellbookSize;
     inventory* inventory;
+    int posX;
+    int posY;
 }joueur;
 
 void initPlayerImage(struct joueur *j);
