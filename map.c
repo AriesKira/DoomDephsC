@@ -233,8 +233,8 @@ void generateMap(int level,map * map,joueur * j) {
                 }
             }
 
-            j->posX = 79;
-            j->posY = 19;
+            j->posX = 78;
+            j->posY = 18;
             
             break;
         }
