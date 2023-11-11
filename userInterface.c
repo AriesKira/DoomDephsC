@@ -858,7 +858,7 @@ void printMap(map map) {
                     printf(" ");
                     break;
                 case 2:
-                    printf("\033[0;32m");
+                    printf("\033[0;33m");
                     printf("X");
                     printf("\033[0m");
                     break;

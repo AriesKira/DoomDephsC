@@ -26,7 +26,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
     generateMap(level,&map,j);
 
 
-    while (nbMonstresInLevel > 0 && BossIsAlive) {
+    while (nbMonstresInLevel > 0 || BossIsAlive) {
         clearTerminal();
         printDonjon(map);
         
@@ -36,7 +36,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
 
         do {
             choice = getchar();
-        } while (choice != 'z' && choice != 'q' && choice != 's' && choice != 'd' && choice != 'p' && choice != 'l');
+        } while (choice != 'z' && choice != 'q' && choice != 's' && choice != 'd' && choice != 'i' && choice != 'p' && choice != 'l');
 
         switch (choice) {
             case 'z':
@@ -50,7 +50,6 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                             map.map[j->posY - 1][j->posX] = 2;
                             map.map[j->posY][j->posX] = 6;
                             j->posY--;
-                            free(monstres);
                         }else {
                             return 0;
                         }
@@ -81,7 +80,6 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                             map.map[j->posY][j->posX - 1] = 2;
                             map.map[j->posY][j->posX] = 6;
                             j->posX--;
-                            free(monstres);
                         }else {
                             return 0;
                         }
@@ -112,7 +110,6 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                             map.map[j->posY + 1][j->posX]= 2;
                             map.map[j->posY][j->posX] = 6;
                             j->posY++;
-                            free(monstres);
                         }else {
                             return 0;
                         }
@@ -143,7 +140,6 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                             map.map[j->posY][j->posX + 1]= 2;
                             map.map[j->posY][j->posX] = 6;
                             j->posX++;
-                            free(monstres);
                         }else {
                             return 0;
                         }
@@ -164,6 +160,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                 break;
             case 'i':
                 printPlayerInventory(j);
+                delayPlayer();
                 break;
             case 'p':
                 //int sauvegarde = GetNbSaves();
@@ -172,6 +169,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
             case 'l':
                 return 3;
         }
+
 
     }
     return 1;
