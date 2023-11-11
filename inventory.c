@@ -590,7 +590,6 @@ void reallocInventorySpace(joueur* j, int x) {
         free(saveCurInv.utilities);    
 
     }else {
-        int oldSize = j->inventory->armors->inventorySpace;
         inventory saveCurInv = saveCurrentInventory(j);
         
         free(j->inventory->armors);

@@ -40,6 +40,9 @@
 #define PLAYING_MONSTER_BAG monstres[attacker].inventory->bags[0].name
 
 
+#define PLAYER j
+
+
 int finalDamage(int maxDmg, int minDmg, int def);
 int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves,int saveIndex);
 

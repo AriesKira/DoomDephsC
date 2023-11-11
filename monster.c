@@ -3,7 +3,7 @@
 #include <time.h>
 #include "include/inventory.h"
 #include "include/monster.h"
-
+#include "include/map.h"
 
 void initMonsterImage(monstre *m){
 
@@ -277,3 +277,37 @@ monstre * killMonster(monstre * monstres,int target,int nbMonstre) {
     return temp;
 
 }
+
+int findNbOfMonsterOnSpace(int monstresInLevel,map map) {
+
+    int monsterSpaces = 0;
+    for (int i = 0; i < map.height; i++) {
+        for (int j = 0; j < map.width; j++) {
+            if (map.map[i][j] == 3) {
+                monsterSpaces++;
+            }
+        }
+        
+    }
+    
+    return monstresInLevel/monsterSpaces;
+
+
+}
+
+int getNbMonstresInLevel(int level) {
+
+    switch (level) {
+    case 0:
+        return rand() %  10 + 6;
+    case 1:
+        return rand() %  9 + 12;
+    case 2:
+        return rand() %  9 + 16;
+    case 3:
+        return rand() %  11 + 20;
+    case 4:
+        return rand() %  21 + 30;
+    }
+    return 0;
+} 

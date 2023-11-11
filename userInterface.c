@@ -7,8 +7,9 @@
 #include "include/monster.h"
 #include "include/player.h"
 #include "include/fights.h"
-#include "include/userInterface.h"
 #include "include/map.h"
+#include "include/userInterface.h"
+
 /*
 
 FUNCTION CLEAR TERMINAL
@@ -130,13 +131,11 @@ void printMain(joueur *j, monstre *m,...) {
     printHealth(j);
     printMana(j);
     printKamas(j);
-    printf("\n\n\n");
+    printf("\n");
     printMonsterImage(m);
-    printf("\n\n\n");
+    printf("\n");
     printPlayerImage(j);
     printf("\n\n\n");
-    
-    
 }
 
 /*
@@ -773,7 +772,7 @@ void printLevel(int level) {
         strcpy(levelDisplay[4],"| |  |   \\ | |   | || |      | |     | || |  \\ \\   / /   | || |   | |_  \\_|  | || |    / /\\ \\    | || |  | |    | |  | |  | |  |_/___) |   | |");
         strcpy(levelDisplay[5],"| |  | |\\ \\| |   | || |      | |     | || |   \\ \\ / /    | || |   |  _|  _   | || |   / ____ \\   | || |  | '    ' |  | |  | |   .'____.'   | |");
         strcpy(levelDisplay[6],"| | _| | |_\\ |_  | || |     _| |_    | || |    \\ ' /     | || |  _| |___/ |  | || | _/ /    \\ \\_ | || |   \\ `--' /   | |  | |  / /____     | |");
-        strcpy(levelDisplay[7],"| ||_____|\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |  |_______|   | |");
+        strcpy(levelDisplay[7],"| ||_____|\\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |  |_______|   | |");
         strcpy(levelDisplay[8],"| |              | || |              | || |              | || |              | || |              | || |              | |  | |              | |");
         strcpy(levelDisplay[9],"| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |  | '--------------' |");
         strcpy(levelDisplay[10]," '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'    '----------------' ");
@@ -787,7 +786,7 @@ void printLevel(int level) {
         strcpy(levelDisplay[4],"| |  |   \\ | |   | || |      | |     | || |  \\ \\   / /   | || |   | |_  \\_|  | || |    / /\\ \\    | || |  | |    | |  | |  | |   `'  __) |  | |");
         strcpy(levelDisplay[5],"| |  | |\\ \\| |   | || |      | |     | || |   \\ \\ / /    | || |   |  _|  _   | || |   / ____ \\   | || |  | '    ' |  | |  | |   _  |__ '.  | |");
         strcpy(levelDisplay[6],"| | _| | |_\\ |_  | || |     _| |_    | || |    \\ ' /     | || |  _| |___/ |  | || | _/ /    \\ \\_ | || |   \\ `--' /   | |  | |  | \\____) |  | |");
-        strcpy(levelDisplay[7],"| ||_____|\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |   \\______.'  | |");
+        strcpy(levelDisplay[7],"| ||_____|\\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |   \\______.'  | |");
         strcpy(levelDisplay[8],"| |              | || |              | || |              | || |              | || |              | || |              | |  | |              | |");
         strcpy(levelDisplay[9],"| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |  | '--------------' |");
         strcpy(levelDisplay[10]," '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'    '----------------' ");
@@ -801,7 +800,7 @@ void printLevel(int level) {
         strcpy(levelDisplay[4],"| |  |   \\ | |   | || |      | |     | || |  \\ \\   / /   | || |   | |_  \\_|  | || |    / /\\ \\    | || |  | |    | |  | |  | |  | |__| |_   | |");
         strcpy(levelDisplay[5],"| |  | |\\ \\| |   | || |      | |     | || |   \\ \\ / /    | || |   |  _|  _   | || |   / ____ \\   | || |  | '    ' |  | |  | |  |____   _|  | |");
         strcpy(levelDisplay[6],"| | _| | |_\\ |_  | || |     _| |_    | || |    \\ ' /     | || |  _| |___/ |  | || | _/ /    \\ \\_ | || |   \\ `--' /   | |  | |      _| |_   | |");
-        strcpy(levelDisplay[7],"| ||_____|\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |     |_____|  | |");
+        strcpy(levelDisplay[7],"| ||_____|\\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |     |_____|  | |");
         strcpy(levelDisplay[8],"| |              | || |              | || |              | || |              | || |              | || |              | |  | |              | |");
         strcpy(levelDisplay[9],"| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |  | '--------------' |");
         strcpy(levelDisplay[10]," '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'    '----------------' ");
@@ -815,7 +814,7 @@ void printLevel(int level) {
         strcpy(levelDisplay[4],"| |  |   \\ | |   | || |      | |     | || |  \\ \\   / /   | || |   | |_  \\_|  | || |    / /\\ \\    | || |  | |    | |  | |  | |  |_/___) |   | |");
         strcpy(levelDisplay[5],"| |  | |\\ \\| |   | || |      | |     | || |   \\ \\ / /    | || |   |  _|  _   | || |   / ____ \\   | || |  | '    ' |  | |  | |   .'____.'   | |");
         strcpy(levelDisplay[6],"| | _| | |_\\ |_  | || |     _| |_    | || |    \\ ' /     | || |  _| |___/ |  | || | _/ /    \\ \\_ | || |   \\ `--' /   | |  | |  / /____     | |");
-        strcpy(levelDisplay[7],"| ||_____|\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |  |_______|   | |");
+        strcpy(levelDisplay[7],"| ||_____|\\____| | || |    |_____|   | || |     \\_/      | || | |_________|  | || ||____|  |____|| || |    `.__.'    | |  | |  |_______|   | |");
         strcpy(levelDisplay[8],"| |              | || |              | || |              | || |              | || |              | || |              | |  | |              | |");
         strcpy(levelDisplay[9],"| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |  | '--------------' |");
         strcpy(levelDisplay[10]," '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'    '----------------' ");
@@ -849,7 +848,7 @@ void printMap(map map) {
     
     
     for (int i = 0; i < map.height; i++) {
-
+        printf("                        ");
         for (int j = 0; j < map.width; j++) {
             switch (map.map[i][j]) {
                 case 0:
@@ -878,6 +877,12 @@ void printMap(map map) {
                     printf("B");
                     printf("\033[0m");
                     break;
+                case 6:
+                    printf("\033[0;36m");
+                    printf("x");
+                    printf("\033[0m");
+                    break;
+
                 
             }
             if (j == map.width - 1) {
@@ -897,7 +902,7 @@ FUNCTION printDonjon
 
 */
 
-void printDonjon(map map,joueur j) {
+void printDonjon(map map) {
     printf("\n");
     printf("\033[0;36m");
     printLevel(map.level);
@@ -905,4 +910,49 @@ void printDonjon(map map,joueur j) {
     printf("\n\n");
     printMap(map);
     printf("\n\n");
+}
+
+/*
+
+FUNCTION printAlowedMoves
+
+*/
+
+void printAlowedMoves(int * alowedMoves) {
+
+    for (int i = 0; i < 4; i++) {
+        if (alowedMoves[i]) {
+            switch (i) {
+                case 0:
+                    printf("z - Aller en haut\n");
+                    break;
+                case 1:
+                    printf("s - Aller en bas\n");
+                    break;
+                case 2:
+                    printf("q - Aller à gauche\n");
+                    break;
+                case 3:
+                    printf("d - Aller à droite\n");
+                    break;
+            }
+        }
+    }
+
+}
+
+/*
+
+FUNCTION printOptions(int * alowedMoves)
+
+*/
+
+void printOptions(int * alowedMoves) {
+    printf("\033[0;36m");
+    printf("------Que voulez-vous faire ?------\n\n");
+    printf("\033[0m");
+    printAlowedMoves(alowedMoves);
+    printf("i - Inventaire\n");
+    printf("p - Sauvegarder et quitter\n");
+    printf("l - Quitter sans sauvegarder\n");
 }

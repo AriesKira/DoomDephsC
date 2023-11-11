@@ -45,5 +45,7 @@ int sananed(char *name);
 int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...);
 void printLevel(int level);
 void printMap(map map);
-void printDonjon(map map,joueur j);
+void printDonjon(map map);
+void printAlowedMoves(int * alowedMoves);
+void printOptions(int * alowedMoves);
 #endif

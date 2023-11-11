@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "include/inventory.h"
+#include "include/player.h"
 #include "include/map.h"
 
 
@@ -29,7 +31,7 @@ void generateMap(int level,map * map,joueur * j) {
            6#  M     X#
            7###########
 
-            # = 0 (wall) ; ' ' = 1 (path); X = 2(player); M = 3(monster); S = 4(shop); B = 5(boss)
+            # = 0 (wall) ; ' ' = 1 (path); X = 2(player); M = 3(monster); S = 4(shop); B = 5(boss); x = 6 (has been)
             No boss for now
             */
             MAP_WIDTH = 11;
@@ -110,5 +112,29 @@ void generateMap(int level,map * map,joueur * j) {
     map->height = MAP_HEIGHT;
     map->width = MAP_WIDTH;
     map->level = level +1 ;
-    return map;
+}
+
+int * getAlowedMoves(map map,joueur joueur) {
+    int * alowedMoves = malloc(sizeof(int)*4);
+    for (int i = 0; i < 4; i++){
+        alowedMoves[i] = 0;
+    }
+
+    if (map.map[joueur.posY][joueur.posX-1] != 0) {
+        alowedMoves[2] = 1;
+    }
+    
+    if (map.map[joueur.posY][joueur.posX+1] != 0) {
+        alowedMoves[3] = 1;
+    }
+
+    if (map.map[joueur.posY-1][joueur.posX] != 0) {
+        alowedMoves[0] = 1;
+    }
+    
+    if (map.map[joueur.posY+1][joueur.posX] != 0) {
+        alowedMoves[1] = 1;
+    }
+    
+    return alowedMoves;
 }

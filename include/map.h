@@ -9,9 +9,6 @@ typedef struct map {
 }map;
 
 
-#include "player.h"
-
-
 void generateMap(int level,map * map,joueur * joueur);
 int * getAlowedMoves(map map,joueur joueur);
 

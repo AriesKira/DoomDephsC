@@ -8,7 +8,7 @@
 #include "include/fights.h"
 #include "include/save.h"
 #include "include/map.h"
-
+#include "include/game.h"
 
 int main() {
     srand(time(NULL));
@@ -16,12 +16,8 @@ int main() {
     int savechoice;
     int sauvegarde;
     int nbMonstre;
-    nbMonstre = rand() % 10 + 1;
-    int levels = 5;
-    monstre * monstres;
+    int level = 0;
     joueur j;
-    map map;
-    int* alowedMoves = malloc(sizeof(int) * 4); // 0 = up, 1 = down, 2 = left, 3 = right
 
    printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
     do {
@@ -30,21 +26,11 @@ int main() {
 
     if(savechoice == 1){
         savechoice = 0;
-        // Génère un nombre de monstre aléatoire
-        nbMonstre = rand() % 10 + 1;
-        // Création d'un tableau de monstre
-        monstres = malloc(sizeof(monstre) * nbMonstre);
-        clearTerminal();
-        //initialisation des monstre
-        createMonstres(nbMonstre,monstres);
-        //initialisation du joueur
-        
+        //initialisation du joueur        
         clearTerminal();
         createJoueur(&j);
-
-        generateMap(0,&map,&j);
-    }
-    else if (savechoice == 2) {
+    } else if (savechoice == 2) {
+        monstre * monstres;
         int nbsave = GetNbSaves();
         for(int i = 0; i < nbsave; i++){
             printf("%d %s",(i+1),saves[i]);
@@ -63,67 +49,21 @@ int main() {
         //loadSavedPlayer(&j,"test",getVieMaxSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getInventorySave(saves[sauvegarde]));   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
 
         //map = GetMap(saves[sauvegarde]);
+        //level = getLevelSave(saves[sauvegarde]);
+        //loadGame(&j,level,map,inFigh,savechoice,&saves,sauvegarde);
     }else {
         return 0;
     }
 
     clearTerminal();
     
-    int choice;
-    while (nbMonstre > 0) {
-        printDonjon(map,j);
-        
-        alowedMoves = getAlowedMoves(map,j);
+    int result;
 
-        printAlowedMoves(alowedMoves);
-        
-        do {
-            choice = getchar();
-        } while (choice != 'z' && choice != 'q' && choice != 's' && choice != 'd');
-
-        switch (choice) {
-            case 'z':
-                if (alowedMoves[0]) {
-
-                }else {
-                    printf("Vous ne pouvez pas aller dans cette direction !\n");
-                }
-                break;
-            
-            case 'q':
-                if (alowedMoves[2]) {
-
-                }else {
-                    printf("Vous ne pouvez pas aller dans cette direction !\n");
-                }
-                break;
-
-            case 's':
-                if (alowedMoves[1]) {
-
-                }else {
-                    printf("Vous ne pouvez pas aller dans cette direction !\n");
-                }
-                break;
-            
-            case 'd':
-                if (alowedMoves[3]) {
-
-                }else {
-                    printf("Vous ne pouvez pas aller dans cette direction !\n");
-                }
-                break;
-        }
-
-    }
+    do {
+        result = startGame(&j,level,savechoice,&saves,sauvegarde);
+        level++;
+    } while (level < 5 || result != 0 || result != 2 || result != 3 || (result == 1 && level == 4));
     
-
-
-    if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
-        printf("Vous avez gagné !\n");
-    } else {
-        printf("Vous avez perdu !\n");
-    }
     delayPlayer();
     
     
