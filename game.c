@@ -26,7 +26,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
     generateMap(level,&map,j);
 
 
-    while (nbMonstresInLevel > 0 || BossIsAlive) {
+    while (nbMonstresInLevel > 0 && BossIsAlive) {
         clearTerminal();
         printDonjon(map);
         
