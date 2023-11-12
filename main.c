@@ -57,15 +57,29 @@ int main() {
 
     clearTerminal();
     
-    int result;
-
+    int gameResult;
     do {
-        result = startGame(&j,level,savechoice,&saves,sauvegarde);
+        gameResult = startGame(&j,level,savechoice,&saves,sauvegarde);
         level++;
-    } while (result != 0 || result != 2 || result != 3 || (result == 1 && level == 4));
+    } while (gameResult == 1 && level != 5);
     
     delayPlayer();
     
+    if (gameResult == 1) {
+        printf("\033[1;32m");
+        printf("Vous avez gagné !\n");
+        printf("\033[0m");
+    }else if (gameResult == 0) {
+        printf("\033[1;31m");
+        printf("Vous avez perdu !\n");
+        printf("\033[0m");
+    }else if (gameResult == 2) {
+        printf("\033[1;34m");
+        printf("Vous avez sauvegardé et quitté !\n");
+        printf("\033[0m");
+    }else if (gameResult == 3) {
+        printf("Vous avez quitté !\n");
+    }
     
 
     free(j.image);
