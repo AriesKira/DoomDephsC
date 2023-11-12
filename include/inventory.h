@@ -73,6 +73,7 @@ typedef struct inventory {
 #include "monster.h"
 
 void initPlayerInventory(inventory* i);
+void loadPlayerInventory(joueur *j, armor *armor, weapon *weapon, bag *bag, int *utility);
 void initMonsterInventory(inventory* i);
 int emptyEquipementSpace(char *name);
 void generateRandomArmor(armor* a);
@@ -99,4 +100,6 @@ char * getSpellName(joueur* j);
 void reallocSpells(joueur* j,int nbOfSpells);
 void getSpells(joueur* j);
 int hasMana(joueur* j);
+int GetIntWeapon(char* NameWeapon);
+char* GetNameWeapon(int intWeapon);
 #endif

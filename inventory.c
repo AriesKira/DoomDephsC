@@ -57,6 +57,21 @@ void initPlayerInventory(inventory *i) {
     */
 }
 
+void loadPlayerInventory(joueur *j, armor *armor, weapon *weapon, bag *bag, int *utility){
+    j->inventory->armors = malloc(sizeof(armor)*armor[0].inventorySpace);
+    j->inventory->weapons = malloc(sizeof(weapon)*armor[0].inventorySpace);
+    j->inventory->bags = malloc(sizeof(bag)*armor[0].inventorySpace);
+    for(int i = 0; i < armor[0].inventorySpace; i++){
+        j->inventory->armors[i] = armor[i];
+        j->inventory->weapons[i] = weapon[i];
+        j->inventory->bags[i] = bag[i];
+    }
+    j->inventory->utilities = malloc(sizeof(int)* 7);
+    for (int i = 0; i < 7; i++) {
+        j->inventory->utilities[i] = utility[i];
+    }
+}
+
 /*
 
 FUNCTION initMonsterInventory
@@ -1305,4 +1320,66 @@ int hasMana(joueur* j) {
     }else {
         return 0;
     }
+}
+
+int GetIntWeapon(char* nameWeapon){
+    if(strcmp(nameWeapon,"Epée en bois") == 0) {
+        return 1;
+    }
+    else if(strcmp(nameWeapon,"Epée en fer") == 0) {
+        return 2;
+    }
+    else if(strcmp(nameWeapon,"Epée en acier") == 0) {
+        return 3;
+    }
+    else if(strcmp(nameWeapon,"Epée en diamant") == 0) {
+        return 4;
+    }
+    else if(strcmp(nameWeapon,"Epée du roi Jonathan") == 0) {
+        return 5;
+    }
+    else if(strcmp(nameWeapon,"Epée en herbe") == 0) {
+        return 6;
+    }
+    else if(strcmp(nameWeapon,"Epée de feu") == 0) {
+        return 7;
+    }
+    else if(strcmp(nameWeapon,"Epée de glace") == 0) {
+        return 8;
+    }
+    else if(strcmp(nameWeapon,"Epée en cheveux du dieu Sananes") == 0) {
+        return 9;
+    }
+    return 0;
+}
+
+char* GetNameWeapon(int intWeapon){
+    if(intWeapon == 1) {
+        return "Epée en bois";
+    }
+    else if(intWeapon == 2){
+        return "Epée en fer";
+    }
+    else if(intWeapon == 3){
+        return "Epée en acier";
+    }
+    else if(intWeapon == 4){
+        return "Epée en diamant";
+    }
+    else if(intWeapon == 5){
+        return "Epée du roi Jonathan";
+    }
+    else if(intWeapon == 6){
+        return "Epée en herbe";
+    }
+    else if(intWeapon == 7){
+        return "Epée de feu";
+    }
+    else if(intWeapon == 8){
+        return "Epée de glace";
+    }
+    else if(intWeapon == 9){
+        return "Epée en cheveux du dieu Sananes";
+    }
+    return "null";
 }

@@ -29,8 +29,8 @@ FUNCTION fight
 
 */
 
-int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves,int saveIndex) {
-    
+int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char **saves,int saveIndex) {
+
     int target = 0;
     int playerTurn = 1;
     int choice;
@@ -172,25 +172,26 @@ int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves
                     break;
                 case 5:
                     //save
-                    if(savechoice) {
-                        char name[100];
+                    if(savechoice == 0) {
+                        char name[100];;
                         printf("Choississez un nom pour votre sauvegarde : ");
                         scanf("%s",name);
-                        save(PLAYER_HP,name,nbMonstre,monstres);
-                    }else {
+                        //void save(int vie, int mana, char* name, char* playerName, char** playerImg, int PlayerimgHeight, int nbMonstres, monstre* monstres)
+                        save(PLAYER_HP,PLAYER_MANA,name,PLAYER_NAME,PLAYER_IMG,PLAYER_IMG_HEIGHT,nbMonstre,monstres,*j->inventory);
+                    }
+                    else if(savechoice != 0){
                         printf("1 pour ecraser la precedente sauvegarde / 2 pour creer une nouvelle sauvegarde");
                         int newSaveChoice;
                         do {
                             newSaveChoice = getchar() - '0';
                         } while (newSaveChoice < 1 || newSaveChoice > 2);
-                        
                         if(newSaveChoice == 1) {
-                            save(PLAYER_HP,*saves[saveIndex],nbMonstre,monstres);
+                            save(PLAYER_HP,PLAYER_MANA,saves[saveIndex],PLAYER_NAME,PLAYER_IMG,PLAYER_IMG_HEIGHT,nbMonstre,monstres,*j->inventory);
                         }else {
                             char name[100];
                             printf("Choississez un nom pour votre sauvegarde : ");
                             scanf("%s",name);
-                            save(PLAYER_HP,name,nbMonstre,monstres);
+                            save(PLAYER_HP,PLAYER_MANA,name,PLAYER_NAME,PLAYER_IMG,PLAYER_IMG_HEIGHT,nbMonstre,monstres,*j->inventory);
                         }
                     }
                     break;

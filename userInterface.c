@@ -530,7 +530,6 @@ int fightPrompts(int promptNb,int nbMonstre,monstre* monstres,...) {
             printf("4 - Changer d'équipement (cout : 1 action)\n");
             printf("5 - Sauvegarder\n");
             printf("6 - Finir votre tour\n");
-
             int choice = 0;
             do {
                 choice = getchar() - '0';

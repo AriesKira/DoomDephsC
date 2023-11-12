@@ -3,6 +3,7 @@
 #include <time.h>
 #include "include/inventory.h"
 #include "include/player.h"
+#include "include/save.h"
 
 
 /*
@@ -19,7 +20,7 @@ void initPlayerImage(joueur *j) {
     printf("1 - Batman\n");
     printf("2 - Superman\n");
     printf("3 - Darth Vader\n");
-    
+
     scanf("%d",&choice);
 
     switch (choice) {
@@ -124,7 +125,18 @@ void createJoueur(joueur *a) {
     a->spellBook = malloc(sizeof(spells)*a->spellbookSize);
     a->inventory = malloc(sizeof(inventory));
     initPlayerInventory(a->inventory);
+}
 
+void loadSavedPlayer(joueur *a, char* nameSave, int vieSave, int manaSave, char* Save){
+    a->nom = nameSave;
+    a->vieMax = 100;
+    a->vie = vieSave;
+    a->manaMax = 4;
+    a->mana = manaSave;
+    a->spellbookSize = 0;
+    a->spellBook = malloc(sizeof(spells)*a->spellbookSize);
+    a->inventory = malloc(sizeof(inventory));
+    loadPlayerInventory(a, GetArmors(Save), GetWeapons(Save), GetBags(Save), GetUtilities(Save));
 }
 
 
