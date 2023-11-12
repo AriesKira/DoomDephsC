@@ -7,7 +7,8 @@
 #include "include/userInterface.h"
 #include "include/fights.h"
 #include "include/save.h"
-
+#include "include/map.h"
+#include "include/game.h"
 
 int main() {
     srand(time(NULL));
@@ -21,9 +22,7 @@ int main() {
     int savechoice;
     int sauvegarde;
     int nbMonstre;
-    nbMonstre = rand() % 10 + 1;
-    int levels = 5;
-    monstre * monstres;
+    int level = 0;
     joueur j;
 
    printf("1 : Creer une nouvelle partie / 2 : Chargez une partie existante / 3 : Quitter\n");
@@ -34,18 +33,11 @@ int main() {
 
     if(savechoice == 1){
         savechoice = 0;
-        // Génère un nombre de monstre aléatoire
-        nbMonstre = rand() % 10 + 1;
-        // Création d'un tableau de monstre
-        monstres = malloc(sizeof(monstre) * nbMonstre);
-        clearTerminal();
-        //initialisation des monstre
-        createMonstres(nbMonstre,monstres);
-        //initialisation du joueur
+        //initialisation du joueur        
         clearTerminal();
         createJoueur(&j);
-    }
-    else if (savechoice == 2) {
+    } else if (savechoice == 2) {
+        monstre * monstres;
         int nbsave = GetNbSaves();
         for(int i = 0; i < nbsave; i++){
             printf("%d %s",(i+1),saves[i]);
@@ -66,14 +58,30 @@ int main() {
     }
 
     clearTerminal();
-       
-    if (fight(monstres,nbMonstre,&j,savechoice,saves,sauvegarde)) {
-        printf("Vous avez gagné !\n");
-    } else {
-        printf("Vous avez perdu !\n");
-    }
+    
+    int gameResult;
+    do {
+        gameResult = startGame(&j,level,savechoice,&saves,sauvegarde);
+        level++;
+    } while (gameResult == 1 && level != 5);
+    
     delayPlayer();
     
+    if (gameResult == 1) {
+        printf("\033[1;32m");
+        printf("Vous avez gagné !\n");
+        printf("\033[0m");
+    }else if (gameResult == 0) {
+        printf("\033[1;31m");
+        printf("Vous avez perdu !\n");
+        printf("\033[0m");
+    }else if (gameResult == 2) {
+        printf("\033[1;34m");
+        printf("Vous avez sauvegardé et quitté !\n");
+        printf("\033[0m");
+    }else if (gameResult == 3) {
+        printf("Vous avez quitté !\n");
+    }
     
 
     free(j.image);
