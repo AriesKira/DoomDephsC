@@ -62,7 +62,7 @@ int main() {
     do {
         result = startGame(&j,level,savechoice,&saves,sauvegarde);
         level++;
-    } while (level < 5 || result != 0 || result != 2 || result != 3 || (result == 1 && level == 4));
+    } while (result != 0 || result != 2 || result != 3 || (result == 1 && level == 4));
     
     delayPlayer();
     

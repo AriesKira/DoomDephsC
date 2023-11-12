@@ -25,8 +25,8 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
     int BossIsAlive = 1;
     generateMap(level,&map,j);
 
-
-    while (nbMonstresInLevel > 0 && BossIsAlive) {
+    //BossIdAlive parce que j'avais prévu les boss mais pas eu le temps car tt seul
+    while (1) {
         clearTerminal();
         printDonjon(map);
         
@@ -56,8 +56,13 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
 
                     }else if (map.map[j->posY - 1][j->posX] == 4) {//Shop
                         //shop(j);
-                    }else if (map.map[j->posY - 1][j->posX] == 5) {//Boss
-                        return 1; //tmp while no boss
+                    }else if (map.map[j->posY - 1][j->posX] == 5) {//Exit
+                        if (nbMonstresInLevel > 0) {
+                            printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
+                            delayPlayer();
+                        }else {
+                            return 1;
+                        }
                     }else {
                         map.map[j->posY][j->posX] = 6;
                         map.map[j->posY - 1][j->posX] = 2;
@@ -86,8 +91,13 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
 
                     }else if (map.map[j->posY][j->posX - 1] == 4) {//Shop
                         //shop(j);
-                    }else if (map.map[j->posY][j->posX - 1] == 5) {//Boss
-                        return 1; //tmp while no boss
+                    }else if (map.map[j->posY][j->posX - 1] == 5) {//Exit
+                        if (nbMonstresInLevel > 0) {
+                            printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
+                            delayPlayer();
+                        }else {
+                            return 1;
+                        }
                     }else {
                         map.map[j->posY][j->posX] = 6;
                         map.map[j->posY][j->posX - 1] = 2;
@@ -116,8 +126,13 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
 
                     }else if (map.map[j->posY + 1][j->posX] == 4) {//Shop
                         //shop(j);
-                    }else if (map.map[j->posY + 1][j->posX] == 5) {//Boss
-                        return 1; //tmp while no boss
+                    }else if (map.map[j->posY + 1][j->posX] == 5) {//Exit
+                        if (nbMonstresInLevel > 0) {
+                            printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
+                            delayPlayer();
+                        }else {
+                            return 1;
+                        }
                     }else {
                         map.map[j->posY][j->posX] = 6;
                         map.map[j->posY + 1][j->posX] = 2;
@@ -146,8 +161,13 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
 
                     }else if (map.map[j->posY][j->posX + 1] == 4) {//Shop
                         //shop(j);
-                    }else if (map.map[j->posY][j->posX + 1] == 5) {//Boss
-                        return 1; //tmp while no boss
+                    }else if (map.map[j->posY][j->posX + 1] == 5) {//Exit
+                        if (nbMonstresInLevel > 0) {
+                            printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
+                            delayPlayer();
+                        }else {
+                            return 1;
+                        }
                     }else {
                         map.map[j->posY][j->posX] = 6;
                         map.map[j->posY][j->posX + 1] = 2;
