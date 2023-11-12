@@ -11,7 +11,13 @@
 
 int main() {
     srand(time(NULL));
-    char **saves = getSaves();
+    char **saves;
+    if(getSaves() == 0){
+        printf("Aucune sauvegarde");
+    }
+    else{
+        saves = getSaves();
+    }
     int savechoice;
     int sauvegarde;
     int nbMonstre;
@@ -25,6 +31,7 @@ int main() {
         savechoice = getchar() - '0';
     } while (savechoice < 1 || savechoice > 3);
 
+
     if(savechoice == 1){
         savechoice = 0;
         // Génère un nombre de monstre aléatoire
@@ -35,7 +42,6 @@ int main() {
         //initialisation des monstre
         createMonstres(nbMonstre,monstres);
         //initialisation du joueur
-        
         clearTerminal();
         createJoueur(&j);
     }
@@ -51,18 +57,17 @@ int main() {
             choixSave = getchar() - '0';
         } while (choixSave < 1 || choixSave > nbsave);
         // gérer le cas ou valeur incorrecte
-
         sauvegarde = choixSave - 1;
         nbMonstre = GetNbMonstre(saves[sauvegarde]);
-        monstres = GetMonstres(saves[sauvegarde],&nbMonstre);
-        //loadSavedPlayer(&j,"test",getVieMaxSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getInventorySave(saves[sauvegarde]));   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
+        monstres = GetMonstres(saves[sauvegarde],nbMonstre);
+        loadSavedPlayer(&j,getNameSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getManaSave(saves[sauvegarde]),saves[sauvegarde]);   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
     }else {
         return 0;
     }
 
     clearTerminal();
-        
-    if (fight(monstres,nbMonstre,&j,savechoice,&saves,sauvegarde)) {
+       
+    if (fight(monstres,nbMonstre,&j,savechoice,saves,sauvegarde)) {
         printf("Vous avez gagné !\n");
     } else {
         printf("Vous avez perdu !\n");

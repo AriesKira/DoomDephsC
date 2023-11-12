@@ -9,7 +9,9 @@
 #define PLAYER_HP j->vie
 #define PLAYER_MAX_HP j->vieMax
 #define PLAYER_ACTIONS j->inventory->weapons[0].actions
-#define PLAYER_NAME j->name
+#define PLAYER_NAME j->nom
+#define PLAYER_IMG j->image
+#define PLAYER_IMG_HEIGHT j->imgHeight
 #define PLAYER_CURRENT_WEAPON j->inventory->weapons[0]
 #define PLAYER_CURRENT_ARMOR j->inventory->armors[0]
 #define PLAYER_CURRENT_BAG j->inventory->bags[0]
@@ -41,6 +43,6 @@
 
 
 int finalDamage(int maxDmg, int minDmg, int def);
-int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char ***saves,int saveIndex);
+int fight(monstre* monstres,int nbMonstre,joueur* j,int savechoice,char **saves,int saveIndex);
 
 #endif
