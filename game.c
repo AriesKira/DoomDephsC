@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #include "include/inventory.h"
 #include "include/monster.h"
 #include "include/player.h"
@@ -55,7 +56,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         }
 
                     }else if (map.map[j->posY - 1][j->posX] == 4) {//Shop
-                        //shop(j);
+                        shop(j);
                     }else if (map.map[j->posY - 1][j->posX] == 5) {//Exit
                         if (nbMonstresInLevel > 0) {
                             printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
@@ -90,7 +91,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         }
 
                     }else if (map.map[j->posY][j->posX - 1] == 4) {//Shop
-                        //shop(j);
+                        shop(j);
                     }else if (map.map[j->posY][j->posX - 1] == 5) {//Exit
                         if (nbMonstresInLevel > 0) {
                             printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
@@ -125,7 +126,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         }
 
                     }else if (map.map[j->posY + 1][j->posX] == 4) {//Shop
-                        //shop(j);
+                        shop(j);
                     }else if (map.map[j->posY + 1][j->posX] == 5) {//Exit
                         if (nbMonstresInLevel > 0) {
                             printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
@@ -160,7 +161,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         }
 
                     }else if (map.map[j->posY][j->posX + 1] == 4) {//Shop
-                        //shop(j);
+                        shop(j);
                     }else if (map.map[j->posY][j->posX + 1] == 5) {//Exit
                         if (nbMonstresInLevel > 0) {
                             printf("Vous devez tuer tous les monstres avant de pouvoir sortir !\n");
@@ -195,3 +196,54 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
     return 1;
 }
 
+
+/*
+
+FUNCTION shop
+
+*/
+
+void shop(joueur * j) {
+    monstre * shopkeeper = malloc(sizeof(monstre)* 1);
+    createMonstres(1,shopkeeper);
+
+    clearTerminal();
+    printf("\n\n");
+    printKamas(j);
+    printf("\n\n");
+    printMonsterImage(shopkeeper);
+    printf("Bienvenue aventurier !\n\n");
+    sleep(2);
+    printf("Je suis le distributeur automatique de ce donjon !\n\n");
+    sleep(2);
+    printf("Pour 50 kamas je peux t'offrir un objet aléatoire !\n\n");
+    sleep(2);
+    printf("Que veux-tu faire ?\n\n");
+    sleep(2);
+    printf("1 - Accepter l'offre\n\n");
+    printf("0 - Refuser l'offre\n\n");
+
+    int choice;
+
+    do {
+        choice = getchar() - '0';
+    } while (choice != 1 && choice != 0);
+    
+    if (choice) {
+        if (j->inventory->utilities[GOLD_INDEX] >= 50) {
+            lootMonster(j,shopkeeper);
+            sleep(2);
+            j->inventory->utilities[GOLD_INDEX] -= 50;
+        }else {
+            printf("Vous n'avez pas assez de kamas !\n\n");
+            sleep(2);
+        }
+    }
+
+    free(shopkeeper);
+
+    printf("Au revoir aventurier !\n\n");
+    sleep(2);
+    printf("Vous retourner dans le donjon !\n\n");
+
+}
