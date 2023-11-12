@@ -13,10 +13,9 @@
 int main() {
     srand(time(NULL));
     char **saves;
-    if(getSaves() == 0){
-        printf("Aucune sauvegarde");
-    }
-    else{
+    if(GetNbSaves() == 0){
+        printf("Aucune sauvegarde\n\n");
+    }else{
         saves = getSaves();
     }
     int savechoice;
@@ -36,7 +35,7 @@ int main() {
         //initialisation du joueur        
         clearTerminal();
         createJoueur(&j);
-    } else if (savechoice == 2) {
+    } else if (savechoice == 2 && GetNbSaves()) {
         monstre * monstres;
         int nbsave = GetNbSaves();
         for(int i = 0; i < nbsave; i++){
@@ -48,11 +47,16 @@ int main() {
         {
             choixSave = getchar() - '0';
         } while (choixSave < 1 || choixSave > nbsave);
-        // gérer le cas ou valeur incorrecte
         sauvegarde = choixSave - 1;
+
+        //Get les monstres mais pas eu le temps de remettre en combat ou de gérer le cas ou on est en combat
         nbMonstre = GetNbMonstre(saves[sauvegarde]);
         monstres = GetMonstres(saves[sauvegarde],nbMonstre);
+
         loadSavedPlayer(&j,getNameSave(saves[sauvegarde]),getVieSave(saves[sauvegarde]),getManaSave(saves[sauvegarde]),saves[sauvegarde]);   //createJoueur(&a,"test",100, getVieSave(saves[sauvegarde]),5);
+    }else if (savechoice == 2 && !GetNbSaves()) {
+        printf("Aucune sauvegarde\n\n");
+        return 0;
     }else {
         return 0;
     }

@@ -112,6 +112,12 @@ char **getSaves() {
 
 int GetNbSaves(){
     FILE *file = fopen("save.txt", "r");
+
+    if (file == NULL) {
+        printf("Erreur lors de l'ouverture du fichier.\n");
+        return 0;
+    }
+
     int nbsave = 0;
     char caractere;
     while ((caractere = fgetc(file)) != EOF) {
@@ -169,12 +175,16 @@ int getVieSave(char* name){
         while (fgets(line, sizeof(line), f) != NULL) {
             if (strstr(line, "VieJoueur:") != NULL) {
                 char *valueStr = strchr(line, ':') + 1;
+                fclose(f);
                 return atoi(valueStr);
             }
         }
+        fclose(f);
         return -1;
     }
     fclose(f);
+    //never happens
+    return 0;
 }
 
 int getManaSave(char* name){
@@ -195,12 +205,16 @@ int getManaSave(char* name){
         while (fgets(line, sizeof(line), f) != NULL) {
             if (strstr(line, "ManaJoueur:") != NULL) {
                 char *valueStr = strchr(line, ':') + 1;
+                 fclose(f);
                 return atoi(valueStr);
             }
         }
+        fclose(f);
         return -1;
     }
     fclose(f);
+    //never happens
+    return 0;
 }
 
 int GetNbMonstre(char* name){

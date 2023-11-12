@@ -46,7 +46,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         int monsterOnSpace = findNbOfMonsterOnSpace(nbMonstresInLevel,map);
                         monstre * monstres =  malloc(sizeof(monstre) * monsterOnSpace);
                         createMonstres(monsterOnSpace,monstres);
-                        if (fight(monstres,monsterOnSpace,j,savechoice,saves,saveIndex)) {
+                        if (fight(monstres,monsterOnSpace,j,savechoice,*saves,saveIndex)) {
                             nbMonstresInLevel -= monsterOnSpace;
                             map.map[j->posY - 1][j->posX] = 2;
                             map.map[j->posY][j->posX] = 6;
@@ -81,7 +81,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         int monsterOnSpace = findNbOfMonsterOnSpace(nbMonstresInLevel,map);
                         monstre * monstres =  malloc(sizeof(monstre) * monsterOnSpace);
                         createMonstres(monsterOnSpace,monstres);
-                        if (fight(monstres,monsterOnSpace,j,savechoice,saves,saveIndex)) {
+                        if (fight(monstres,monsterOnSpace,j,savechoice,*saves,saveIndex)) {
                             nbMonstresInLevel -= monsterOnSpace;
                             map.map[j->posY][j->posX - 1] = 2;
                             map.map[j->posY][j->posX] = 6;
@@ -116,7 +116,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         int monsterOnSpace = findNbOfMonsterOnSpace(nbMonstresInLevel,map);
                         monstre * monstres =  malloc(sizeof(monstre) * monsterOnSpace);
                         createMonstres(monsterOnSpace,monstres);
-                        if (fight(monstres,monsterOnSpace,j,savechoice,saves,saveIndex)) {
+                        if (fight(monstres,monsterOnSpace,j,savechoice,*saves,saveIndex)) {
                             nbMonstresInLevel -= monsterOnSpace;
                             map.map[j->posY + 1][j->posX]= 2;
                             map.map[j->posY][j->posX] = 6;
@@ -151,7 +151,7 @@ int startGame(joueur * j, int level,int savechoice,char ***saves,int saveIndex) 
                         int monsterOnSpace = findNbOfMonsterOnSpace(nbMonstresInLevel,map);
                         monstre * monstres =  malloc(sizeof(monstre) * monsterOnSpace);
                         createMonstres(monsterOnSpace,monstres);
-                        if (fight(monstres,monsterOnSpace,j,savechoice,saves,saveIndex)) {
+                        if (fight(monstres,monsterOnSpace,j,savechoice,*saves,saveIndex)) {
                             nbMonstresInLevel -= monsterOnSpace;
                             map.map[j->posY][j->posX + 1]= 2;
                             map.map[j->posY][j->posX] = 6;
